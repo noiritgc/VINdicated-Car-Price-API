@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generated_at": "2026-10-14T20:59:13+00:00",
+  "generated_at": "2026-10-14T23:09:24+00:00",
   "dev_mode": false,
   "source": "carfax",
   "counts": {
@@ -28025,7 +28025,7 @@
    "state": "TN",
    "seller_type": "dealer",
    "tags": [
-    "Damage reported (damage reported)",
+    "Damage reported (airbag deployed)",
     "2 previous owners",
     "Clean title"
    ],
@@ -28049,7 +28049,7 @@
      "amount": -2600
     },
     {
-     "label": "Damage reported (damage reported)",
+     "label": "Damage reported (airbag deployed)",
      "amount": -500
     },
     {
@@ -34706,7 +34706,7 @@
    "state": "IN",
    "seller_type": "dealer",
    "tags": [
-    "Damage reported (hail reported)",
+    "Hail damage reported (moderate to severe)",
     "4 previous owners",
     "Clean title"
    ],
@@ -34730,7 +34730,7 @@
      "amount": -3500
     },
     {
-     "label": "Damage reported (hail reported)",
+     "label": "Hail damage reported (moderate to severe)",
      "amount": -400
     },
     {
@@ -35113,7 +35113,7 @@
    "state": "CA",
    "seller_type": "private",
    "tags": [
-    "Damage reported (damage reported)",
+    "Damage reported (airbag deployed)",
     "6 previous owners",
     "Clean title"
    ],
@@ -35137,7 +35137,7 @@
      "amount": -2000
     },
     {
-     "label": "Damage reported (damage reported)",
+     "label": "Damage reported (airbag deployed)",
      "amount": -300
     },
     {

@@ -217,3 +217,16 @@ def test_accident_label_uses_carfax_detail():
     phi = fake_phi(accidentCount=-0.1)
     bd = model_breakdown(row, phi, math.log(20_000), typical_price(phi, math.log(20_000)), typical=84_000)
     assert "Accident reported (airbag deployed)" in [line["label"] for line in bd.lines]
+
+
+@pytest.mark.parametrize("raw, label", [
+    ("Accident Reported", "Accident reported"),
+    ("Accident Reported: Moderate Damage", "Accident reported (moderate damage)"),
+    ("Moderate Damage", "Damage reported (moderate)"),
+    ("Damage Reported: Airbag Deployed", "Damage reported (airbag deployed)"),
+    ("Hail Damage Reported: Moderate Damage", "Hail damage reported (moderate)"),
+    ("Damage Disclosure Reported", "Damage disclosure reported"),
+])
+def test_damage_labels_read_naturally(raw, label):
+    from pipeline.sources import damage_label
+    assert damage_label(raw) == label

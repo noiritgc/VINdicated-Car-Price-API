@@ -61,15 +61,21 @@ def _owner_count(history: object) -> float:
 
 
 def damage_label(text: object) -> str | float:
-    """'Accident Reported: Minor to Moderate Damage' -> 'Accident reported (minor to moderate damage)'."""
+    """Readable tag from Carfax's damage text, e.g.
+    'Accident Reported: Moderate Damage' -> 'Accident reported (moderate damage)'
+    'Minor to Moderate Damage'          -> 'Damage reported (minor to moderate)'
+    'Hail Damage Reported: Moderate Damage' -> 'Hail damage reported (moderate)'
+    """
     if not isinstance(text, str) or not text.strip():
         return np.nan
-    parts = [p.strip() for p in text.split(":")]
-    head = parts[0]
-    if head.lower().startswith("accident"):
-        detail = parts[1].lower() if len(parts) > 1 else ""
-        return f"Accident reported ({detail})" if detail else "Accident reported"
-    return f"Damage reported ({head.lower().replace(' damage', '')})"
+    head, _, detail = (part.strip() for part in text.partition(":"))
+    if not head.lower().endswith("reported"):          # severity only, e.g. 'Moderate Damage'
+        head, detail = "Damage Reported", head
+    label = head[0].upper() + head[1:].lower()
+    detail = detail.lower()
+    if "damage" in head.lower():                       # 'Damage reported (moderate)', not '(moderate damage)'
+        detail = detail.removesuffix(" damage")
+    return f"{label} ({detail})" if detail else label
 
 
 def _accidents(no_accidents: pd.Series, damage: pd.Series) -> pd.Series:
