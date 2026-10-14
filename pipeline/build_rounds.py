@@ -21,8 +21,8 @@ from pipeline.breakdown import (Breakdown, add_percent_line, bucket_label, car_n
 from pipeline.common import log
 from pipeline.photos import load_cache, photo_key
 from pipeline.scenarios import private_discount, title_discount
+from pipeline.severity import accident_effect, final_prices, load_effects, no_accident
 from pipeline.tips import SOURCES, format_tip
-from pipeline.train import predict_price
 
 STEP = "build_rounds"
 TITLES = list(config.TITLE_DISCOUNTS)
@@ -34,13 +34,13 @@ REQUIREMENTS = {
 
 
 # ---------------------------------------------------------------- selection
-def eligible_rows(df: pd.DataFrame, model: CatBoostRegressor) -> pd.DataFrame:
+def eligible_rows(df: pd.DataFrame, model: CatBoostRegressor, effects: dict[str, float]) -> pd.DataFrame:
     covered = set(json.loads(config.COVERAGE_PATH.read_text())["covered"])
     out = df.dropna(subset=["accidentCount", "ownerCount", "bodyStyle"]).copy()
     log(STEP, f"{len(out)} rows with accident/owner/body data")
     out = out[(out["make"] + "|" + out["model"]).isin(covered)]
     log(STEP, f"{len(out)} rows in well-covered make/models")
-    out["pred"] = predict_price(model, out)
+    out["pred"] = final_prices(model, out, effects)
     # Cross-check against an independent valuation: CarGurus expectedPrice, or for Carfax the
     # car's own One Price value. Keeps every revealed answer close to a real valuation.
     reference = out["expectedPrice"].fillna(out["price"])
@@ -143,7 +143,7 @@ def bucket_tip(bd: Breakdown) -> tuple[str, str, str]:
     return format_tip(bd.buckets[i], amounts[i], sum(amounts[:i]))
 
 
-def apply_template(row: pd.Series, bd: Breakdown, tpl: dict, model: CatBoostRegressor,
+def apply_template(row: pd.Series, bd: Breakdown, tpl: dict, ctx: dict,
                    rng: np.random.Generator) -> tuple[int, int, list[str]]:
     """Apply a deal_or_scam template. Returns (shown_mileage, asking_price, seller_notes)."""
     claimed = bd.total
@@ -151,8 +151,9 @@ def apply_template(row: pd.Series, bd: Breakdown, tpl: dict, model: CatBoostRegr
     real_miles = shown_miles
     if tpl["true_value"] == "remile":
         shown_miles = round_to(real_miles * rng.uniform(0.35, 0.5), 1000)
-        claimed_row = row.to_frame().T.assign(mileage=float(shown_miles))
-        claimed = round_to(float(predict_price(model, claimed_row)[0]))
+        both = pd.DataFrame([row, row]).assign(mileage=[float(real_miles), float(shown_miles)])
+        real_price, shown_price = final_prices(ctx["model"], both, ctx["effects"])
+        claimed = round_to(bd.total * shown_price / real_price)   # what it'd be worth at the shown miles
         for line, bucket in zip(bd.lines, bd.buckets):
             if bucket == "mileage":
                 line["label"] = f"Real mileage {round(real_miles / 1000)}k (odometer shows {round(shown_miles / 1000)}k)"
@@ -170,7 +171,8 @@ def build_round(row: pd.Series, phi: pd.Series, expected: float, kind: str, tpl_
                 ctx: dict, rng: np.random.Generator) -> dict:
     """phi/expected: SHAP of this car at typical miles for its age (see breakdown.py)."""
     typical = typical_miles(ctx["typical_miles"], row["age"])
-    bd = model_breakdown(row, phi, expected, ctx["prices"][row.name], typical)
+    effect = accident_effect(row, ctx["effects"]) or 0.0
+    bd = model_breakdown(row, phi, expected, ctx["prices"][row.name], typical, effect)
     seller, title, asking, scam = "dealer", "Clean title", None, None
     mileage = int(row["mileage"])
 
@@ -184,7 +186,7 @@ def build_round(row: pd.Series, phi: pd.Series, expected: float, kind: str, tpl_
         add_percent_line(bd, pct, "Private-party sale", "private")
 
     if tpl:
-        mileage, asking, notes = apply_template(row, bd, tpl, ctx["model"], rng)
+        mileage, asking, notes = apply_template(row, bd, tpl, ctx, rng)
         tip, tip_source, tip_url = tpl["tip"], tpl["tip_source"], SOURCES[tpl["tip_source"]]
         scam = {"template": tpl_name, "is_scam": tpl["is_scam"], "seller_notes": notes,
                 "red_flags": tpl["red_flags"], "correct_action": tpl["correct_action"],
@@ -208,7 +210,7 @@ def build_round(row: pd.Series, phi: pd.Series, expected: float, kind: str, tpl_
         "asking_price": asking,
         "base_value": {"amount": bd.base,
                        "label": f"Typical value of a {car_name(row)} with typical miles for its age "
-                                f"(~{round(typical / 1000):,}k), average history and location"},
+                                f"(~{round(typical / 1000):,}k), no accidents, average owners and location"},
         "price_hint_range": price_hint(
             ctx["hints"][(row["make"], row["model"], row["year"] // config.PRICE_HINT_YEAR_BUCKET)], bd.total, asking),
         "fair_price": bd.total,
@@ -257,12 +259,14 @@ def main() -> None:
     model = CatBoostRegressor()
     model.load_model(str(config.MODEL_PATH))
 
-    pool = eligible_rows(df, model)
+    effects = load_effects()
+    log(STEP, f"accident severity effects: { {k: f'{np.expm1(v):+.1%}' for k, v in effects.items()} }")
+    pool = eligible_rows(df, model, effects)
     rows = select_rows(pool, rng)
     miles_table = typical_miles_table(df)
     config.TYPICAL_MILES_PATH.write_text(json.dumps(miles_table, indent=1))
     log(STEP, f"typical miles by age: {dict(list(miles_table.items())[:8])} ...")
-    phi, expected = shap_values(model, with_typical_mileage(rows, miles_table))
+    phi, expected = shap_values(model, with_typical_mileage(no_accident(rows), miles_table))
     exp_by_idx = dict(zip(rows.index, expected))
     ctx = {
         "model": model,
@@ -273,7 +277,8 @@ def main() -> None:
         "model_counts": df.groupby(["make", "model"]).size().to_dict(),
         "trim_counts": df.groupby(["make", "model", "trim"]).size().to_dict(),
         "typical_miles": miles_table,
-        "prices": dict(zip(rows.index, predict_price(model, rows))),
+        "prices": dict(zip(rows.index, final_prices(model, rows, effects))),
+        "effects": effects,
     }
 
     rounds = []

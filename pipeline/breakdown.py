@@ -1,12 +1,14 @@
 """Turn the model's prediction into a player-facing dollar breakdown that sums to the fair price.
 
-1. Mileage is judged against cars of the same age (a what-if):
-       mileage line = price(actual miles) - price(typical miles for its age)
-2. The typical-miles version of the car is split with SHAP (log-price space,
-   log(pred) = E + sum(phi)) into base, accidents, owners and location, converted sequentially:
+1. The car with typical miles for its age and no accident is split with SHAP (log-price space,
+   log(pred) = E + sum(phi)) into base, owners and location, converted sequentially:
        running = exp(E + phi_base); delta_b = running * (exp(phi_b) - 1); running += delta_b
-So the starting point means "this car with typical miles for its age", and the lines add up
-exactly to the prediction.
+2. Accident line (what-if, measured by severity in severity.py):
+       running * (exp(severity effect) - 1)
+3. Mileage line (what-if vs cars of the same age):
+       final price - price at typical miles for its age
+So the starting point means "this car with typical miles for its age and a clean history", and
+the lines add up exactly to the fair price.
 """
 from __future__ import annotations
 
@@ -124,18 +126,22 @@ def bucket_label(bucket: str, row: pd.Series, typical: float | None = None) -> s
 
 
 def model_breakdown(row: pd.Series, phi_typical: pd.Series, expected: float,
-                    price: float, typical: float) -> Breakdown:
-    """Breakdown of the model's prediction for one car (before scenarios).
+                    price: float, typical: float, accident_effect: float = 0.0) -> Breakdown:
+    """Breakdown of one car's fair price (before scenarios).
 
-    phi_typical/expected: SHAP for this car at `typical` miles; price: prediction at actual miles.
+    phi_typical/expected: SHAP for this car at `typical` miles with no accident.
+    price: fair price at actual miles (incl. accident). accident_effect: log effect of its accident.
     """
-    running = float(np.exp(expected + phi_typical[config.BASE_FEATURES + config.MILEAGE_FEATURES].sum()))
+    folded = config.BASE_FEATURES + config.MILEAGE_FEATURES + config.ACCIDENT_FEATURES
+    running = float(np.exp(expected + phi_typical[folded].sum()))
     deltas: dict[str, float] = {}
     for bucket in config.BUCKET_ORDER:
         b_phi = float(phi_typical[config.BUCKET_FEATURES[bucket]].sum())
         deltas[bucket] = running * (np.exp(b_phi) - 1)
         running += deltas[bucket]
-    deltas["mileage"] = price - running        # running is now the typical-miles price
+    deltas["accidents"] = running * (np.exp(accident_effect) - 1)
+    running += deltas["accidents"]
+    deltas["mileage"] = price - running        # running is now the typical-miles price incl. accident
 
     fair = round_to(price)
     kept = {b: round_to(deltas[b]) for b in config.LINE_ORDER if abs(deltas[b]) >= config.MIN_LINE_DOLLARS}

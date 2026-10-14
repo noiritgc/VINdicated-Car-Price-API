@@ -12,7 +12,7 @@ from catboost import CatBoostRegressor
 
 from pipeline import config
 from pipeline.common import log
-from pipeline.train import predict_price
+from pipeline.severity import final_prices, load_effects
 
 STEP = "evaluate"
 
@@ -71,6 +71,21 @@ def accuracy_table(test: pd.DataFrame, model_m: dict) -> list[str]:
             *[f"| {k} | {model_m[k]} | {bench_m[k]} |" for k in model_m]]
 
 
+def severity_section(test: pd.DataFrame) -> list[str]:
+    if not config.SEVERITY_PATH.exists():
+        return []
+    effects = json.loads(config.SEVERITY_PATH.read_text())
+    rows = [f"| {name} | {e['n']:,} | {e['pct']:+.1f}% | {e['ci90'][0]:+.1f}% to {e['ci90'][1]:+.1f}% |"
+            for name, e in sorted(effects.items(), key=lambda kv: -kv[1]["pct"])]
+    acc = test[test["accidentCount"] == 1]
+    err = (acc["pred"] - acc["price"]).abs() / acc["price"]
+    return ["## Accident severity effects", "",
+            "Measured by cross-fitting (pipeline/severity.py) on non-test cars. Fair price for a car with an",
+            "accident = no-accident model price × this effect.", "",
+            "| severity | cars | effect on value | 90% CI |", "|---|---|---|---|", *rows, "",
+            f"Held-out accident cars: {len(acc)}, median error {err.median():.1%}.", ""]
+
+
 def build_report(test: pd.DataFrame, cov: dict[str, list[str]], dev: bool, source: str) -> str:
     model_m = metrics(test["price"], test["pred"])
     met = model_m["median error (%)"] <= config.TARGET_MEDIAN_ERROR * 100
@@ -94,6 +109,7 @@ def build_report(test: pd.DataFrame, cov: dict[str, list[str]], dev: bool, sourc
         "Note: some error is unavoidable. Options, condition and local demand aren't in the features, "
         "so two cars that look identical here can be worth different amounts.",
         "",
+        *severity_section(test),
         "## Error by make", "", table(grouped_errors(test, "make")), "",
         "## Error by age (years)", "", table(grouped_errors(test, "age_bucket")), "",
         "## Error by state", "", table(grouped_errors(test, "sellerState")), "",
@@ -115,7 +131,8 @@ def main() -> None:
     model.load_model(str(config.MODEL_PATH))
 
     test = df[df["split"] == "test"].copy()
-    test["pred"] = predict_price(model, test)
+    effects = load_effects()
+    test["pred"] = final_prices(model, test, effects)
     test["pct_err"] = (test["pred"] - test["price"]).abs() / test["price"]
     test["age_bucket"] = pd.cut(test["age"], config.AGE_BUCKETS, right=False)
 

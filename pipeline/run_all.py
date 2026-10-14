@@ -1,4 +1,4 @@
-"""Run the whole pipeline: clean -> train -> evaluate -> build_rounds (-> photos).
+"""Run the whole pipeline: clean -> train -> severity -> evaluate -> build_rounds (-> photos).
 
 Usage:
     python -m pipeline.run_all                          # Carfax (default, real values)
@@ -11,7 +11,7 @@ from __future__ import annotations
 import argparse
 import sys
 
-from pipeline import build_rounds, clean, config, evaluate, photos, train
+from pipeline import build_rounds, clean, config, evaluate, photos, severity, train
 from pipeline.common import log
 
 
@@ -34,6 +34,7 @@ def main() -> None:
     log("run_all", f"start (source={args.source}, dev={args.dev}, photos={args.photos})")
     run(clean.main, ["--source", args.source] + (["--dev"] if args.dev else []))
     run(train.main, [])
+    run(severity.main, [])
     run(evaluate.main, [])
     run(build_rounds.main, [])
     if args.photos:

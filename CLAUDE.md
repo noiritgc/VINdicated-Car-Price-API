@@ -143,6 +143,15 @@ Rules:
 
 ### 6.4 Breakdown from SHAP
 
+**Accident severity (implemented 2026-10-14):** Carfax damage text -> level none/minor/moderate/severe/
+unspecified (`sources.severity_level`). The CatBoost model alone can't separate levels (categorical
+A/B: worse; monotone constraints: broke training). `pipeline/severity.py` measures each level's effect
+by 5-fold cross-fitting on non-test cars; fair price = no-accident model price × exp(effect).
+Evidence: out-of-fold accident cars (n=1,233) median error 5.65% -> 5.43%; held-out test accident
+cars (n=372) got worse (≈4.2% -> 4.9%), overall test 4.4% -> 4.5%. Kept at the user's request for
+proper severity differentiation. User expected 10–20%; real Carfax data says 2–6.5% (repaired,
+dealer-listed cars); the only real study found (CarGurus 2012) says 3–12%.
+
 **Changed 2026-10-14 (implemented):** the mileage line is NOT a SHAP bucket any more. SHAP compares
 mileage to the dataset-average car, which showed e.g. +$5,300 for 20k miles on a 2026 car (3× typical).
 Now: mileage line = price(actual miles) − price(typical miles for the car's age), typical miles = median

@@ -37,10 +37,11 @@ def typical_price(phi: pd.Series, expected: float) -> float:
 
 
 def test_breakdown_sums_exactly_to_rounded_prediction():
-    phi = fake_phi(model=0.3, age=-0.2, mileage=-0.05, accidentCount=-0.07, ownerCount=-0.03, sellerState=0.02)
+    phi = fake_phi(model=0.3, age=-0.2, mileage=-0.05, ownerCount=-0.03, sellerState=0.02)
     expected = math.log(18_000)
-    price = typical_price(phi, expected) * 0.93   # actual miles cost 7% vs typical
-    bd = model_breakdown(car(), phi, expected, price, typical=84_000)
+    accident = math.log(0.97)                       # measured effect of this car's accident: -3%
+    price = typical_price(phi, expected) * 0.97 * 0.93   # and its actual miles cost 7% vs typical
+    bd = model_breakdown(car(), phi, expected, price, typical=84_000, accident_effect=accident)
     assert bd.total == round(price / 100) * 100
     assert all(line["amount"] % 100 == 0 for line in bd.lines)
     assert bd.lines[0]["label"].startswith("Base value (2019 Honda Civic EX)")
@@ -48,7 +49,7 @@ def test_breakdown_sums_exactly_to_rounded_prediction():
 
 
 def test_mileage_line_is_actual_minus_typical_miles_price():
-    phi = fake_phi(accidentCount=-0.05)
+    phi = fake_phi(ownerCount=-0.05)
     expected = math.log(20_000)
     at_typical = typical_price(phi, expected)
     bd = model_breakdown(car(mileage=20_000.0, age=0), phi, expected, at_typical - 1_500, typical=6_000)
@@ -58,11 +59,22 @@ def test_mileage_line_is_actual_minus_typical_miles_price():
 
 
 def test_small_adjustments_fold_into_base():
-    phi = fake_phi(accidentCount=-0.05)
+    phi = fake_phi(ownerCount=-0.05)
     expected = math.log(20_000)
     bd = model_breakdown(car(), phi, expected, typical_price(phi, expected) + 40, typical=84_000)
     assert "mileage" not in bd.buckets               # $40 is below the $100 line threshold
-    assert "accidents" in bd.buckets
+    assert "owners" in bd.buckets
+
+
+def test_accident_line_uses_measured_severity_effect():
+    phi = fake_phi()
+    expected = math.log(20_000)
+    severe = math.log(1 - 0.069)                     # -6.9%
+    price = 20_000 * (1 - 0.069)
+    bd = model_breakdown(car(accidentCount=1.0), phi, expected, price, typical=82_000, accident_effect=severe)
+    lines = dict(zip(bd.buckets, bd.lines))
+    assert lines["accidents"]["amount"] == -1_400    # 6.9% of $20,000, rounded to $100
+    assert "mileage" not in lines and bd.total == 18_600
 
 
 def test_typical_miles_table_uses_real_medians_and_never_decreases():
@@ -214,8 +226,8 @@ def test_carfax_rows_clean_without_dev():
 
 def test_accident_label_uses_carfax_detail():
     row = car(accidentCount=1.0, accidentDetail="Accident reported (airbag deployed)")
-    phi = fake_phi(accidentCount=-0.1)
-    bd = model_breakdown(row, phi, math.log(20_000), typical_price(phi, math.log(20_000)), typical=84_000)
+    phi = fake_phi()
+    bd = model_breakdown(row, phi, math.log(20_000), 20_000 * 0.95, typical=82_000, accident_effect=math.log(0.95))
     assert "Accident reported (airbag deployed)" in [line["label"] for line in bd.lines]
 
 
@@ -230,3 +242,26 @@ def test_accident_label_uses_carfax_detail():
 def test_damage_labels_read_naturally(raw, label):
     from pipeline.sources import damage_label
     assert damage_label(raw) == label
+
+
+def test_severity_level_mapping():
+    from pipeline.sources import severity_level
+    assert severity_level(0.0, None) == "none"
+    assert pd.isna(severity_level(float("nan"), None))
+    assert severity_level(1.0, "Accident Reported") == "unspecified"
+    assert severity_level(1.0, "Minor to Moderate Damage") == "minor"
+    assert severity_level(1.0, "Accident Reported: Moderate Damage") == "moderate"
+    assert severity_level(1.0, "Accident Reported: Airbag Deployed") == "severe"
+    assert severity_level(1.0, "Moderate to Severe Damage") == "severe"
+
+
+def test_final_prices_apply_severity_to_no_accident_price(monkeypatch):
+    from pipeline import severity
+    # fake model: $20,000, and it (wrongly) knocks 39% off for any accident
+    monkeypatch.setattr(severity, "predict_price",
+                        lambda model, df: np.where(df["accidentCount"] == 1, 20_000 * 0.61, 20_000.0))
+    df = pd.DataFrame([car(accidentCount=1.0, accidentSeverity="severe"),
+                       car(accidentCount=0.0, accidentSeverity="none")])
+    prices = severity.final_prices(None, df, {"none": 0.0, "severe": math.log(0.9)})
+    assert prices[0] == pytest.approx(18_000)   # no-accident price x measured severity (-10%)
+    assert prices[1] == pytest.approx(20_000)

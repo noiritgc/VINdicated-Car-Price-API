@@ -7,29 +7,44 @@
 | metric | our model |
 |---|---|
 | rows | 4306 |
-| MAE ($) | 2305.0 |
+| MAE ($) | 2304.0 |
 | MAPE (%) | 6.9 |
-| median error (%) | 4.4 |
-| within 10% (%) | 80.0 |
+| median error (%) | 4.5 |
+| within 10% (%) | 80.1 |
 | within 20% (%) | 93.8 |
 
 Target median error <= 10%: **MET**
 
 Note: some error is unavoidable. Options, condition and local demand aren't in the features, so two cars that look identical here can be worth different amounts.
 
+## Accident severity effects
+
+Measured by cross-fitting (pipeline/severity.py) on non-test cars. Fair price for a car with an
+accident = no-accident model price × this effect.
+
+| severity | cars | effect on value | 90% CI |
+|---|---|---|---|
+| none | 11,891 | +0.0% | +0.0% to +0.0% |
+| minor | 345 | -2.0% | -2.9% to -1.1% |
+| unspecified | 633 | -2.3% | -3.1% to -1.9% |
+| moderate | 173 | -2.7% | -3.8% to -1.7% |
+| severe | 82 | -6.4% | -8.3% to -3.7% |
+
+Held-out accident cars: 372, median error 4.9%.
+
 ## Error by make
 
 | make          |   rows |   median error (%) |
 |:--------------|-------:|-------------------:|
 | Porsche       |     55 |                9.6 |
-| Mercedes-Benz |    184 |                9.3 |
+| Mercedes-Benz |    184 |                8.9 |
 | Audi          |     84 |                8.8 |
 | Land Rover    |     29 |                6.9 |
-| Dodge         |    124 |                6.6 |
+| Dodge         |    124 |                6.8 |
 | Genesis       |     28 |                6.6 |
 | Volvo         |     28 |                6.4 |
 | Lincoln       |     34 |                6.4 |
-| Cadillac      |     57 |                6   |
+| Cadillac      |     57 |                6.1 |
 | Chrysler      |     65 |                5.7 |
 | Buick         |     33 |                5.3 |
 | BMW           |    255 |                5.1 |
@@ -37,7 +52,7 @@ Note: some error is unavoidable. Options, condition and local demand aren't in t
 | Tesla         |     33 |                4.9 |
 | Lexus         |    118 |                4.8 |
 | Ford          |    586 |                4.5 |
-| Ram           |    176 |                4.3 |
+| Ram           |    176 |                4.4 |
 | Kia           |    110 |                4.2 |
 | Jeep          |    187 |                3.9 |
 | GMC           |    147 |                3.9 |
@@ -45,7 +60,7 @@ Note: some error is unavoidable. Options, condition and local demand aren't in t
 | Toyota        |    448 |                3.3 |
 | Volkswagen    |    105 |                3.3 |
 | Hyundai       |    127 |                3.1 |
-| Subaru        |    113 |                3   |
+| Subaru        |    113 |                3.1 |
 | Mazda         |     72 |                2.9 |
 | Honda         |    272 |                2.6 |
 | Acura         |     46 |                2.3 |
@@ -54,11 +69,11 @@ Note: some error is unavoidable. Options, condition and local demand aren't in t
 
 | age_bucket   |   rows |   median error (%) |
 |:-------------|-------:|-------------------:|
-| [15, 30)     |    236 |               10.3 |
+| [15, 30)     |    236 |               10.2 |
 | [10, 15)     |    672 |                4.9 |
 | [6, 10)      |    869 |                4.7 |
-| [3, 6)       |   1195 |                4.5 |
-| [0, 3)       |   1334 |                3.6 |
+| [3, 6)       |   1195 |                4.6 |
+| [0, 3)       |   1334 |                3.7 |
 
 ## Error by state
 
@@ -68,39 +83,39 @@ Note: some error is unavoidable. Options, condition and local demand aren't in t
 | SC            |     51 |                6.2 |
 | NM            |     42 |                5.6 |
 | OR            |     59 |                5.6 |
+| FL            |    410 |                5.4 |
 | LA            |     25 |                5.3 |
-| FL            |    410 |                5.1 |
+| NJ            |    203 |                5.1 |
 | MN            |     82 |                5.1 |
-| NV            |     60 |                5.1 |
-| NJ            |    203 |                5   |
+| NV            |     60 |                5   |
+| AZ            |    204 |                4.9 |
 | WA            |     83 |                4.9 |
+| GA            |    210 |                4.9 |
 | KS            |     25 |                4.9 |
-| AZ            |    204 |                4.8 |
-| CO            |     91 |                4.8 |
-| GA            |    210 |                4.8 |
+| IL            |    174 |                4.8 |
+| CT            |     40 |                4.7 |
+| CO            |     91 |                4.7 |
 | WV            |     22 |                4.7 |
-| IL            |    174 |                4.7 |
-| TN            |    119 |                4.7 |
-| MO            |     68 |                4.6 |
+| TN            |    119 |                4.6 |
 | MI            |    138 |                4.6 |
-| CT            |     40 |                4.6 |
 | PA            |    159 |                4.5 |
 | NH            |     21 |                4.5 |
+| MO            |     68 |                4.5 |
 | KY            |     53 |                4.4 |
 | IN            |     93 |                4.4 |
+| NC            |    155 |                4.3 |
 | AR            |     47 |                4.3 |
 | OK            |     85 |                4.3 |
-| NC            |    155 |                4.2 |
+| VA            |    180 |                4.2 |
 | WI            |     95 |                4.2 |
 | OH            |    177 |                4.1 |
-| VA            |    180 |                4.1 |
 | AL            |    102 |                4.1 |
+| NY            |    171 |                4   |
 | CA            |    486 |                4   |
 | IA            |     44 |                3.9 |
 | MA            |     70 |                3.8 |
-| NY            |    171 |                3.7 |
 | ID            |     40 |                3.6 |
-| MS            |     46 |                3.3 |
+| MS            |     46 |                3.2 |
 | MD            |     97 |                3.1 |
 
 ## 20 worst predictions
@@ -111,12 +126,12 @@ Note: some error is unavoidable. Options, condition and local demand aren't in t
 |  1 |   2000 | Porsche       | Boxster    | nan           |    136300 | SC            |    7580 |  15978 |     110.8 |
 |  2 |   2012 | Ford          | Fusion     | SE            |    170000 | KY            |    2970 |   6057 |     103.9 |
 |  3 |   2002 | Mercedes-Benz | S-Class    | S 430         |    117386 | WA            |    6120 |  11640 |      90.2 |
-|  4 |   2002 | Jaguar        | X-Type     | nan           |     94091 | GA            |    5580 |  10207 |      82.9 |
+|  4 |   2002 | Jaguar        | X-Type     | nan           |     94091 | GA            |    5580 |  10358 |      85.6 |
 |  5 |   2007 | Chrysler      | PT Cruiser | Touring       |     25267 | KY            |    8030 |  14317 |      78.3 |
-|  6 |   2000 | Mercedes-Benz | CLK        | 320           |    111169 | OH            |    5090 |   9019 |      77.2 |
-|  7 |   2011 | Lamborghini   | Gallardo   | LP560         |     17955 | NC            |  146250 |  37732 |      74.2 |
-|  8 |   2013 | Fiat          | 500        | Lounge        |     30727 | WA            |   10070 |  17209 |      70.9 |
-|  9 |   2010 | Rolls-Royce   | Ghost      | nan           |     38844 | TN            |   80480 |  23571 |      70.7 |
+|  6 |   2000 | Mercedes-Benz | CLK        | 320           |    111169 | OH            |    5090 |   8958 |      76   |
+|  7 |   2013 | Fiat          | 500        | Lounge        |     30727 | WA            |   10070 |  17209 |      70.9 |
+|  8 |   2010 | Rolls-Royce   | Ghost      | nan           |     38844 | TN            |   80480 |  23571 |      70.7 |
+|  9 |   2011 | Lamborghini   | Gallardo   | LP560         |     17955 | NC            |  146250 |  43345 |      70.4 |
 | 10 |   2020 | Mercedes-Benz | E-Class    | E 450         |     25606 | PA            |   40350 |  68097 |      68.8 |
 | 11 |   2017 | Audi          | R8         | 5.2           |     48737 | OH            |  137760 |  49070 |      64.4 |
 | 12 |   2017 | Acura         | NSX        | nan           |      6548 | CA            |  140300 |  58041 |      58.6 |

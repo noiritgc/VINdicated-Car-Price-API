@@ -26,7 +26,7 @@ def load(path: Path) -> pd.DataFrame:
 
 def check(df: pd.DataFrame) -> list[str]:
     problems = []
-    needed = [c for c in config.USED_COLUMNS if c != "accidentDetail"]
+    needed = [c for c in config.USED_COLUMNS if c not in ("accidentDetail", "accidentSeverity")]
     missing = [c for c in needed if c not in df.columns]
     if missing:
         problems.append(f"missing columns: {missing}")

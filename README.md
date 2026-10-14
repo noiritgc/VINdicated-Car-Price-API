@@ -15,7 +15,7 @@ people to spot used-car scams.
 
 > **Status:** fully working end to end on **real data**. Fair prices come from a CatBoost model
 > trained on ~21,500 real **CARFAX One Price** value estimates (Rebrowser's free Carfax sample):
-> 4.4% median error, 80% of cars within 10%. See `pipeline/data/out/report.md`.
+> 4.5% median error, 80% of cars within 10%. See `pipeline/data/out/report.md`.
 
 ---
 
@@ -157,15 +157,20 @@ No machine learning runs live. The pipeline runs offline and produces a fixed po
   data (new ≈ 6k, 1 yr ≈ 18k, 4 yrs ≈ 57k, 7 yrs ≈ 92k; see `pipeline/data/out/typical_miles.json`).
   So 20k miles on a 2026 car is a *minus*, and 20k on a 2022 car is a *plus*. The model also gets
   miles-per-year as an input (A/B tested: median error 4.47% → 4.37%).
-- **Breakdown:** the typical-miles version of the car is split with CatBoost's built-in SHAP values
-  into *base value, accidents, owners, location*, converted to dollars so every line sums exactly
-  to the prediction.
+- **Accident severity is measured, not guessed.** `pipeline/severity.py` cross-fits the model and
+  measures how much each Carfax severity level lowers value: minor −2.0%, unspecified −2.3%,
+  moderate −2.7%, severe/airbag −6.4% (90% confidence ranges in `report.md`). Fair price for a car
+  with an accident = no-accident price × that effect. These are Carfax's valuations of mostly
+  repaired, dealer-listed cars, which is why they're smaller than the 10–20% often quoted online.
+- **Breakdown:** the typical-miles, no-accident version of the car is split with CatBoost's built-in
+  SHAP values into *base value, owners, location*; accidents and mileage are what-if lines. All
+  lines sum exactly to the fair price.
 - **Scenarios** add lines on top: salvage/rebuilt title, private-party sale.
 - **Deal or Scam:** 12 templates in `pipeline/scam_templates.yaml` (7 scams: too good to be true,
   gift card payment, odometer rollback, flood title wash, curbstoning, hidden lien, VIN mismatch;
   5 honest: overpriced dealer → negotiate, fair dealer, great deal, honest private seller,
   pricey private seller → negotiate). Half of these rounds are honest.
-- Model accuracy is in `pipeline/data/out/report.md`: **4.4% median error** vs Carfax values on held-out
+- Model accuracy is in `pipeline/data/out/report.md`: **4.5% median error** vs Carfax values on held-out
   cars, plus an independent check against **Kelley Blue Book** fair price ranges (median 4% above KBB's midpoint).
 
 ---
@@ -182,7 +187,7 @@ cp .env.example .env
 #    Optional KBB check: github.com/rebrowser/autotrader-dataset -> pipeline/data/raw/autotrader/
 
 # 2. Build rounds
-python -m pipeline.run_all
+python -m pipeline.run_all             # clean -> train -> severity -> evaluate -> build_rounds
 python scripts/compare_kbb.py        # optional: compare with Kelley Blue Book ranges
 python -m pipeline.photos            # optional, slow first time (cached afterwards)
 

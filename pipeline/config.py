@@ -18,6 +18,7 @@ REPORT_PATH = OUT_DIR / "report.md"
 ROUNDS_PATH = OUT_DIR / "rounds.json"
 PHOTOS_CACHE_PATH = OUT_DIR / "photos_cache.json"
 TYPICAL_MILES_PATH = OUT_DIR / "typical_miles.json"
+SEVERITY_PATH = OUT_DIR / "severity_effects.json"
 LOG_PATH = OUT_DIR / "pipeline.log"
 SCHEMA_PATH = SHARED_DIR / "round.schema.json"
 SCAM_TEMPLATES_PATH = PIPELINE_DIR / "scam_templates.yaml"
@@ -46,7 +47,7 @@ USED_COLUMNS = [
     "listingId", "price", "expectedPrice", "priceDifferential", "dealRatingKey",
     "mileage", "vehicleCondition", "year", "make", "model", "trim", "bodyStyle",
     "drivetrain", "fuelType", "engine", "accidentCount", "ownerCount",
-    "sellerState", "_firstSeenAt", "accidentDetail",
+    "sellerState", "_firstSeenAt", "accidentDetail", "accidentSeverity",
 ]
 # Columns the paid file must have real values in (checked by scripts/check_sample.py)
 REQUIRED_REAL_COLUMNS = ["price", "expectedPrice"]
@@ -120,6 +121,14 @@ CATBOOST_PARAMS = {
     "verbose": 500,
 }
 
+# ---------------------------------------------------------------- severity.py
+# Accident severity effects are measured with cross-fitting (see severity.py). Adopted 2026-10-14:
+# on 1,233 out-of-fold accident cars median error 5.65% -> 5.43% (severe 6.91% -> 5.50%).
+SEVERITY_FOLDS = 5
+SEVERITY_MIN_CARS = 30
+SEVERITY_BOOTSTRAPS = 2000
+SEVERITY_CATBOOST_OVERRIDES = {"iterations": 3000, "learning_rate": 0.08, "verbose": 0}
+
 # ---------------------------------------------------------------- evaluate.py
 MIN_TRAIN_ROWS_PER_MODEL = 30
 TARGET_MEDIAN_ERROR = 0.10
@@ -129,14 +138,15 @@ AGE_BUCKETS = [0, 3, 6, 10, 15, 30]
 # ---------------------------------------------------------------- breakdown (SHAP)
 # The mileage line is a what-if: price(actual miles) - price(typical miles for the car's age).
 # SHAP (computed on the typical-miles version of the car) splits out the other buckets.
+# The accident line is a what-if too: no-accident price x (exp(severity effect) - 1).
 BASE_FEATURES = ["make", "model", "trim", "bodyStyle", "drivetrain", "fuelType", "age"]
 MILEAGE_FEATURES = ["mileage", "miles_per_year"]
+ACCIDENT_FEATURES = ["accidentCount"]
 BUCKET_FEATURES = {
-    "accidents": ["accidentCount"],
     "owners": ["ownerCount"],
     "location": ["sellerState"],
 }
-BUCKET_ORDER = ["accidents", "owners", "location"]
+BUCKET_ORDER = ["owners", "location"]
 LINE_ORDER = ["mileage", "accidents", "owners", "location"]
 TYPICAL_MILES_MIN_ROWS = 50      # ages with fewer cars fall back to AVG_MILES_PER_YEAR * age
 MIN_LINE_DOLLARS = 100

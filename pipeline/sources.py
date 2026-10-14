@@ -42,10 +42,13 @@ def _require(df: pd.DataFrame, columns: list[str], source: str) -> None:
 
 # ---------------------------------------------------------------- cargurus
 def from_cargurus(raw: pd.DataFrame) -> pd.DataFrame:
-    cols = [c for c in config.USED_COLUMNS if c != "accidentDetail"]
+    cols = [c for c in config.USED_COLUMNS if c not in ("accidentDetail", "accidentSeverity")]
     _require(raw, cols, "CarGurus")
     out = raw[cols].copy()
     out["accidentDetail"] = np.nan
+    n = pd.to_numeric(out["accidentCount"].replace(config.REDACTED_TOKEN, np.nan), errors="coerce")
+    out["accidentSeverity"] = np.select([n.isna(), n == 0, n == 1], [None, "none", "1 accident"], "2+ accidents")
+    out["accidentSeverity"] = out["accidentSeverity"].where(n.notna())
     return out
 
 
@@ -76,6 +79,26 @@ def damage_label(text: object) -> str | float:
     if "damage" in head.lower():                       # 'Damage reported (moderate)', not '(moderate damage)'
         detail = detail.removesuffix(" damage")
     return f"{label} ({detail})" if detail else label
+
+
+SEVERITY_LEVELS = ("none", "minor", "moderate", "severe", "unspecified")
+
+
+def severity_level(accident_count: float, damage_text: object) -> str | float:
+    """Accident severity from Carfax's damage text: none / minor (minor-to-moderate) / moderate /
+    severe (moderate-to-severe or airbag deployed) / unspecified (reported, no detail). NaN = unknown."""
+    if pd.isna(accident_count):
+        return np.nan
+    if accident_count == 0:
+        return "none"
+    text = str(damage_text).lower() if isinstance(damage_text, str) else ""
+    if "airbag" in text or "severe" in text:
+        return "severe"
+    if "minor to moderate" in text:
+        return "minor"
+    if "moderate" in text:
+        return "moderate"
+    return "unspecified"
 
 
 def _accidents(no_accidents: pd.Series, damage: pd.Series) -> pd.Series:
@@ -117,7 +140,8 @@ def from_carfax(raw: pd.DataFrame) -> pd.DataFrame:
         "sellerState": raw["sellerState"],
         "_firstSeenAt": raw["_firstSeenAt"],
         "accidentDetail": raw["snapshotDamageSeverity"].map(damage_label),
-    })
+    }).pipe(lambda df: df.assign(accidentSeverity=[
+        severity_level(n, t) for n, t in zip(df["accidentCount"], raw["snapshotDamageSeverity"])]))
 
 
 ADAPTERS = {"carfax": from_carfax, "cargurus": from_cargurus}
