@@ -42,6 +42,9 @@
   table { width: 100%; border-collapse: collapse; font-size: 14px; }
   td { padding: 4px 0; border-bottom: 1px solid var(--line); }
   td.amt { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; padding-left: 12px; }
+  th { text-align: left; font-size: 12px; font-weight: 600; color: var(--muted); padding: 0 0 6px;
+       border-bottom: 1px solid var(--line); }
+  th.amt { text-align: right; padding-left: 12px; white-space: nowrap; }
   .pos { color: var(--good); } .neg { color: var(--bad); }
   .big { font-size: 28px; font-weight: 700; }
   ul { padding-left: 20px; margin: 6px 0; }
@@ -203,9 +206,12 @@ function summary() {
   const max = session.reveals.reduce((s, x) => s + x.reveal.max_score, 0);
   $view.innerHTML = `
     <div class="card"><div class="muted">Total score</div><div class="big">${total} / ${max}</div></div>
-    <div class="card"><table>${session.reveals.map(({ round: r, reveal: v }) => `
+    <div class="card"><table>
+      <tr><th>Car</th><th class="amt">Your guess</th><th class="amt">Actual value</th><th class="amt">Points</th></tr>
+      ${session.reveals.map(({ round: r, reveal: v }) => `
       <tr><td>${r.car.year} ${esc(r.car.make)} ${esc(r.car.model)}</td>
-      <td class="amt">${money(v.guess)} vs ${money(v.fair_price)}</td><td class="amt">${v.score}</td></tr>`).join("")}
+      <td class="amt">${money(v.guess)}</td><td class="amt">${money(v.fair_price)}</td>
+      <td class="amt">${v.score} <span class="muted">/ ${v.max_score}</span></td></tr>`).join("")}
     </table></div>
     <div class="card"><b>Key lessons</b><ul>${[...new Set(session.reveals.map(x => x.reveal.tip))].map(t => `<li>${esc(t)}</li>`).join("")}</ul></div>
     <div class="row"><button class="primary" id="again">Play again</button><button id="home">Home</button></div>`;
