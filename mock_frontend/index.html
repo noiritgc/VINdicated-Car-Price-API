@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VINdicated Demo</title>
+<!--
+  MOCK FRONTEND for testing/demos only. The real app is built by another team.
+  It shows the full API flow: POST /players -> GET /rounds/quick|daily -> POST /guesses.
+  Served by the API at /demo. To point at another API: /demo/?api=https://your-api.example.com
+-->
+<style>
+  :root {
+    --bg: #f6f7f9; --card: #ffffff; --text: #1b1f24; --muted: #5f6b7a; --line: #e2e6eb;
+    --accent: #2457d6; --good: #1d7a46; --bad: #b3261e; --chip: #eef1f5;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #111418; --card: #1a1f25; --text: #e8ecf1; --muted: #9aa6b2; --line: #2b323a;
+            --accent: #6f95ff; --good: #4cc38a; --bad: #ff7b72; --chip: #252c34; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+         font: 16px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 640px; margin: 0 auto; padding: 16px; }
+  header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
+  h1 { font-size: 22px; margin: 0; }
+  .muted { color: var(--muted); font-size: 14px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px; margin-bottom: 12px; }
+  .photo { width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: 8px; background: var(--chip);
+           display: flex; align-items: center; justify-content: center; color: var(--muted); }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+  .chip { background: var(--chip); border-radius: 999px; padding: 2px 10px; font-size: 13px; }
+  .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  button { font: inherit; border: 1px solid var(--line); background: var(--card); color: var(--text);
+           border-radius: 8px; padding: 8px 14px; cursor: pointer; }
+  button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  button.selected { outline: 2px solid var(--accent); }
+  button:disabled { opacity: .5; cursor: default; }
+  input[type=range] { width: 100%; }
+  input[type=number] { font: inherit; width: 140px; padding: 6px 8px; border-radius: 8px;
+                       border: 1px solid var(--line); background: var(--bg); color: var(--text); }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  td { padding: 4px 0; border-bottom: 1px solid var(--line); }
+  td.amt { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; padding-left: 12px; }
+  .pos { color: var(--good); } .neg { color: var(--bad); }
+  .big { font-size: 28px; font-weight: 700; }
+  ul { padding-left: 20px; margin: 6px 0; }
+  .error { color: var(--bad); }
+  a { color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <header><h1>VINdicated</h1><span class="muted" id="who"></span></header>
+  <div id="view"></div>
+</main>
+<script>
+const params = new URLSearchParams(location.search);
+const API = (params.get("api") || location.origin).replace(/\/$/, "");
+const $view = document.getElementById("view");
+const money = n => "$" + Math.round(n).toLocaleString("en-US");
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let player = null, session = null;
+
+async function api(path, opts = {}) {
+  const res = await fetch(API + path, { headers: { "content-type": "application/json" }, ...opts });
+  const body = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(body.detail ? JSON.stringify(body.detail) : res.statusText);
+  return body;
+}
+
+async function ensurePlayer() {
+  try { player = localStorage.getItem("vindicated_player"); } catch {}
+  if (player) { try { await api(`/players/${player}`); } catch { player = null; } }
+  if (!player) {
+    player = (await api("/players", { method: "POST" })).player_id;
+    try { localStorage.setItem("vindicated_player", player); } catch {}
+  }
+}
+
+async function home(message = "") {
+  const stats = await api(`/players/${player}`);
+  const about = await api("/about");
+  document.getElementById("who").textContent = `streak ${stats.current_streak} · best ${stats.best_streak}`;
+  $view.innerHTML = `
+    <div class="card">
+      <p>Guess what a used car is really worth, then see exactly what moved the price.</p>
+      ${about.dev_mode ? '<p class="muted">Dev data: prices are synthetic until the paid dataset is loaded.</p>' : ""}
+      ${message ? `<p class="error">${esc(message)}</p>` : ""}
+      <div class="row">
+        <button class="primary" id="quick">Quick Play (5 cars)</button>
+        <button id="scam">Deal or Scam (5)</button>
+        <button id="daily">Daily Challenge</button>
+      </div>
+    </div>
+    <div class="card muted">Played ${stats.rounds_played} rounds · total score ${stats.total_score}
+      ${stats.average_pct_off != null ? ` · average ${stats.average_pct_off}% off` : ""}</div>
+    <div class="card muted" style="font-size:12px">${about.credits.map(esc).join("<br>")}
+      <br><a href="${API}/docs" target="_blank">API docs</a></div>`;
+  document.getElementById("quick").onclick = () => start("quick");
+  document.getElementById("scam").onclick = () => start("quick", "deal_or_scam");
+  document.getElementById("daily").onclick = () => start("daily");
+}
+
+async function start(mode, roundType) {
+  try {
+    let rounds;
+    if (mode === "daily") {
+      const d = await api(`/rounds/daily?player_id=${player}`);
+      if (d.already_played) return home("You already played today's challenge. Come back tomorrow!");
+      rounds = [d.round];
+    } else {
+      rounds = (await api(`/rounds/quick?n=5&player_id=${player}${roundType ? "&round_type=" + roundType : ""}`)).rounds;
+    }
+    session = { mode, rounds, i: 0, reveals: [] };
+    showRound();
+  } catch (e) { home(e.message); }
+}
+
+function showRound() {
+  const r = session.rounds[session.i];
+  const { low, high } = r.price_hint_range;
+  const mid = Math.round((low + high) / 2 / 100) * 100;
+  const isScam = r.round_type === "deal_or_scam";
+  const c = r.car;
+  $view.innerHTML = `
+    <div class="card">
+      <div class="muted">Round ${session.i + 1} of ${session.rounds.length} · ${esc(r.difficulty)} ·
+        ${isScam ? "Deal or Scam" : "Price guess"}</div>
+      ${r.photo.url ? `<img class="photo" src="${esc(r.photo.url)}" alt="">` :
+        `<div class="photo">[${esc(r.photo.fallback)} illustration]</div>`}
+      ${r.photo.credit ? `<div class="muted" style="font-size:11px">${esc(r.photo.credit)}</div>` : ""}
+      <h2 style="margin:10px 0 4px">${c.year} ${esc(c.make)} ${esc(c.model)} ${esc(c.trim || "")}</h2>
+      <div>${r.mileage.toLocaleString()} miles · ${esc(r.state)} · ${r.seller_type === "dealer" ? "Dealer" : "Private seller"}</div>
+      <div class="chips">${r.tags.map(t => `<span class="chip">${esc(t)}</span>`).join("")}</div>
+      ${isScam ? `<p><b>Asking price: ${money(r.asking_price)}</b></p>
+        <div class="muted">About this listing:</div>
+        <ul>${r.scam.seller_notes.map(n => `<li>${esc(n)}</li>`).join("")}</ul>` : ""}
+    </div>
+    <div class="card">
+      <div>${isScam ? "What is this car really worth?" : "What's a fair price?"}</div>
+      <input type="range" id="slider" min="${low}" max="${high}" step="100" value="${mid}">
+      <div class="row"><input type="number" id="num" value="${mid}" min="1" step="100">
+        <span class="muted">${money(low)} – ${money(high)}</span></div>
+      ${isScam ? `<div class="row" style="margin-top:10px" id="actions">
+        ${["buy","negotiate","walk_away"].map(a => `<button data-a="${a}">${a === "walk_away" ? "Walk away" : a[0].toUpperCase() + a.slice(1)}</button>`).join("")}
+      </div>` : ""}
+      <div class="row" style="margin-top:12px"><button class="primary" id="submit" ${isScam ? "disabled" : ""}>Submit</button></div>
+      <div class="error" id="err"></div>
+    </div>`;
+  const slider = document.getElementById("slider"), num = document.getElementById("num");
+  slider.oninput = () => num.value = slider.value;
+  num.oninput = () => slider.value = num.value;
+  let action = null;
+  if (isScam) document.querySelectorAll("#actions button").forEach(b => b.onclick = () => {
+    action = b.dataset.a;
+    document.querySelectorAll("#actions button").forEach(x => x.classList.toggle("selected", x === b));
+    document.getElementById("submit").disabled = false;
+  });
+  document.getElementById("submit").onclick = async () => {
+    try {
+      const reveal = await api("/guesses", { method: "POST", body: JSON.stringify({
+        player_id: player, round_id: r.round_id, mode: session.mode, guess: Number(num.value), action }) });
+      session.reveals.push({ round: r, reveal });
+      showReveal(reveal);
+    } catch (e) { document.getElementById("err").textContent = e.message; }
+  };
+}
+
+function showReveal(v) {
+  const last = session.i === session.rounds.length - 1;
+  const actionLabel = a => a === "walk_away" ? "Walk away" : a[0].toUpperCase() + a.slice(1);
+  $view.innerHTML = `
+    <div class="card">
+      <div class="muted">${v.round_type === "deal_or_scam" ? "True value" : "Fair price"}</div>
+      <div class="big">${money(v.fair_price)}</div>
+      <div>You guessed ${money(v.guess)} (${v.pct_off}% ${v.difference >= 0 ? "high" : "low"}) ·
+        <b>${v.score} / ${v.max_score} points</b></div>
+      ${v.scam ? `<p class="${v.action_correct ? "pos" : "neg"}"><b>${v.scam.is_scam ? "SCAM" : "Legit listing"}</b> ·
+        best move: ${actionLabel(v.scam.correct_action)} · you chose ${actionLabel(v.action)}</p>
+        ${v.scam.red_flags.length ? `<div class="muted">Red flags:</div><ul>${v.scam.red_flags.map(f => `<li>${esc(f)}</li>`).join("")}</ul>` : ""}` : ""}
+    </div>
+    <div class="card"><table>
+      ${v.breakdown.map((l, i) => `<tr><td>${esc(l.label)}</td>
+        <td class="amt ${i === 0 ? "" : l.amount >= 0 ? "pos" : "neg"}">${i === 0 ? "" : l.amount >= 0 ? "+" : "−"}${money(Math.abs(l.amount))}</td></tr>`).join("")}
+      <tr><td><b>Fair price</b></td><td class="amt"><b>${money(v.fair_price)}</b></td></tr>
+    </table></div>
+    <div class="card"><b>Tip:</b> ${esc(v.tip)}
+      <div class="muted">Source: ${v.tip_url ? `<a href="${esc(v.tip_url)}" target="_blank" rel="noopener">${esc(v.tip_source)}</a>` : esc(v.tip_source)}</div>
+      ${v.streak ? `<p>Daily streak: <b>${v.streak.current}</b> (best ${v.streak.best})</p>` : ""}
+    </div>
+    <button class="primary" id="next">${last ? "See summary" : "Next car"}</button>`;
+  document.getElementById("next").onclick = () => { if (last) summary(); else { session.i++; showRound(); } };
+}
+
+function summary() {
+  const total = session.reveals.reduce((s, x) => s + x.reveal.score, 0);
+  const max = session.reveals.reduce((s, x) => s + x.reveal.max_score, 0);
+  $view.innerHTML = `
+    <div class="card"><div class="muted">Total score</div><div class="big">${total} / ${max}</div></div>
+    <div class="card"><table>${session.reveals.map(({ round: r, reveal: v }) => `
+      <tr><td>${r.car.year} ${esc(r.car.make)} ${esc(r.car.model)}</td>
+      <td class="amt">${money(v.guess)} vs ${money(v.fair_price)}</td><td class="amt">${v.score}</td></tr>`).join("")}
+    </table></div>
+    <div class="card"><b>Key lessons</b><ul>${[...new Set(session.reveals.map(x => x.reveal.tip))].map(t => `<li>${esc(t)}</li>`).join("")}</ul></div>
+    <div class="row"><button class="primary" id="again">Play again</button><button id="home">Home</button></div>`;
+  document.getElementById("again").onclick = () => start(session.mode);
+  document.getElementById("home").onclick = () => home();
+}
+
+ensurePlayer().then(() => home()).catch(e => $view.innerHTML = `<div class="card error">Can't reach the API at ${esc(API)}: ${esc(e.message)}</div>`);
+</script>
+</body>
+</html>

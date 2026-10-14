@@ -1,0 +1,7 @@
+.venv
+.git
+pipeline
+tests
+scripts
+*.db
+.env

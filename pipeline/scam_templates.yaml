@@ -1,0 +1,199 @@
+# Deal-or-Scam templates. Each round picks one template and one real car.
+#
+# asking:      asking price as a share of the car's model fair price, drawn uniformly [min, max]
+# true_value:  how the real value differs from the model fair price
+#                fair       -> same as fair price
+#                remile     -> re-priced by the model at the real (higher) mileage
+#                title_pct  -> fair price with the salvage-title discount applied
+# requires:    optional row filter: high_miles | overpriced | good_deal
+# seller_notes: shown to the player BEFORE guessing ({real_miles} is filled in)
+# red_flags:    revealed AFTER guessing (empty for honest rounds)
+
+too_good_to_be_true:
+  is_scam: true
+  seller_type: private
+  correct_action: walk_away
+  asking: {min: 0.50, max: 0.65}
+  true_value: fair
+  seller_notes:
+    - "Seller is moving abroad next week and needs a quick sale"
+    - "Car is already in a shipping depot; can't be seen in person"
+    - "Wants a $500 deposit through an 'escrow' link they send you"
+  red_flags:
+    - "Price is far below market value for this car"
+    - "You can't see or inspect the car in person"
+    - "Deposit through a link the seller provides; real escrow is never set up by the seller"
+  tip: "Scammers post cheap cars they don't own and refuse in-person viewings. Never pay before you've seen the car and the title."
+  tip_source: "FTC (phony sales)"
+
+payment_by_gift_card:
+  is_scam: true
+  seller_type: private
+  correct_action: walk_away
+  asking: {min: 0.55, max: 0.70}
+  true_value: fair
+  seller_notes:
+    - "Price is firm for the first buyer who pays today"
+    - "Seller asks you to pay with gift cards and send the card numbers"
+    - "Says the sale is covered by a marketplace 'buyer protection' program"
+  red_flags:
+    - "Anyone who demands payment by gift card is a scammer"
+    - "Pressure to pay today"
+    - "Fake 'buyer protection' claims are common in car scams"
+  tip: "Only scammers ask for payment by gift card. Use a payment method with protections, like a credit card or a bank-verified transfer at signing."
+  tip_source: "FTC (gift cards)"
+
+odometer_rollback:
+  is_scam: true
+  seller_type: private
+  correct_action: walk_away
+  requires: high_miles
+  asking: {min: 0.95, max: 1.05}
+  true_value: remile
+  seller_notes:
+    - "Low miles for the year, 'garage kept'"
+    - "Oil-change sticker on the windshield shows {real_miles} miles"
+    - "Seller has no service records"
+  red_flags:
+    - "The service sticker shows far more miles than the odometer: a sign of rollback"
+    - "No records to confirm the mileage"
+  tip: "Odometer fraud is common. Compare the odometer with the title, service records and inspection stickers, and check for wear that doesn't match low mileage."
+  tip_source: "NHTSA"
+
+flood_title_wash:
+  is_scam: true
+  seller_type: private
+  correct_action: walk_away
+  asking: {min: 0.85, max: 0.95}
+  true_value: title_pct
+  seller_notes:
+    - "Clean title, re-registered here a month ago from a hurricane-hit state"
+    - "New carpet and freshly shampooed seats"
+    - "Musty smell 'from sitting in the garage'"
+  red_flags:
+    - "Recent re-registration from a flood area can be used to wash a salvage brand off the title"
+    - "New carpet plus a musty smell are classic flood-damage signs"
+  tip: "Flood cars are often moved to another state to get a clean-looking title. Run the VIN through NICB's free VINCheck before buying."
+  tip_source: "NICB"
+
+curbstoning:
+  is_scam: true
+  seller_type: private
+  correct_action: walk_away
+  asking: {min: 0.90, max: 1.00}
+  true_value: fair
+  seller_notes:
+    - "Says they're selling their own car"
+    - "Same phone number appears on 5 other car listings this month"
+    - "Title is in someone else's name"
+  red_flags:
+    - "An unlicensed dealer posing as a private seller (curbstoning) avoids dealer laws and often sells problem cars"
+    - "The seller's name isn't on the title"
+  tip: "Search the seller's phone number and name online, and make sure the name on the title matches their ID."
+  tip_source: "FTC (online)"
+
+hidden_lien:
+  is_scam: true
+  seller_type: private
+  correct_action: walk_away
+  asking: {min: 0.80, max: 0.90}
+  true_value: fair
+  seller_notes:
+    - "Title is 'at the bank'; seller will mail it after you pay"
+    - "Wants cash today"
+    - "Car runs and drives great"
+  red_flags:
+    - "No title in hand usually means a loan (lien) is still owed; you could lose the car"
+    - "Cash-only, same-day pressure"
+  tip: "Never pay without the title in hand. Check the title and any brands in the national NMVTIS database first."
+  tip_source: "NMVTIS"
+
+vin_mismatch:
+  is_scam: true
+  seller_type: private
+  correct_action: walk_away
+  asking: {min: 0.75, max: 0.90}
+  true_value: fair
+  seller_notes:
+    - "VIN on the dashboard doesn't match the VIN on the paperwork"
+    - "Seller says the paperwork is 'from the old registration'"
+    - "Will meet only in a parking lot"
+  red_flags:
+    - "A mismatched VIN can mean a stolen or cloned car"
+    - "Seller avoids meeting at a home or business"
+  tip: "Make sure the VIN on the car, the title and the history report all match. If they don't, walk away."
+  tip_source: "FTC (phony sales)"
+
+# ---------------- honest rounds (about half of all deal_or_scam rounds)
+
+overpriced_dealer:
+  is_scam: false
+  seller_type: dealer
+  correct_action: negotiate
+  requires: overpriced
+  asking: {min: 1.15, max: 1.25}
+  true_value: fair
+  seller_notes:
+    - "Licensed dealer with a Buyers Guide on the window"
+    - "Free vehicle history report available"
+    - "Price is 'firm' according to the ad"
+  red_flags: []
+  tip: "The car is fine, the price isn't. Use comparable listings and an inspection report to negotiate, and get the out-the-door price in writing."
+  tip_source: "FTC"
+
+fair_dealer:
+  is_scam: false
+  seller_type: dealer
+  correct_action: buy
+  asking: {min: 0.97, max: 1.04}
+  true_value: fair
+  seller_notes:
+    - "Licensed dealer, Buyers Guide on the window"
+    - "Happy to let your mechanic inspect it"
+    - "History report matches the listing"
+  red_flags: []
+  tip: "A fair price, a transparent dealer and an inspection: this is what a good deal looks like. Still read the Buyers Guide to see if it's sold 'as is'."
+  tip_source: "FTC"
+
+great_deal_dealer:
+  is_scam: false
+  seller_type: dealer
+  correct_action: buy
+  requires: good_deal
+  asking: {min: 0.88, max: 0.94}
+  true_value: fair
+  seller_notes:
+    - "Licensed dealer, car has been on the lot for 60 days"
+    - "Dealer wants it gone before new inventory arrives"
+    - "Inspection and test drive welcome"
+  red_flags: []
+  tip: "Not every low price is a scam. Cars that sit on a lot get marked down. A licensed dealer who welcomes an inspection is a good sign."
+  tip_source: "FTC"
+
+honest_private:
+  is_scam: false
+  seller_type: private
+  correct_action: buy
+  asking: {min: 0.95, max: 1.02}
+  true_value: fair
+  seller_notes:
+    - "Title in hand, in the seller's name"
+    - "Has service records from the same shop"
+    - "Fine with meeting at your mechanic"
+  red_flags: []
+  tip: "A private seller with the title in their name, records and an open invitation to inspect is a good sign. Private sales are usually 'as is', so inspect first."
+  tip_source: "FTC"
+
+high_private:
+  is_scam: false
+  seller_type: private
+  correct_action: negotiate
+  asking: {min: 1.10, max: 1.20}
+  true_value: fair
+  seller_notes:
+    - "Title in hand, in the seller's name"
+    - "Says they 'know what it's worth'"
+    - "Open to reasonable offers"
+  red_flags: []
+  tip: "Honest sellers often overvalue their own car. Show comparable listings and make a fair offer."
+  tip_source: "FTC"
