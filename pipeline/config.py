@@ -171,4 +171,6 @@ PHOTO_SEARCH_LIMIT = 10
 PHOTO_ALLOWED_LICENSE_PREFIXES = ("CC BY", "CC0", "Public domain", "PD")
 PHOTO_REQUEST_PAUSE_S = 1.0
 PHOTO_MAX_RETRIES = 4
+PHOTO_REJECT_WORDS = ("engine", "interior", "dashboard", "badge", "logo", "emblem", "wheel", "seat",
+                      "trunk", "cockpit", "steering", "headlight", "taillight", "detail", "crash", "wreck")
 PHOTO_BACKOFF_S = 10.0

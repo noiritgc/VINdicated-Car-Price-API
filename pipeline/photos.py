@@ -1,14 +1,17 @@
 """Find one freely licensed Wikimedia Commons photo per (make, model, year bucket).
 
-Usage: python -m pipeline.photos     # after build_rounds; fills photo fields in rounds.json
+Usage: python -m pipeline.photos             # after build_rounds; fills photo fields in rounds.json
+       python -m pipeline.photos --refresh   # ignore the cache and search again
 Results are cached in photos_cache.json so reruns don't hit the API again.
 """
 from __future__ import annotations
 
 import json
 import re
+import sys
 import time
 
+import pandas as pd
 import requests
 
 from pipeline import config
@@ -50,11 +53,27 @@ def _search(session: requests.Session, query: str) -> list[dict]:
     return sorted(pages.values(), key=lambda p: p.get("index", 0))
 
 
-def _pick(pages: list[dict], model: str) -> dict | None:
-    model_word = model.lower().split()[0]
+def _first_year(title: str) -> int | None:
+    match = re.search(r"(?<!\d)(19[89]\d|20[0-4]\d)(?!\d)", title)
+    return int(match.group(1)) if match else None
+
+
+def _usable(title: str, model: str, longer_models: list[str]) -> bool:
+    """Whole-car photo of this model (not a close-up, not e.g. 'Corolla Cross' for 'Corolla')."""
+    t = title.lower().replace("_", " ")
+    if not t.endswith((".jpg", ".jpeg", ".png")) or model.lower() not in t:
+        return False
+    if any(word in t for word in config.PHOTO_REJECT_WORDS):
+        return False
+    return not any(longer.lower() in t for longer in longer_models)
+
+
+def _pick(pages: list[dict], model: str, start: int, longer_models: list[str]) -> dict | None:
+    """Best licensed photo: prefer a year inside the bucket, then any usable one."""
+    candidates = []
     for page in pages:
-        title = page.get("title", "").lower()
-        if not title.endswith((".jpg", ".jpeg", ".png")) or model_word not in title:
+        title = page.get("title", "")
+        if not _usable(title, model, longer_models):
             continue
         info = (page.get("imageinfo") or [{}])[0]
         meta = info.get("extmetadata", {})
@@ -62,34 +81,43 @@ def _pick(pages: list[dict], model: str) -> dict | None:
         if not license_name.startswith(config.PHOTO_ALLOWED_LICENSE_PREFIXES):
             continue
         author = _strip_html(meta.get("Artist", {}).get("value", "")) or "Unknown author"
-        return {"url": info.get("thumburl") or info.get("url"),
-                "credit": f"{author}, {license_name}, via Wikimedia Commons"}
-    return None
+        year = _first_year(title.replace("_", " "))
+        in_bucket = year is not None and start <= year < start + config.PHOTO_YEAR_BUCKET
+        candidates.append((not in_bucket, {"url": info.get("thumburl") or info.get("url"),
+                                           "credit": f"{author}, {license_name}, via Wikimedia Commons"}))
+    candidates.sort(key=lambda c: c[0])  # stable: in-bucket first, then search rank
+    return candidates[0][1] if candidates else None
 
 
-def fetch_photo(session: requests.Session, key: str) -> dict | None:
+def fetch_photo(session: requests.Session, key: str, longer_models: list[str]) -> dict | None:
     make, model, start = key.split("|")
     for query in (f"{start} {make} {model}", f"{make} {model}"):
-        found = _pick(_search(session, query), model)
+        found = _pick(_search(session, query), model, int(start), longer_models)
         time.sleep(config.PHOTO_REQUEST_PAUSE_S)
         if found:
             return found
     return None
 
 
-def main() -> None:
+def main(refresh: bool = "--refresh" in sys.argv) -> None:
     data = json.loads(config.ROUNDS_PATH.read_text())
     rounds = data["rounds"]
-    cache = load_cache()
+    cache = {} if refresh else load_cache()
     keys = {photo_key(r["car"]["make"], r["car"]["model"], r["car"]["year"]) for r in rounds}
     todo = sorted(k for k in keys if k not in cache)
     log(STEP, f"{len(keys)} photo keys, {len(todo)} not cached")
 
+    models = {(r["car"]["make"], r["car"]["model"]) for r in rounds}
+    if config.CLEAN_PATH.exists():
+        clean = pd.read_parquet(config.CLEAN_PATH, columns=["make", "model"]).drop_duplicates()
+        models |= set(map(tuple, clean.to_numpy()))
     session = requests.Session()
     session.headers["User-Agent"] = config.WIKIMEDIA_USER_AGENT
     for i, key in enumerate(todo, 1):
         try:
-            cache[key] = fetch_photo(session, key)
+            make, model, _ = key.split("|")
+            longer = [m for mk, m in models if mk == make and m != model and model.lower() in m.lower()]
+            cache[key] = fetch_photo(session, key, longer)
         except requests.RequestException as exc:
             log(STEP, f"error for {key}: {exc}")
             continue
