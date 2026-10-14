@@ -227,10 +227,6 @@
   "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c3/2015_Chevrolet_Tahoe_LT_5.3L_front_3.24.19.jpg/960px-2015_Chevrolet_Tahoe_LT_5.3L_front_3.24.19.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
   "credit": "Kevauto, CC BY-SA 4.0, via Wikimedia Commons"
  },
- "Chevrolet|Tahoe|2020": {
-  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9d/2020_Chevrolet_Tahoe_Police_Pursuit_Vehicle.jpg/960px-2020_Chevrolet_Tahoe_Police_Pursuit_Vehicle.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-  "credit": "Oleg Yunakov, CC BY-SA 4.0, via Wikimedia Commons"
- },
  "Chevrolet|Trailblazer|2005": {
   "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/67/2005_Chevrolet_Trailblazer_4.2_4WD_%2851241254305%29.jpg/960px-2005_Chevrolet_Trailblazer_4.2_4WD_%2851241254305%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
   "credit": "Rutger van der Maar, CC BY 2.0, via Wikimedia Commons"
@@ -1236,10 +1232,6 @@
   "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/09/2010_Toyota_Camry_%28ACV40R_MY10%29_Touring_sedan_%282010-05-19%29.jpg/960px-2010_Toyota_Camry_%28ACV40R_MY10%29_Touring_sedan_%282010-05-19%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
   "credit": "OSX, Public domain, via Wikimedia Commons"
  },
- "Toyota|Camry|2015": {
-  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b6/2015_Toyota_Camry_NYC_Taxi_and_Limousine_Commission_Boro_Taxi.jpg/960px-2015_Toyota_Camry_NYC_Taxi_and_Limousine_Commission_Boro_Taxi.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-  "credit": "Oleg Yunakov, CC BY-SA 4.0, via Wikimedia Commons"
- },
  "Toyota|Camry|2020": {
   "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5b/2020_Toyota_Camry_XSE_front.jpg/960px-2020_Toyota_Camry_XSE_front.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
   "credit": "Throwawayacc222, CC0, via Wikimedia Commons"
@@ -1351,5 +1343,613 @@
  "Toyota|Tundra|2020": {
   "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0d/2020_Toyota_Tundra_au_SIAM_2020.jpg/960px-2020_Toyota_Tundra_au_SIAM_2020.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
   "credit": "Bull-Doser, Public domain, via Wikimedia Commons"
+ },
+ "Acura|RDX|2015": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7d/2016_Acura_RDX.jpg/960px-2016_Acura_RDX.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Bull-Doser, Public domain, via Wikimedia Commons"
+ },
+ "Audi|A5|2010": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fa/Audi_A5_TDI%2C_Bj._2011_%282013-05-04_9590%29.JPG/960px-Audi_A5_TDI%2C_Bj._2011_%282013-05-04_9590%29.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Lothar Spurzem, CC BY-SA 2.0 de, via Wikimedia Commons"
+ },
+ "Audi|A5|2015": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7d/2015_Audi_A5_TDI_S_Line.jpg/960px-2015_Audi_A5_TDI_S_Line.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Hugh Llewelyn, CC BY-SA 2.0, via Wikimedia Commons"
+ },
+ "Audi|A5|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ee/Audi_A5_at_the_2025_Shannons_Adelaide_Rally_%28028A4475%29.jpg/960px-Audi_A5_at_the_2025_Shannons_Adelaide_Rally_%28028A4475%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Yu Chu Chin, CC BY 4.0, via Wikimedia Commons"
+ },
+ "Audi|S5|2015": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5a/Audi_S5_8T_Sportback_facelift_China_2015-04-13.jpg/960px-Audi_S5_8T_Sportback_facelift_China_2015-04-13.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Navigator84, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Audi|S5|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/74/Audi_S5_Avant_B10_DSC_9798.jpg/960px-Audi_S5_Avant_B10_DSC_9798.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Alexander Migl, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "BMW|2 Series|2015": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/35/BMW_2_SERIES_COUPE_%28F22%29_China.jpg/960px-BMW_2_SERIES_COUPE_%28F22%29_China.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Dinkun Chen, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "BMW|3 Series|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c8/2025_BMW_3_Series_320e_BTCC_Car.jpg/960px-2025_BMW_3_Series_320e_BTCC_Car.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Calreyn88, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "BMW|4 Series|2015": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/81/BMW_4_SERIES_COUPE_%28F32%29_China.jpg/960px-BMW_4_SERIES_COUPE_%28F32%29_China.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Dinkun Chen, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "BMW|4 Series|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c6/2024_BMW_4_Series_Gran_Coup%C3%A9_%28G26%29_DSC_9803_%28cropped%29.jpg/960px-2024_BMW_4_Series_Gran_Coup%C3%A9_%28G26%29_DSC_9803_%28cropped%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Alexander Migl, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "BMW|5 Series|2010": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bc/BMW_5_Series_E60_%285262149526%29.jpg/960px-BMW_5_Series_E60_%285262149526%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "nakhon100, CC BY 2.0, via Wikimedia Commons"
+ },
+ "BMW|5 Series|2020": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/15/2020_BMW_5_Series.jpg/960px-2020_BMW_5_Series.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Calreyn88, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "BMW|M2|2020": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/68/2020_BMW_M2_Comp_F87_FOS22.jpg/960px-2020_BMW_M2_Comp_F87_FOS22.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "MrWalkr, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "BMW|M3|2000": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d7/BMW_M3_Cabriolet_%28E46%2C_2003%29_%2854864564676%29.jpg/960px-BMW_M3_Cabriolet_%28E46%2C_2003%29_%2854864564676%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Charles from Port Chester, New York, CC0, via Wikimedia Commons"
+ },
+ "BMW|M3|2020": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2e/BMW_M3_E93_Xiamen_01_2020-01-06.jpg/960px-BMW_M3_E93_Xiamen_01_2020-01-06.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "JamesYoung8167, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "BMW|X5|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/20/BMW_iX5_Hydrogen_JMS_2025.jpg/960px-BMW_iX5_Hydrogen_JMS_2025.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "TTTNIS, CC0, via Wikimedia Commons"
+ },
+ "BMW|X7|2020": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7f/2020_BMW_X7_M_Sport.jpg/960px-2020_BMW_X7_M_Sport.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Vauxford, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "BMW|i4|2020": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c1/Polizei_BMW_i4_M50_2022_%28G26%29.jpg/960px-Polizei_BMW_i4_M50_2022_%28G26%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Charles from Port Chester, New York, CC BY 2.0, via Wikimedia Commons"
+ },
+ "BMW|i4|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/77/24_BMW_i4_eDrive35.jpg/960px-24_BMW_i4_eDrive35.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "HJUdall, CC0, via Wikimedia Commons"
+ },
+ "Buick|Enclave|2020": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/14/2020_Buick_Enclave_au_SIAM_2020.jpg/960px-2020_Buick_Enclave_au_SIAM_2020.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Bull-Doser, Public domain, via Wikimedia Commons"
+ },
+ "Buick|Encore GX|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/25/BUICK_ENCORE_PLUS_%28BUICK_ENCORE_GX_FACELIFT%29.jpg/960px-BUICK_ENCORE_PLUS_%28BUICK_ENCORE_GX_FACELIFT%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Dinkun Chen, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Cadillac|Escalade|2010": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/af/3rd_Cadillac_Escalade_--_08-16-2010.jpg/960px-3rd_Cadillac_Escalade_--_08-16-2010.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "IFCAR, Public domain, via Wikimedia Commons"
+ },
+ "Cadillac|Escalade|2015": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0a/2015_Cadillac_Escalade_ESV_Premium%2C_rear_8.31.19.jpg/960px-2015_Cadillac_Escalade_ESV_Premium%2C_rear_8.31.19.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Kevauto, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Cadillac|Escalade|2020": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f1/2020_Cadillac_Escalade_au_SIAM_2020.jpg/960px-2020_Cadillac_Escalade_au_SIAM_2020.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Bull-Doser, Public domain, via Wikimedia Commons"
+ },
+ "Chevrolet|Corvette|2010": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4d/2010_Chevrolet_Corvette_C6_Z06.jpg/960px-2010_Chevrolet_Corvette_C6_Z06.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Calreyn88, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Chevrolet|Corvette|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/10/Chevrolet_Corvette_Stingray%2C_Kingsville%2C_Ontario%2C_2025-06-29.jpg/960px-Chevrolet_Corvette_Stingray%2C_Kingsville%2C_Ontario%2C_2025-06-29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Crisco 1492, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Chevrolet|Express|2010": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7b/1st_Chevrolet_Express_--_09-27-2010.jpg/960px-1st_Chevrolet_Express_--_09-27-2010.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "IFCAR, Public domain, via Wikimedia Commons"
+ },
+ "Chevrolet|Express|2015": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/da/2015_chevrolet_express_2500_script.jpg/960px-2015_chevrolet_express_2500_script.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Rjluna2, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Chevrolet|Express|2020": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8d/White_Chevrolet_Express_Explorer_conversion_van_at_the_2020_Washington_DC_auto_show_%284%29.jpg/960px-White_Chevrolet_Express_Explorer_conversion_van_at_the_2020_Washington_DC_auto_show_%284%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "John Sulu, CC0, via Wikimedia Commons"
+ },
+ "Chevrolet|Silverado 1500|2005": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9f/2005_Chevrolet_Silverado_1500_RSR_in_Tangier_Orange%2C_Front_Left%2C_07-15-2022.jpg/960px-2005_Chevrolet_Silverado_1500_RSR_in_Tangier_Orange%2C_Front_Left%2C_07-15-2022.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Elise240SX, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Chevrolet|Silverado 2500HD|2010": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7c/21_Chevrolet_Silverado_2500HD_LTZ.jpg/960px-21_Chevrolet_Silverado_2500HD_LTZ.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "HJUdall, CC0, via Wikimedia Commons"
+ },
+ "Chevrolet|Suburban|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/2025_Chevrolet_Suburban_RST%2C_rear_NYIAS_2025.jpg/960px-2025_Chevrolet_Suburban_RST%2C_rear_NYIAS_2025.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Kevauto, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Chevrolet|TrailBlazer|2020": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e3/2021_Chevrolet_TrailBlazer_RS_AWD%2C_front_7.11.20.jpg/960px-2021_Chevrolet_TrailBlazer_RS_AWD%2C_front_7.11.20.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Kevauto, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Chevrolet|TrailBlazer|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c9/Chevrolet_TrailBlazer_2.8_4x4_2025.jpg/960px-Chevrolet_TrailBlazer_2.8_4x4_2025.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Just a Man, CC BY 4.0, via Wikimedia Commons"
+ },
+ "Chevrolet|Trax|2020": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1c/2020_Chevrolet_Trax_au_SIAM_2020.jpg/960px-2020_Chevrolet_Trax_au_SIAM_2020.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Bull-Doser, Public domain, via Wikimedia Commons"
+ },
+ "Chevrolet|Trax|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d2/2021_Chevrolet_Trax_LT%2C_Windsor%2C_Ontario%2C_2025-07-01.jpg/960px-2021_Chevrolet_Trax_LT%2C_Windsor%2C_Ontario%2C_2025-07-01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Crisco 1492, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Chrysler|Pacifica|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/88/Chrysler_Pacifica_1.jpg/960px-Chrysler_Pacifica_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Calreyn88, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Chrysler|Town & Country|2015": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7f/Chrysler_Town_%26_Country_%281977%29_arriving_Schaffen-Diest_%282015%29.JPG/960px-Chrysler_Town_%26_Country_%281977%29_arriving_Schaffen-Diest_%282015%29.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Charles01, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Dodge|Charger|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/54/1966_Dodge_Charger%2C_front_right%2C_09-27-2025.jpg/960px-1966_Dodge_Charger%2C_front_right%2C_09-27-2025.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "MercurySable99, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Ford|Bronco Sport|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7a/Moscow%2C_Ford_Bronco_Sport_red_Sept_2025_04.jpg/960px-Moscow%2C_Ford_Bronco_Sport_red_Sept_2025_04.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Retired electrician, CC0, via Wikimedia Commons"
+ },
+ "Ford|F-250|2000": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0d/Leimershof_US-Car-Treffen_Ford_F-250-20220911-RM-161429.jpg/960px-Leimershof_US-Car-Treffen_Ford_F-250-20220911-RM-161429.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Ermell, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Ford|F-250|2010": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/14/2011_Ford_F-250_XLT_--_07-10-2010.jpg/960px-2011_Ford_F-250_XLT_--_07-10-2010.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "IFCAR, Public domain, via Wikimedia Commons"
+ },
+ "Ford|F-250|2015": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c8/2015_Ford_F-250_6.7L.jpg/960px-2015_Ford_F-250_6.7L.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Calreyn88, CC0, via Wikimedia Commons"
+ },
+ "Ford|F-250|2020": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/30/2020-2022_Ford_F-250_Super_Duty_Mov_Crew_Cab.jpg/960px-2020-2022_Ford_F-250_Super_Duty_Mov_Crew_Cab.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Bull-Doser, Public domain, via Wikimedia Commons"
+ },
+ "Ford|F-250|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c0/Ford_F-250_NASCAR_Safety_Truck_Madera_2025.jpg/960px-Ford_F-250_NASCAR_Safety_Truck_Madera_2025.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "TaurusEmerald, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Ford|F-350|2000": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4c/Ford_F-350_Super_Duty_SuperCrew_4x4_2000_%2811253565436%29.jpg/960px-Ford_F-350_Super_Duty_SuperCrew_4x4_2000_%2811253565436%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "order_242 from Chile, CC BY-SA 2.0, via Wikimedia Commons"
+ },
+ "Ford|F-350|2005": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0d/2005_Ford_F-350.jpg/960px-2005_Ford_F-350.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Calreyn88, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Ford|F-350|2015": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6b/Ford_F-350_%2816979636552%29.jpg/960px-Ford_F-350_%2816979636552%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Kieran White from Manchester, England, CC BY 2.0, via Wikimedia Commons"
+ },
+ "Ford|Maverick|2020": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/92/Ford_Maverick_%2851271466060%29.jpg/960px-Ford_Maverick_%2851271466060%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "crash71100, CC0, via Wikimedia Commons"
+ },
+ "Ford|Mustang|2000": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/be/2000_Ford_Mustang_GT_convertible%2C_front_left%2C_06-06-2026.jpg/960px-2000_Ford_Mustang_GT_convertible%2C_front_left%2C_06-06-2026.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "MercurySable99, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Ford|Mustang|2010": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c4/Ford_Mustang_%282010-2014%29_Hirschaid-20220709-RM-120644.jpg/960px-Ford_Mustang_%282010-2014%29_Hirschaid-20220709-RM-120644.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Ermell, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Ford|Mustang|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d4/Ford_Mustang_Supercar_of_Chaz_Mostert_at_the_2025_Adelaide_Grand_Final.jpg/960px-Ford_Mustang_Supercar_of_Chaz_Mostert_at_the_2025_Adelaide_Grand_Final.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Yu Chu Chin, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Ford|Ranger|2020": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/2020_Ford_Ranger_Wildtrak_second_facelift_rear.jpg/960px-2020_Ford_Ranger_Wildtrak_second_facelift_rear.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "LuvsMG481, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Ford|Transit|2015": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f1/%22Durstl%C3%B6schmobil%22%2C_Ex-Feuerwehr_Ford_Transit_in_Berlin-Kreuzberg_%282015%29.jpg/960px-%22Durstl%C3%B6schmobil%22%2C_Ex-Feuerwehr_Ford_Transit_in_Berlin-Kreuzberg_%282015%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "JoachimKohler-HB, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Ford|Transit|2020": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0f/2020_Ford_Transit_au_SIAM_2020.jpg/960px-2020_Ford_Transit_au_SIAM_2020.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Bull-Doser, Public domain, via Wikimedia Commons"
+ },
+ "Ford|Transit|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9c/Ford_Transit_100_Jahre_Horex%2C_Classic-Gala_2025%2C_Schwetzingen_%2820250906-P1049479%29.jpg/960px-Ford_Transit_100_Jahre_Horex%2C_Classic-Gala_2025%2C_Schwetzingen_%2820250906-P1049479%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Matti Blume, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "GMC|Acadia|2010": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1c/%2710_GMC_Acadia_%28MIAS_%2710%29.jpg/960px-%2710_GMC_Acadia_%28MIAS_%2710%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Bull-Doser, Public domain, via Wikimedia Commons"
+ },
+ "GMC|Canyon|2005": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2a/2005_GMC_Canyon%2C_Front_Left%2C_11-21-2021.jpg/960px-2005_GMC_Canyon%2C_Front_Left%2C_11-21-2021.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Elise240SX, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "GMC|Canyon|2015": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b9/2015_GMC_Canyon%2C_Front_Right%2C_04-10-2021.jpg/960px-2015_GMC_Canyon%2C_Front_Right%2C_04-10-2021.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "SsmIntrigue, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "GMC|Savana|2015": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/98/GMC_Savana_II_China_2015-04-13.jpg/960px-GMC_Savana_II_China_2015-04-13.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Navigator84, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "GMC|Sierra 2500HD|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b1/21_GMC_Sierra_2500HD_Denali.jpg/960px-21_GMC_Sierra_2500HD_Denali.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "HJUdall, CC0, via Wikimedia Commons"
+ },
+ "GMC|Yukon|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6c/2025_GMC_Yukon_AT4_Facelift.jpg/960px-2025_GMC_Yukon_AT4_Facelift.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Wlb5V, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Genesis|G70|2020": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a6/2020_Genesis_G70.jpg/960px-2020_Genesis_G70.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "DestinationFearFan, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Honda|Accord|2020": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f7/2020_Honda_Accord_1.5_TC-P_56.jpg/960px-2020_Honda_Accord_1.5_TC-P_56.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Bindydad123, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Honda|Accord|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/68/2011_Honda_Accord_12-29-2025.jpg/960px-2011_Honda_Accord_12-29-2025.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "2000chevymontecarlo, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Honda|CR-V|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9e/Honda_CR-V_%286th_generation%29_hybrid_DSC_8550.jpg/960px-Honda_CR-V_%286th_generation%29_hybrid_DSC_8550.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Alexander Migl, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Honda|HR-V|2015": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/da/2015_Honda_HR-V.jpg/960px-2015_Honda_HR-V.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Jacek Halicki, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Honda|HR-V|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6e/2025_Honda_HR-V_Hybrid_DSC_7908.jpg/960px-2025_Honda_HR-V_Hybrid_DSC_7908.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Alexander Migl, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Honda|Odyssey|2010": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1a/2010_Honda_Odyssey_LX%2C_front_left%2C_11-16-2024.jpg/960px-2010_Honda_Odyssey_LX%2C_front_left%2C_11-16-2024.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "MercurySable99, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Honda|Odyssey|2020": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3e/2019_Honda_Odyssey_2.4_Prestige_RC1_%2820200227%29.jpg/960px-2019_Honda_Odyssey_2.4_Prestige_RC1_%2820200227%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "\u30aa\u30fc\u30d0\u30fc\u30c9\u30e9\u30a4\u30d683, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Honda|Odyssey|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d5/2025_Honda_Odyssey_front_view.jpg/960px-2025_Honda_Odyssey_front_view.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Deathpallie325, CC BY 4.0, via Wikimedia Commons"
+ },
+ "Honda|Ridgeline|2015": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/42/Honda_Ridgeline_%2814191013655%29.jpg/960px-Honda_Ridgeline_%2814191013655%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Kieran White from Manchester, England, CC BY 2.0, via Wikimedia Commons"
+ },
+ "Hyundai|Elantra|2015": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e6/Hyundai_Elantra_%28AD%3B_2015%29.jpg/960px-Hyundai_Elantra_%28AD%3B_2015%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Jakub CA, CC BY 4.0, via Wikimedia Commons"
+ },
+ "Hyundai|Kona|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/04/2025_Hyundai_Kona_Elite_2WD_front.jpg/960px-2025_Hyundai_Kona_Elite_2WD_front.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "LuvsMG481, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Hyundai|Santa Fe|2010": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/97/2010_Hyundai_Santa_Fe_Limited_--_09-26-2010.jpg/960px-2010_Hyundai_Santa_Fe_Limited_--_09-26-2010.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "IFCAR, Public domain, via Wikimedia Commons"
+ },
+ "Hyundai|Sonata|2010": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/06/2010_Hyundai_Sonata_Limited_1_--_02-13-2010.jpg/960px-2010_Hyundai_Sonata_Limited_1_--_02-13-2010.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "IFCAR, Public domain, via Wikimedia Commons"
+ },
+ "Hyundai|Sonata|2020": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/71/2020_Hyundai_Sonata_SEL_%28Quartz_White%29%2C_front_right.jpg/960px-2020_Hyundai_Sonata_SEL_%28Quartz_White%29%2C_front_right.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Mr.choppers, CC BY-SA 3.0, via Wikimedia Commons"
+ },
+ "Hyundai|Tucson|2010": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/53/Hyundai_Tucson_%28NX4%2C_SWB%29_PHEV_1X7A1858.jpg/960px-Hyundai_Tucson_%28NX4%2C_SWB%29_PHEV_1X7A1858.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Alexander-93, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Hyundai|Tucson|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4a/2025_Hyundai_Tucson_XRT_%28United_States%29_front_view.jpg/960px-2025_Hyundai_Tucson_XRT_%28United_States%29_front_view.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Charles, CC BY 2.0, via Wikimedia Commons"
+ },
+ "Jeep|Wrangler|2005": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/eb/2005_Jeep_Wrangler_Renegade_4.0_Front.jpg/960px-2005_Jeep_Wrangler_Renegade_4.0_Front.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Makizox, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Kia|Carnival|2020": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0e/2020_Kia_Carnival_SXL.jpg/960px-2020_Kia_Carnival_SXL.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Chanokchon, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Kia|Carnival|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a7/2025_Kia_Carnival_Hybrid_EX%2C_front_right%2C_10-12-2025.jpg/960px-2025_Kia_Carnival_Hybrid_EX%2C_front_right%2C_10-12-2025.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "MercurySable99, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Kia|K5|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a6/Moscow%2C_Kia_K5_white%2C_Aug_2025_03.jpg/960px-Moscow%2C_Kia_K5_white%2C_Aug_2025_03.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Retired electrician, CC0, via Wikimedia Commons"
+ },
+ "Kia|Seltos|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/46/Kia_Seltos_SP2_PE_2025-03-07.jpg/960px-Kia_Seltos_SP2_PE_2025-03-07.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Treeinkr, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Land Rover|Range Rover Sport|2015": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2c/Land_Rover_Range_Rover_Sport_L494_China_2015-04-13.jpg/960px-Land_Rover_Range_Rover_Sport_L494_China_2015-04-13.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Navigator84, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Land Rover|Range Rover|2015": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a1/Range_Rover_%288414571359%29.jpg/960px-Range_Rover_%288414571359%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "nakhon100, CC BY 2.0, via Wikimedia Commons"
+ },
+ "Lexus|ES|2020": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2c/2020_Lexus_ES_300H.jpg/960px-2020_Lexus_ES_300H.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Calreyn88, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Lexus|ES|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8e/2025_Lexus_ES_300h_Sports_luxury_front.jpg/960px-2025_Lexus_ES_300h_Sports_luxury_front.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "LuvsMG481, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Lexus|IS|2015": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/10/2015_Lexus_IS_300h_F_Sport_CVT.jpg/960px-2015_Lexus_IS_300h_F_Sport_CVT.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Calreyn88, CC BY 4.0, via Wikimedia Commons"
+ },
+ "Lexus|IS|2020": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/13/2020-2025_Lexus_IS300h_F_Sport_AWD.jpg/960px-2020-2025_Lexus_IS300h_F_Sport_AWD.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "TTTNIS, CC0, via Wikimedia Commons"
+ },
+ "Lexus|LS|2010": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b2/2010_Lexus_LS_460_Main_Gauges.jpg/960px-2010_Lexus_LS_460_Main_Gauges.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Maryland Pride, CC BY-SA 3.0, via Wikimedia Commons"
+ },
+ "Lexus|LS|2020": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/08/LEXUS_LS_350_%283%29.jpg/960px-LEXUS_LS_350_%283%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Dinkun Chen, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Lexus|NX|2020": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/13/Lexus_NX_300h_%282020%29_%2853945291971%29.jpg/960px-Lexus_NX_300h_%282020%29_%2853945291971%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Charles from Port Chester, New York, CC BY 2.0, via Wikimedia Commons"
+ },
+ "Lexus|RX|2020": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c9/2020_Lexus_RX_450h_Takumi_CVT_3.5_Rear.jpg/960px-2020_Lexus_RX_450h_Takumi_CVT_3.5_Rear.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Vauxford, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Mazda|CX-30|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/54/Mazda_CX-30%2C_Auto_2025%2C_Zurich_%2820251029-P1074543%29.jpg/960px-Mazda_CX-30%2C_Auto_2025%2C_Zurich_%2820251029-P1074543%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Matti Blume, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Mazda|CX-50|2020": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4b/2023_Mazda_CX-50_GT_in_Zircon_Sand_Metallic%2C_Front_Left%2C_06-18-2022.jpg/960px-2023_Mazda_CX-50_GT_in_Zircon_Sand_Metallic%2C_Front_Left%2C_06-18-2022.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Elise240SX, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Mazda|CX-50|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e5/Mazda_CX-50_2.5S_Preferred_%282025%29_%2855214634795%29.jpg/960px-Mazda_CX-50_2.5S_Preferred_%282025%29_%2855214634795%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Charles from Port Chester, New York, CC0, via Wikimedia Commons"
+ },
+ "Mazda|CX-5|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9b/MAZDA_CX-5_%28KE%29_China_%287%29.jpg/960px-MAZDA_CX-5_%28KE%29_China_%287%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Dinkun Chen, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Mazda|Mazda3|2010": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b2/2010_Mazda3_%28BL_MY10%29_Maxx_hatchback_%282010-09-19%29.jpg/960px-2010_Mazda3_%28BL_MY10%29_Maxx_hatchback_%282010-09-19%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "OSX, Public domain, via Wikimedia Commons"
+ },
+ "Mazda|Mazda3|2015": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/60/2015_Mazda3_i_Sport_5-door%2C_rear_right%2C_10-29-2023.jpg/960px-2015_Mazda3_i_Sport_5-door%2C_rear_right%2C_10-29-2023.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "MercurySable99, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Mazda|Mazda3|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c9/2025_Mazda3_2.5_S_Carbon_Edition_hatchback%2C_front_right%2C_05-25-2025.jpg/960px-2025_Mazda3_2.5_S_Carbon_Edition_hatchback%2C_front_right%2C_05-25-2025.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "MercurySable99, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Mercedes-Benz|C-Class|2020": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8f/Mercedes_C-Class_Slovenia_plate_%2850917990426%29.jpg/960px-Mercedes_C-Class_Slovenia_plate_%2850917990426%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "crash71100, CC0, via Wikimedia Commons"
+ },
+ "Mercedes-Benz|C-Class|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/84/2025_Mercedes-Benz_C-Class_-_02.jpg/960px-2025_Mercedes-Benz_C-Class_-_02.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Oleg Yunakov, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Mercedes-Benz|CLA|2020": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/05/2020_Mercedes-Benz_CLA_35_AMG_front.jpg/960px-2020_Mercedes-Benz_CLA_35_AMG_front.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "LuvsMG481, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Mercedes-Benz|CLA|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9d/Mercedes-Benz_Electric_CLA_001.jpg/960px-Mercedes-Benz_Electric_CLA_001.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "JustAnotherCarDesigner, CC0, via Wikimedia Commons"
+ },
+ "Mercedes-Benz|E-Class|2020": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9b/2018_Mercedes-Benz_E-Class_Estate.jpg/960px-2018_Mercedes-Benz_E-Class_Estate.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Oleg Yunakov, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Mercedes-Benz|E-Class|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/42/MERCEDES-BENZ_E-CLASS_%28W211%29_China_%2811%29.jpg/960px-MERCEDES-BENZ_E-CLASS_%28W211%29_China_%2811%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Dinkun Chen, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Mercedes-Benz|GLC|2015": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/97/2018_Mercedes-Benz_GLC_250_Urban_Edition_4MATIC_2.0_Front.jpg/960px-2018_Mercedes-Benz_GLC_250_Urban_Edition_4MATIC_2.0_Front.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Vauxford, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Mercedes-Benz|S-Class|2015": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bc/Mercedes-Benz_S-Class_V140_03_China_2015-04-18.jpg/960px-Mercedes-Benz_S-Class_V140_03_China_2015-04-18.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Navigator84, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Nissan|Frontier|2005": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/46/%2705-%2708_Nissan_Frontier_Nismo_--_Rear.JPG/960px-%2705-%2708_Nissan_Frontier_Nismo_--_Rear.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Bull-Doser, Public domain, via Wikimedia Commons"
+ },
+ "Nissan|Kicks|2020": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/24/2020_Nissan_Kicks_SR%2C_rear_right%2C_09-09-2023.jpg/960px-2020_Nissan_Kicks_SR%2C_rear_right%2C_09-09-2023.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "MercurySable99, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Nissan|Rogue|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/14/Nissan_Rogue_%28S35%29_Washington_DC_Metro_Area%2C_USA.jpg/960px-Nissan_Rogue_%28S35%29_Washington_DC_Metro_Area%2C_USA.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "OWS Photography, CC BY 4.0, via Wikimedia Commons"
+ },
+ "Nissan|Sentra|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5e/Nissan_Sentra_N16_facelift_II_Kinmen_01_2025-11-14.jpg/960px-Nissan_Sentra_N16_facelift_II_Kinmen_01_2025-11-14.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Randall Ferry, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Nissan|Z|2005": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a2/2005_Nissan_Z_Convertible_%2827786125423%29.jpg/960px-2005_Nissan_Z_Convertible_%2827786125423%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Greg Gjerdingen from Willmar, USA, CC BY 2.0, via Wikimedia Commons"
+ },
+ "Nissan|Z|2010": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a6/Nissan_370_Z_Tour_Auto_2010.jpg/960px-Nissan_370_Z_Tour_Auto_2010.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Arabist01, CC BY 3.0, via Wikimedia Commons"
+ },
+ "Porsche|911|2015": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/Pau_2015%2C_Porsche_911.jpg/960px-Pau_2015%2C_Porsche_911.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Handelsgeselschaft, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Porsche|Cayenne|2020": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b4/2020_Porsche_Cayenne_Coup%C3%A9_E-Hybrid%2C_rear_4.29.21.jpg/960px-2020_Porsche_Cayenne_Coup%C3%A9_E-Hybrid%2C_rear_4.29.21.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Kevauto, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Porsche|Cayenne|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d1/Porsche_Cayenne_%28Medical_Car%29_at_the_2025_Adelaide_Grand_Final_Parade_-_02.jpg/960px-Porsche_Cayenne_%28Medical_Car%29_at_the_2025_Adelaide_Grand_Final_Parade_-_02.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Yu Chu Chin, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Porsche|Macan|2015": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1d/Porsche_Macan_%282015%29_from_Stuttgart.JPG/960px-Porsche_Macan_%282015%29_from_Stuttgart.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Charles01, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Porsche|Panamera|2015": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f2/Porsche_Panamera_4S%2C_Pau_2015_2.jpg/960px-Porsche_Panamera_4S%2C_Pau_2015_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Handelsgeselschaft, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Porsche|Panamera|2020": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/2020_Porsche_Panamera_4S_E-Hybrid_Sport_Turismo_2.9.jpg/960px-2020_Porsche_Panamera_4S_E-Hybrid_Sport_Turismo_2.9.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Vauxford, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Ram|1500|2010": {
+  "url": "https://upload.wikimedia.org/wikipedia/commons/0/0b/2010_Ram_1500_RT.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+  "credit": "Ammar shaker, CC BY-SA 3.0, via Wikimedia Commons"
+ },
+ "Ram|1500|2015": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b5/Ram_1500_Hemi_Laramie_2015_%2823976047977%29.jpg/960px-Ram_1500_Hemi_Laramie_2015_%2823976047977%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "RL GNZLZ from Chile, CC BY-SA 2.0, via Wikimedia Commons"
+ },
+ "Ram|1500|2020": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1b/2020_Ram_1500.jpg/960px-2020_Ram_1500.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Calreyn88, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Ram|2500|2010": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2d/%2710-%2712_Ram_2500_Crew_Cab_Ahuntsic-Cartierville_Montr%C3%A9al.jpg/960px-%2710-%2712_Ram_2500_Crew_Cab_Ahuntsic-Cartierville_Montr%C3%A9al.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Bull-Doser, Public domain, via Wikimedia Commons"
+ },
+ "Ram|2500|2015": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ef/2015_RAM_2500_Heavy-Duty_Mega_Cab_Power_Wagon_Laramie_in_Deep_Cherry_Red_Crystal_Pearl_%28Belterra%29%2C_Front_Left%2C_04-05-2023.jpg/960px-2015_RAM_2500_Heavy-Duty_Mega_Cab_Power_Wagon_Laramie_in_Deep_Cherry_Red_Crystal_Pearl_%28Belterra%29%2C_Front_Left%2C_04-05-2023.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Elise240SX, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Ram|2500|2020": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0f/New_2020_Ram_2500.jpg/960px-New_2020_Ram_2500.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "The Wikipeadian guy, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Ram|ProMaster|2015": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4d/2015_Ram_3500_ProMaster_%2818163877968%29.jpg/960px-2015_Ram_3500_ProMaster_%2818163877968%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Greg Gjerdingen from Willmar, USA, CC BY 2.0, via Wikimedia Commons"
+ },
+ "Ram|ProMaster|2020": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9d/2020_Winnebago_Travato_%28RAM_ProMaster%29.jpg/960px-2020_Winnebago_Travato_%28RAM_ProMaster%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "DestinationFearFan, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Ram|ProMaster|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/05/Dippin%27_Dots_Ram_ProMaster_Las_Vegas_2025.jpg/960px-Dippin%27_Dots_Ram_ProMaster_Las_Vegas_2025.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "TaurusEmerald, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Subaru|Impreza|2010": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/47/2010_Subaru_Impreza_WRX_S_%2887686%29.jpg/960px-2010_Subaru_Impreza_WRX_S_%2887686%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Calreyn88, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Subaru|Impreza|2015": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d5/2007_Subaru_Impreza_%28GG9_MY07%29_Luxury_hatchback_%282015-07-03%29_01.jpg/960px-2007_Subaru_Impreza_%28GG9_MY07%29_Luxury_hatchback_%282015-07-03%29_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "OSX, Public domain, via Wikimedia Commons"
+ },
+ "Subaru|Outback|2010": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ed/Subaru_Outback_2.5_2010_%2810503669103%29.jpg/960px-Subaru_Outback_2.5_2010_%2810503669103%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "order_242 from Chile, CC BY-SA 2.0, via Wikimedia Commons"
+ },
+ "Subaru|Outback|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fd/2025_Subaru_Outback_AWD_Premium_Special_Edition_front.jpg/960px-2025_Subaru_Outback_AWD_Premium_Special_Edition_front.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "LuvsMG481, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Subaru|WRX|2020": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c0/Osaka_Auto_Messe_2020_%28185%29_-_SUBARU_WRX_STI_%28CBA-VAB%29_in_2019_JAPANESE_RALLY_CHAMPIONSHIP.jpg/960px-Osaka_Auto_Messe_2020_%28185%29_-_SUBARU_WRX_STI_%28CBA-VAB%29_in_2019_JAPANESE_RALLY_CHAMPIONSHIP.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Tokumeigakarinoaoshima, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Toyota|Avalon|2010": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9f/2011_Toyota_Avalon_--_04-24-2010.jpg/960px-2011_Toyota_Avalon_--_04-24-2010.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "IFCAR, Public domain, via Wikimedia Commons"
+ },
+ "Toyota|Camry|2000": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b3/2000_Toyota_Camry_%28MCV20R%29_CSi_sedan_%28rear%29.jpg/960px-2000_Toyota_Camry_%28MCV20R%29_CSi_sedan_%28rear%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "OSX, Public domain, via Wikimedia Commons"
+ },
+ "Toyota|Camry|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/54/2025_Toyota_Camry_LE%2C_front_left%2C_05-24-2025.jpg/960px-2025_Toyota_Camry_LE%2C_front_left%2C_05-24-2025.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "MercurySable99, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Toyota|Highlander|2005": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1e/2005_Toyota_Highlander_%285842735220%29.jpg/960px-2005_Toyota_Highlander_%285842735220%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Spanish Coches, CC BY 2.0, via Wikimedia Commons"
+ },
+ "Toyota|Sienna|2005": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/73/2005_Toyota_Sienna_%2849470847288%29.jpg/960px-2005_Toyota_Sienna_%2849470847288%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Jones028 from Hong Kong, CC BY 2.0, via Wikimedia Commons"
+ },
+ "Volkswagen|Atlas|2020": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/19/2020_Volkswagen_Atlas_au_SIAM_2020.jpg/960px-2020_Volkswagen_Atlas_au_SIAM_2020.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Bull-Doser, Public domain, via Wikimedia Commons"
+ },
+ "Volkswagen|Atlas|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/30/2021_Volkswagen_Atlas_SEL_V6_R-Line_DSC_8221.jpg/960px-2021_Volkswagen_Atlas_SEL_V6_R-Line_DSC_8221.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Alexander Migl, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Volkswagen|Jetta|2010": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1c/2010_Volkswagen_Jetta_S_--_03-13-2010.jpg/960px-2010_Volkswagen_Jetta_S_--_03-13-2010.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "IFCAR, Public domain, via Wikimedia Commons"
+ },
+ "Volkswagen|Jetta|2020": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2d/2020_Volkswagen_Jetta_Highline_in_Pure_White%2C_Front_Right%2C_05-21-2022.jpg/960px-2020_Volkswagen_Jetta_Highline_in_Pure_White%2C_Front_Right%2C_05-21-2022.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Elise240SX, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Volkswagen|Jetta|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a0/2025_Volkswagen_Jetta_VII_DSC_7508.jpg/960px-2025_Volkswagen_Jetta_VII_DSC_7508.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Alexander Migl, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Volkswagen|Taos|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c7/2025_Volkswagen_Taos_DSC_9371.jpg/960px-2025_Volkswagen_Taos_DSC_9371.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Alexander Migl, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Volvo|XC90|2020": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/28/2020_Volvo_XC90_T8_R-Design_facelift_Front.jpg/960px-2020_Volvo_XC90_T8_R-Design_facelift_Front.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Vauxford, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Chevrolet|Tahoe|2020": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1f/Henderson_PD_Chevrolet_Tahoe_-_LEAD_2020.jpg/960px-Henderson_PD_Chevrolet_Tahoe_-_LEAD_2020.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Noah Wulf, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Genesis|G70|2025": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f7/2025_Genesis_G70.jpg/960px-2025_Genesis_G70.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "This picture has been taken by Oleg Yunakov. Contact e-mail: yunakovgmail.com. Image can be used in accordance with the terms of the \u0421\u0421-BY-SA license. Other photos can be seen here., CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Mercedes-Benz|Sprinter|2015": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/77/Mercedes-Benz_Sprinter_W906_China_2015-04-08.jpg/960px-Mercedes-Benz_Sprinter_W906_China_2015-04-08.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Navigator84, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Mercedes-Benz|Sprinter|2020": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/61/Mercedes-Benz_Sprinter_Dan_MUPa_2020_02.jpg/960px-Mercedes-Benz_Sprinter_Dan_MUPa_2020_02.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Sr\u0111an Popovi\u0107, CC BY-SA 4.0, via Wikimedia Commons"
+ },
+ "Toyota|Camry|2015": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c1/Toyota_Camry_Classical_02_China_2015-04-20.jpg/960px-Toyota_Camry_Classical_02_China_2015-04-20.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "credit": "Navigator84, CC BY-SA 4.0, via Wikimedia Commons"
  }
 }

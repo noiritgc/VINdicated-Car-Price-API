@@ -179,5 +179,6 @@ PHOTO_REQUEST_PAUSE_S = 1.0
 PHOTO_MAX_RETRIES = 4
 PHOTO_REJECT_WORDS = ("engine", "interior", "dashboard", "badge", "logo", "emblem", "wheel", "seat",
                       "trunk", "cockpit", "steering", "headlight", "taillight", "detail", "crash", "wreck",
-                      "wordmark", "fielder", "concept", "prototype", "model kit")
+                      "wordmark", "fielder", "concept", "prototype", "model kit",
+                      "police", "pursuit", "taxi", "ambulance", "fire department")
 PHOTO_BACKOFF_S = 10.0
