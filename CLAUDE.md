@@ -142,6 +142,13 @@ Rules:
 - Target: median error ≤ 10%. If not met, tune and/or restrict rounds to well-covered models.
 
 ### 6.4 Breakdown from SHAP
+
+**Changed 2026-10-14 (implemented):** the mileage line is NOT a SHAP bucket any more. SHAP compares
+mileage to the dataset-average car, which showed e.g. +$5,300 for 20k miles on a 2026 car (3× typical).
+Now: mileage line = price(actual miles) − price(typical miles for the car's age), typical miles = median
+by age from the data (`typical_miles.json`); SHAP of the typical-miles car splits base/accidents/owners/
+location. `miles_per_year` is a model feature (A/B tested, small gain). Original spec text below.
+
 `model.get_feature_importance(data=Pool(X), type='ShapValues')` gives log-space contributions φᵢ plus expected value E.
 - Group features into player-facing buckets:
   - Base value = E + φ(make, model, trim, bodyStyle, drivetrain, fuelType, age)

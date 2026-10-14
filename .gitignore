@@ -18,3 +18,6 @@ pipeline/data/out/pipeline.log
 *.db
 
 .DS_Store
+
+# CSV exports of licensed data (never commit)
+exports/

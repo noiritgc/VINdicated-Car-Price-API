@@ -16,7 +16,9 @@ STEP = "train"
 
 def prepare_features(df: pd.DataFrame) -> pd.DataFrame:
     """Model input frame: categoricals as strings (missing -> 'Unknown'), numerics as float."""
-    X = df[config.FEATURES].copy()
+    X = df.reindex(columns=config.FEATURES).copy()
+    age = pd.to_numeric(df["age"], errors="coerce")
+    X["miles_per_year"] = pd.to_numeric(df["mileage"], errors="coerce") / age.clip(lower=1)
     for col in config.CATEGORICAL_FEATURES:
         X[col] = X[col].fillna(config.MISSING_CATEGORY).astype(str)
     for col in config.NUMERIC_FEATURES:

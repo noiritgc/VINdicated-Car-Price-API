@@ -15,7 +15,7 @@ people to spot used-car scams.
 
 > **Status:** fully working end to end on **real data**. Fair prices come from a CatBoost model
 > trained on ~21,500 real **CARFAX One Price** value estimates (Rebrowser's free Carfax sample):
-> 4.5% median error, 80% of cars within 10%. See `pipeline/data/out/report.md`.
+> 4.4% median error, 80% of cars within 10%. See `pipeline/data/out/report.md`.
 
 ---
 
@@ -73,7 +73,7 @@ people to spot used-car scams.
 
 - `photo.url` can be `null` → show your own generic image for `photo.fallback` (a body style like `sedan`, `suv`, `pickup_truck`). Always show `photo.credit` when present (license requirement).
 - `base_value` is the **starting point** to show before the guess: what this year/make/model/trim is
-  typically worth with average miles, history and location. The player's job is to adjust it for this
+  typically worth with **typical miles for its age**, average history and location. The player's job is to adjust it for this
   car's details. It always equals the first line of the revealed `breakdown`, so the reveal reads as
   "starting point → adjustments → fair price". A good default for the price slider.
 - `price_hint_range` is the slider range. It's based on the model's typical price, not this car's answer.
@@ -152,14 +152,20 @@ No machine learning runs live. The pipeline runs offline and produces a fixed po
 
 - **CatBoost** regression on `log(price)` with make, model, trim, body style, drivetrain, fuel type,
   age, mileage, accident count, owner count, state.
-- **Breakdown:** CatBoost's built-in SHAP values are grouped into *base value, mileage, accidents,
-  owners, location* and converted to dollars so the lines sum exactly to the prediction.
+- **Mileage is judged against cars of the same age.** The mileage line is a what-if:
+  `price(actual miles) − price(typical miles for its age)`, where typical miles come from the real
+  data (new ≈ 6k, 1 yr ≈ 18k, 4 yrs ≈ 57k, 7 yrs ≈ 92k; see `pipeline/data/out/typical_miles.json`).
+  So 20k miles on a 2026 car is a *minus*, and 20k on a 2022 car is a *plus*. The model also gets
+  miles-per-year as an input (A/B tested: median error 4.47% → 4.37%).
+- **Breakdown:** the typical-miles version of the car is split with CatBoost's built-in SHAP values
+  into *base value, accidents, owners, location*, converted to dollars so every line sums exactly
+  to the prediction.
 - **Scenarios** add lines on top: salvage/rebuilt title, private-party sale.
 - **Deal or Scam:** 12 templates in `pipeline/scam_templates.yaml` (7 scams: too good to be true,
   gift card payment, odometer rollback, flood title wash, curbstoning, hidden lien, VIN mismatch;
   5 honest: overpriced dealer → negotiate, fair dealer, great deal, honest private seller,
   pricey private seller → negotiate). Half of these rounds are honest.
-- Model accuracy is in `pipeline/data/out/report.md`: **4.5% median error** vs Carfax values on held-out
+- Model accuracy is in `pipeline/data/out/report.md`: **4.4% median error** vs Carfax values on held-out
   cars, plus an independent check against **Kelley Blue Book** fair price ranges (median 4% above KBB's midpoint).
 
 ---

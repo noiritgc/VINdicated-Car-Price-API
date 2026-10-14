@@ -16,7 +16,8 @@ from catboost import CatBoostRegressor
 
 from pipeline import config
 from pipeline.breakdown import (Breakdown, add_percent_line, bucket_label, car_name, model_breakdown,
-                                round_to, shap_values)
+                                round_to, shap_values, typical_miles, typical_miles_table,
+                                with_typical_mileage)
 from pipeline.common import log
 from pipeline.photos import load_cache, photo_key
 from pipeline.scenarios import private_discount, title_discount
@@ -167,7 +168,9 @@ def apply_template(row: pd.Series, bd: Breakdown, tpl: dict, model: CatBoostRegr
 
 def build_round(row: pd.Series, phi: pd.Series, expected: float, kind: str, tpl_name: str | None,
                 ctx: dict, rng: np.random.Generator) -> dict:
-    bd = model_breakdown(row, phi, expected)
+    """phi/expected: SHAP of this car at typical miles for its age (see breakdown.py)."""
+    typical = typical_miles(ctx["typical_miles"], row["age"])
+    bd = model_breakdown(row, phi, expected, ctx["prices"][row.name], typical)
     seller, title, asking, scam = "dealer", "Clean title", None, None
     mileage = int(row["mileage"])
 
@@ -204,7 +207,8 @@ def build_round(row: pd.Series, phi: pd.Series, expected: float, kind: str, tpl_
         "tags": tags,
         "asking_price": asking,
         "base_value": {"amount": bd.base,
-                       "label": f"Typical value of a {car_name(row)} with average miles, history and location"},
+                       "label": f"Typical value of a {car_name(row)} with typical miles for its age "
+                                f"(~{round(typical / 1000):,}k), average history and location"},
         "price_hint_range": price_hint(
             ctx["hints"][(row["make"], row["model"], row["year"] // config.PRICE_HINT_YEAR_BUCKET)], bd.total, asking),
         "fair_price": bd.total,
@@ -255,7 +259,10 @@ def main() -> None:
 
     pool = eligible_rows(df, model)
     rows = select_rows(pool, rng)
-    phi, expected = shap_values(model, rows)
+    miles_table = typical_miles_table(df)
+    config.TYPICAL_MILES_PATH.write_text(json.dumps(miles_table, indent=1))
+    log(STEP, f"typical miles by age: {dict(list(miles_table.items())[:8])} ...")
+    phi, expected = shap_values(model, with_typical_mileage(rows, miles_table))
     exp_by_idx = dict(zip(rows.index, expected))
     ctx = {
         "model": model,
@@ -265,6 +272,8 @@ def main() -> None:
                      .groupby(["make", "model", "yb"])["pred"].median().to_dict(),
         "model_counts": df.groupby(["make", "model"]).size().to_dict(),
         "trim_counts": df.groupby(["make", "model", "trim"]).size().to_dict(),
+        "typical_miles": miles_table,
+        "prices": dict(zip(rows.index, predict_price(model, rows))),
     }
 
     rounds = []

@@ -17,6 +17,7 @@ COVERAGE_PATH = OUT_DIR / "coverage.json"
 REPORT_PATH = OUT_DIR / "report.md"
 ROUNDS_PATH = OUT_DIR / "rounds.json"
 PHOTOS_CACHE_PATH = OUT_DIR / "photos_cache.json"
+TYPICAL_MILES_PATH = OUT_DIR / "typical_miles.json"
 LOG_PATH = OUT_DIR / "pipeline.log"
 SCHEMA_PATH = SHARED_DIR / "round.schema.json"
 SCAM_TEMPLATES_PATH = PIPELINE_DIR / "scam_templates.yaml"
@@ -99,10 +100,12 @@ DEV_MIN_PRICE_SHARE_OF_EXPECTED = 0.5
 CATEGORICAL_FEATURES = [
     "make", "model", "trim", "bodyStyle", "drivetrain", "fuelType", "sellerState",
 ]
-NUMERIC_FEATURES = ["age", "mileage", "accidentCount", "ownerCount"]
+# miles_per_year is computed from mileage and age in train.prepare_features. A/B test (2026-10-14,
+# 3 seeds, same split): median error 4.47% -> 4.37%, within 10% 80.1% -> 80.5%. Kept.
+NUMERIC_FEATURES = ["age", "mileage", "miles_per_year", "accidentCount", "ownerCount"]
 FEATURES = [
     "make", "model", "trim", "bodyStyle", "drivetrain", "fuelType",
-    "age", "mileage", "accidentCount", "ownerCount", "sellerState",
+    "age", "mileage", "miles_per_year", "accidentCount", "ownerCount", "sellerState",
 ]
 MISSING_CATEGORY = "Unknown"
 TEST_SHARE = 0.2
@@ -124,18 +127,21 @@ WORST_N = 20
 AGE_BUCKETS = [0, 3, 6, 10, 15, 30]
 
 # ---------------------------------------------------------------- breakdown (SHAP)
+# The mileage line is a what-if: price(actual miles) - price(typical miles for the car's age).
+# SHAP (computed on the typical-miles version of the car) splits out the other buckets.
 BASE_FEATURES = ["make", "model", "trim", "bodyStyle", "drivetrain", "fuelType", "age"]
+MILEAGE_FEATURES = ["mileage", "miles_per_year"]
 BUCKET_FEATURES = {
-    "mileage": ["mileage"],
     "accidents": ["accidentCount"],
     "owners": ["ownerCount"],
     "location": ["sellerState"],
 }
-BUCKET_ORDER = ["mileage", "accidents", "owners", "location"]
+BUCKET_ORDER = ["accidents", "owners", "location"]
+LINE_ORDER = ["mileage", "accidents", "owners", "location"]
+TYPICAL_MILES_MIN_ROWS = 50      # ages with fewer cars fall back to AVG_MILES_PER_YEAR * age
 MIN_LINE_DOLLARS = 100
 ROUND_TO = 100
-AVG_MILES_PER_YEAR = 12_000      # used for "(above/below average)" label
-MILEAGE_LABEL_TOLERANCE = 0.15
+AVG_MILES_PER_YEAR = 12_000      # fallback for typical miles at ages with little data
 MAX_EXPECTED_PRICE_GAP = 0.15    # model vs CarGurus expectedPrice cross-check
 
 # ---------------------------------------------------------------- scenarios.py
@@ -156,13 +162,14 @@ HONEST_SHARE_OF_DEAL_OR_SCAM = 0.5
 TEACHING_WEIGHTS = {"accident": 1.5, "many_owners": 1.0, "high_miles": 1.0, "overpriced": 1.0}
 MANY_OWNERS = 3
 HIGH_MILES = 120_000
-# Difficulty thresholds calibrated on the data (spec values made ~75% of rounds "hard").
+# Difficulty thresholds calibrated on the data (spec values made ~75% of rounds "hard";
+# re-tuned 2026-10-14 after mileage became relative to typical miles for the car's age).
 COMMON_MODEL_MIN_ROWS = 100
 RARE_TRIM_MAX_ROWS = 3
 EASY_MAX_TAGS = 1
-EASY_MAX_ADJ_SHARE = 0.25
+EASY_MAX_ADJ_SHARE = 0.10
 HARD_MIN_TAGS = 3
-HARD_MIN_ADJ_SHARE = 0.45
+HARD_MIN_ADJ_SHARE = 0.35
 PRICE_HINT_LOW = 0.4
 PRICE_HINT_HIGH = 1.8
 PRICE_HINT_ROUND = 1_000

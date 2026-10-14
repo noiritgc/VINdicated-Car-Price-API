@@ -32,29 +32,48 @@ def fake_phi(**values: float) -> pd.Series:
 
 
 # ---------------------------------------------------------------- breakdown
+def typical_price(phi: pd.Series, expected: float) -> float:
+    return math.exp(expected + phi.sum())
+
+
 def test_breakdown_sums_exactly_to_rounded_prediction():
-    phi = fake_phi(model=0.3, age=-0.2, mileage=-0.08, accidentCount=-0.07, ownerCount=-0.03, sellerState=0.02)
+    phi = fake_phi(model=0.3, age=-0.2, mileage=-0.05, accidentCount=-0.07, ownerCount=-0.03, sellerState=0.02)
     expected = math.log(18_000)
-    bd = model_breakdown(car(), phi, expected)
-    prediction = math.exp(expected + phi.sum())
-    assert bd.total == round(prediction / 100) * 100
+    price = typical_price(phi, expected) * 0.93   # actual miles cost 7% vs typical
+    bd = model_breakdown(car(), phi, expected, price, typical=84_000)
+    assert bd.total == round(price / 100) * 100
     assert all(line["amount"] % 100 == 0 for line in bd.lines)
     assert bd.lines[0]["label"].startswith("Base value (2019 Honda Civic EX)")
+    assert bd.buckets[1] == "mileage"              # mileage line comes right after the base
+
+
+def test_mileage_line_is_actual_minus_typical_miles_price():
+    phi = fake_phi(accidentCount=-0.05)
+    expected = math.log(20_000)
+    at_typical = typical_price(phi, expected)
+    bd = model_breakdown(car(mileage=20_000.0, age=0), phi, expected, at_typical - 1_500, typical=6_000)
+    mileage = dict(zip(bd.buckets, bd.lines))["mileage"]
+    assert mileage["amount"] == -1_500
+    assert mileage["label"] == "20k miles (typical for its age: ~6k)"
 
 
 def test_small_adjustments_fold_into_base():
-    phi = fake_phi(mileage=0.001, accidentCount=-0.05)
-    bd = model_breakdown(car(), phi, math.log(20_000))
-    assert "mileage" not in bd.buckets
+    phi = fake_phi(accidentCount=-0.05)
+    expected = math.log(20_000)
+    bd = model_breakdown(car(), phi, expected, typical_price(phi, expected) + 40, typical=84_000)
+    assert "mileage" not in bd.buckets               # $40 is below the $100 line threshold
     assert "accidents" in bd.buckets
-    assert bd.total == round(math.exp(math.log(20_000) + phi.sum()) / 100) * 100
 
 
-def test_mileage_label_never_contradicts_sign():
-    high_miles_but_positive = model_breakdown(car(mileage=150_000.0), fake_phi(mileage=0.05), math.log(20_000))
-    assert high_miles_but_positive.lines[1]["label"] == "150k miles"
-    high_miles_negative = model_breakdown(car(mileage=150_000.0), fake_phi(mileage=-0.05), math.log(20_000))
-    assert "above average" in high_miles_negative.lines[1]["label"]
+def test_typical_miles_table_uses_real_medians_and_never_decreases():
+    from pipeline.breakdown import typical_miles, typical_miles_table
+    df = pd.DataFrame({"age": [0] * 60 + [1] * 60 + [2] * 60 + [3] * 5,
+                       "mileage": [6_000.0] * 60 + [18_000.0] * 60 + [15_000.0] * 60 + [99_000.0] * 5})
+    table = typical_miles_table(df)
+    assert table[0] == 6_000 and table[1] == 18_000
+    assert table[2] == 18_000                        # 15k would be a decrease, so it stays at 18k
+    assert table[3] == 36_000                        # only 5 cars: falls back to 12k/year
+    assert typical_miles(table, 10) == 120_000       # beyond the table: 12k/year
 
 
 def test_percent_line_keeps_sum_exact():
@@ -195,5 +214,6 @@ def test_carfax_rows_clean_without_dev():
 
 def test_accident_label_uses_carfax_detail():
     row = car(accidentCount=1.0, accidentDetail="Accident reported (airbag deployed)")
-    bd = model_breakdown(row, fake_phi(accidentCount=-0.1), math.log(20_000))
+    phi = fake_phi(accidentCount=-0.1)
+    bd = model_breakdown(row, phi, math.log(20_000), typical_price(phi, math.log(20_000)), typical=84_000)
     assert "Accident reported (airbag deployed)" in [line["label"] for line in bd.lines]
