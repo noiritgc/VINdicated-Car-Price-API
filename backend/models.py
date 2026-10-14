@@ -26,6 +26,12 @@ class Photo(BaseModel):
     fallback: str = Field(description="Body style; show a generic image for it when url is null")
 
 
+class BaseValue(BaseModel):
+    amount: int = Field(description="Starting point: typical value of this year/make/model/trim with average "
+                                    "miles, history and location. Equals the first breakdown line.")
+    label: str
+
+
 class PriceRange(BaseModel):
     low: int
     high: int
@@ -52,6 +58,7 @@ class PublicRound(BaseModel):
     seller_type: Literal["dealer", "private"]
     tags: list[str]
     asking_price: int | None
+    base_value: BaseValue
     price_hint_range: PriceRange
     scam: PublicScam | None
     max_score: int

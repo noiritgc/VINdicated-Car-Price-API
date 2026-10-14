@@ -18,6 +18,7 @@ PRICE_ROUND = {
     "mileage": 82000, "state": "CA", "seller_type": "dealer",
     "tags": ["1 accident reported", "3 previous owners", "Clean title"],
     "asking_price": None, "price_hint_range": {"low": 7000, "high": 32000},
+    "base_value": {"amount": 19800, "label": "Typical value of a 2019 Honda Civic EX with average miles, history and location"},
     "fair_price": 16400,
     "breakdown": [{"label": "Base value", "amount": 19800}, {"label": "82k miles", "amount": -3400}],
     "tip": "Always pull a history report.", "tip_source": "FTC", "tip_url": "https://example.org",
@@ -104,6 +105,7 @@ def test_quick_rounds_strip_answers(client):
     assert {r["round_id"] for r in rounds} == {"r_000001", "r_000002"}   # quick pool only
     for r in rounds:
         assert not ANSWER_KEYS & r.keys()
+        assert r["base_value"]["amount"] == 19800       # starting point is shown before guessing
         if r["scam"]:
             assert r["scam"] == {"seller_notes": ["Moving abroad"]}
             assert r["max_score"] == 150

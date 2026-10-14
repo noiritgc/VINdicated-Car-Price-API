@@ -5,51 +5,176 @@
   "description": "One full game round as produced by the pipeline (rounds.json). The API strips answer fields before a guess; see README 'Public round' for the stripped shape.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["round_id", "round_type", "difficulty", "car", "photo", "mileage", "state",
-               "seller_type", "tags", "asking_price", "price_hint_range", "fair_price",
-               "breakdown", "tip", "tip_source", "tip_url", "scam"],
+  "required": [
+    "round_id",
+    "round_type",
+    "difficulty",
+    "car",
+    "photo",
+    "mileage",
+    "state",
+    "seller_type",
+    "tags",
+    "asking_price",
+    "base_value",
+    "price_hint_range",
+    "fair_price",
+    "breakdown",
+    "tip",
+    "tip_source",
+    "tip_url",
+    "scam"
+  ],
   "properties": {
-    "round_id": {"type": "string", "pattern": "^r_[0-9]{6}$"},
-    "round_type": {"enum": ["price_guess", "deal_or_scam"]},
-    "difficulty": {"enum": ["easy", "medium", "hard"]},
+    "round_id": {
+      "type": "string",
+      "pattern": "^r_[0-9]{6}$"
+    },
+    "round_type": {
+      "enum": [
+        "price_guess",
+        "deal_or_scam"
+      ]
+    },
+    "difficulty": {
+      "enum": [
+        "easy",
+        "medium",
+        "hard"
+      ]
+    },
     "car": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["year", "make", "model", "trim", "body_style"],
+      "required": [
+        "year",
+        "make",
+        "model",
+        "trim",
+        "body_style"
+      ],
       "properties": {
-        "year": {"type": "integer", "minimum": 1980},
-        "make": {"type": "string"},
-        "model": {"type": "string"},
-        "trim": {"type": ["string", "null"]},
-        "body_style": {"type": ["string", "null"]}
+        "year": {
+          "type": "integer",
+          "minimum": 1980
+        },
+        "make": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string"
+        },
+        "trim": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "body_style": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
       }
     },
     "photo": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["url", "credit", "fallback"],
+      "required": [
+        "url",
+        "credit",
+        "fallback"
+      ],
       "description": "url/credit are null when no free photo was found; then show a generic image for `fallback` (body style).",
       "properties": {
-        "url": {"type": ["string", "null"]},
-        "credit": {"type": ["string", "null"]},
-        "fallback": {"type": "string"}
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "credit": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "fallback": {
+          "type": "string"
+        }
       }
     },
-    "mileage": {"type": "integer", "minimum": 0},
-    "state": {"type": "string", "pattern": "^[A-Z]{2}$"},
-    "seller_type": {"enum": ["dealer", "private"]},
-    "tags": {"type": "array", "items": {"type": "string"}},
-    "asking_price": {"type": ["integer", "null"], "minimum": 0,
-                     "description": "Set for deal_or_scam rounds, null for price_guess."},
+    "mileage": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "state": {
+      "type": "string",
+      "pattern": "^[A-Z]{2}$"
+    },
+    "seller_type": {
+      "enum": [
+        "dealer",
+        "private"
+      ]
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "asking_price": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0,
+      "description": "Set for deal_or_scam rounds, null for price_guess."
+    },
+    "base_value": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "amount",
+        "label"
+      ],
+      "description": "Shown BEFORE guessing as the starting point: typical value of this year/make/model/trim with average mileage, history and location. Always equals breakdown[0].amount; the player's job is to adjust it for this car's details.",
+      "properties": {
+        "amount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "label": {
+          "type": "string"
+        }
+      }
+    },
     "price_hint_range": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["low", "high"],
+      "required": [
+        "low",
+        "high"
+      ],
       "description": "Slider range for the guess. Based on the model's typical price, not this car's answer.",
-      "properties": {"low": {"type": "integer", "minimum": 0}, "high": {"type": "integer", "minimum": 0}}
+      "properties": {
+        "low": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "high": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
     },
-    "fair_price": {"type": "integer", "minimum": 0,
-                   "description": "Answer. For deal_or_scam this is the car's true value."},
+    "fair_price": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Answer. For deal_or_scam this is the car's true value."
+    },
     "breakdown": {
       "type": "array",
       "minItems": 1,
@@ -57,29 +182,81 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["label", "amount"],
-        "properties": {"label": {"type": "string"}, "amount": {"type": "integer"}}
+        "required": [
+          "label",
+          "amount"
+        ],
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "integer"
+          }
+        }
       }
     },
-    "tip": {"type": "string"},
-    "tip_source": {"type": "string"},
-    "tip_url": {"type": ["string", "null"]},
+    "tip": {
+      "type": "string"
+    },
+    "tip_source": {
+      "type": "string"
+    },
+    "tip_url": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
     "scam": {
       "oneOf": [
-        {"type": "null"},
+        {
+          "type": "null"
+        },
         {
           "type": "object",
           "additionalProperties": false,
-          "required": ["template", "is_scam", "seller_notes", "red_flags", "correct_action", "true_value"],
+          "required": [
+            "template",
+            "is_scam",
+            "seller_notes",
+            "red_flags",
+            "correct_action",
+            "true_value"
+          ],
           "properties": {
-            "template": {"type": "string"},
-            "is_scam": {"type": "boolean"},
-            "seller_notes": {"type": "array", "items": {"type": "string"}, "minItems": 1,
-                             "description": "Shown to the player before guessing (mix of normal and suspicious details)."},
-            "red_flags": {"type": "array", "items": {"type": "string"},
-                          "description": "Answer: which details were warning signs and why. Empty for honest rounds."},
-            "correct_action": {"enum": ["buy", "negotiate", "walk_away"]},
-            "true_value": {"type": "integer", "minimum": 0}
+            "template": {
+              "type": "string"
+            },
+            "is_scam": {
+              "type": "boolean"
+            },
+            "seller_notes": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1,
+              "description": "Shown to the player before guessing (mix of normal and suspicious details)."
+            },
+            "red_flags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Answer: which details were warning signs and why. Empty for honest rounds."
+            },
+            "correct_action": {
+              "enum": [
+                "buy",
+                "negotiate",
+                "walk_away"
+              ]
+            },
+            "true_value": {
+              "type": "integer",
+              "minimum": 0
+            }
           }
         }
       ]
@@ -87,9 +264,33 @@
   },
   "allOf": [
     {
-      "if": {"properties": {"round_type": {"const": "deal_or_scam"}}},
-      "then": {"properties": {"asking_price": {"type": "integer"}, "scam": {"type": "object"}}},
-      "else": {"properties": {"asking_price": {"type": "null"}, "scam": {"type": "null"}}}
+      "if": {
+        "properties": {
+          "round_type": {
+            "const": "deal_or_scam"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "asking_price": {
+            "type": "integer"
+          },
+          "scam": {
+            "type": "object"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "asking_price": {
+            "type": "null"
+          },
+          "scam": {
+            "type": "null"
+          }
+        }
+      }
     }
   ]
 }

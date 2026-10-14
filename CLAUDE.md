@@ -89,7 +89,9 @@ Every team builds against this. Agree on it day 1.
 }
 ```
 (Abbreviated; `shared/round.schema.json` is authoritative. Added vs. original spec: `price_hint_range`,
-`tip_url`, `photo.fallback` (body style when no photo), and scam fields below.)
+`tip_url`, `photo.fallback` (body style when no photo), `base_value` {amount, label}, and scam fields below.)
+`base_value` is PUBLIC (shown before guessing as the starting point) and must equal `breakdown[0].amount`.
+Chosen over MSRP (2026-10-13): MSRP isn't in the data, and the model's base value is what the reveal starts from.
 
 Rules:
 - `breakdown` amounts must sum exactly to `fair_price` (base + adjustments). Round to nearest $100.

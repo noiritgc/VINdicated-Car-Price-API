@@ -15,7 +15,7 @@ import yaml
 from catboost import CatBoostRegressor
 
 from pipeline import config
-from pipeline.breakdown import (Breakdown, add_percent_line, bucket_label, model_breakdown,
+from pipeline.breakdown import (Breakdown, add_percent_line, bucket_label, car_name, model_breakdown,
                                 round_to, shap_values)
 from pipeline.common import log
 from pipeline.photos import load_cache, photo_key
@@ -200,6 +200,8 @@ def build_round(row: pd.Series, phi: pd.Series, expected: float, kind: str, tpl_
         "seller_type": seller,
         "tags": tags,
         "asking_price": asking,
+        "base_value": {"amount": bd.base,
+                       "label": f"Typical value of a {car_name(row)} with average miles, history and location"},
         "price_hint_range": price_hint(ctx["hints"][(row["make"], row["model"])], bd.total, asking),
         "fair_price": bd.total,
         "breakdown": bd.lines,
@@ -234,6 +236,7 @@ def validate(rounds: list[dict]) -> None:
         validator.validate(r)
         total = sum(line["amount"] for line in r["breakdown"])
         assert total == r["fair_price"], f"{r['round_id']}: breakdown {total} != fair {r['fair_price']}"
+        assert r["base_value"]["amount"] == r["breakdown"][0]["amount"], f"{r['round_id']}: base_value mismatch"
     json.dumps(rounds, allow_nan=False)  # raises on NaN
     log(STEP, f"validated {len(rounds)} rounds against {config.SCHEMA_PATH.name}")
 

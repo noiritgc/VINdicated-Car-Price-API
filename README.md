@@ -64,6 +64,7 @@ people to spot used-car scams.
   "seller_type": "private",
   "tags": ["No accidents reported", "1 previous owner", "Clean title"],
   "asking_price": 13400,
+  "base_value": {"amount": 15600, "label": "Typical value of a 2019 Subaru Crosstrek 2.0i Premium AWD with average miles, history and location"},
   "price_hint_range": {"low": 7000, "high": 33000},
   "scam": {"seller_notes": ["Title is 'at the bank'; seller will mail it after you pay", "Wants cash today", "Car runs and drives great"]},
   "max_score": 150
@@ -71,6 +72,10 @@ people to spot used-car scams.
 ```
 
 - `photo.url` can be `null` → show your own generic image for `photo.fallback` (a body style like `sedan`, `suv`, `pickup_truck`). Always show `photo.credit` when present (license requirement).
+- `base_value` is the **starting point** to show before the guess: what this year/make/model/trim is
+  typically worth with average miles, history and location. The player's job is to adjust it for this
+  car's details. It always equals the first line of the revealed `breakdown`, so the reveal reads as
+  "starting point → adjustments → fair price". A good default for the price slider.
 - `price_hint_range` is the slider range. It's based on the model's typical price, not this car's answer.
 - `asking_price` and `scam` are `null` for `price_guess` rounds.
 - For `deal_or_scam` rounds, show `asking_price` and `scam.seller_notes`, and ask the player for **both** a price guess (what the car is really worth) **and** an action: Buy / Negotiate / Walk away. About half of these rounds are honest, so the notes are not always red flags.

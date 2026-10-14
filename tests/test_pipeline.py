@@ -134,6 +134,7 @@ def test_rounds_match_schema_and_sum(rounds_payload):
     for r in rounds_payload["rounds"]:
         validator.validate(r)
         assert sum(line["amount"] for line in r["breakdown"]) == r["fair_price"]
+        assert r["base_value"]["amount"] == r["breakdown"][0]["amount"]
         assert r["price_hint_range"]["low"] <= r["fair_price"] <= r["price_hint_range"]["high"]
 
 

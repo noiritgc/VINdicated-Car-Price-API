@@ -120,7 +120,7 @@ async function start(mode, roundType) {
 function showRound() {
   const r = session.rounds[session.i];
   const { low, high } = r.price_hint_range;
-  const mid = Math.round((low + high) / 2 / 100) * 100;
+  const start = Math.min(Math.max(r.base_value.amount, low), high);  // slider starts at the base value
   const isScam = r.round_type === "deal_or_scam";
   const c = r.car;
   $view.innerHTML = `
@@ -138,9 +138,14 @@ function showRound() {
         <ul>${r.scam.seller_notes.map(n => `<li>${esc(n)}</li>`).join("")}</ul>` : ""}
     </div>
     <div class="card">
+      <div class="muted">Starting point</div>
+      <div class="big">${money(r.base_value.amount)}</div>
+      <div class="muted">${esc(r.base_value.label)}. Adjust for this car's miles, history, location and seller.</div>
+    </div>
+    <div class="card">
       <div>${isScam ? "What is this car really worth?" : "What's a fair price?"}</div>
-      <input type="range" id="slider" min="${low}" max="${high}" step="100" value="${mid}">
-      <div class="row"><input type="number" id="num" value="${mid}" min="1" step="100">
+      <input type="range" id="slider" min="${low}" max="${high}" step="100" value="${start}">
+      <div class="row"><input type="number" id="num" value="${start}" min="1" step="100">
         <span class="muted">${money(low)} – ${money(high)}</span></div>
       ${isScam ? `<div class="row" style="margin-top:10px" id="actions">
         ${["buy","negotiate","walk_away"].map(a => `<button data-a="${a}">${a === "walk_away" ? "Walk away" : a[0].toUpperCase() + a.slice(1)}</button>`).join("")}
