@@ -89,7 +89,10 @@ def bucket_label(bucket: str, row: pd.Series, amount: float = 0.0) -> str:
         return mileage_label(row["mileage"], row["age"], amount)
     if bucket == "accidents":
         n = int(row["accidentCount"])
-        return "No accidents reported" if n == 0 else f"{plural(n, 'accident')} reported"
+        if n == 0:
+            return "No accidents reported"
+        detail = row.get("accidentDetail")
+        return detail if isinstance(detail, str) else f"{plural(n, 'accident')} reported"
     if bucket == "owners":
         return plural(int(row["ownerCount"]), "previous owner")
     if bucket == "location":

@@ -139,5 +139,6 @@ class About(BaseModel):
     name: str
     description: str
     dev_mode: bool | None
+    data_source: str | None
     round_counts: dict
     credits: list[str]

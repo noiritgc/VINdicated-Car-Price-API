@@ -13,6 +13,7 @@ import pandas as pd
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from pipeline import config  # noqa: E402
 from pipeline.clean import clean  # noqa: E402
+from pipeline.sources import from_cargurus  # noqa: E402
 
 # Columns we need populated in most rows (share of rows that must be real values)
 MIN_FILL = {"price": 0.95, "expectedPrice": 0.80, "mileage": 0.9, "year": 0.99, "make": 0.99,
@@ -25,12 +26,13 @@ def load(path: Path) -> pd.DataFrame:
 
 def check(df: pd.DataFrame) -> list[str]:
     problems = []
-    missing = [c for c in config.USED_COLUMNS if c not in df.columns]
+    needed = [c for c in config.USED_COLUMNS if c != "accidentDetail"]
+    missing = [c for c in needed if c not in df.columns]
     if missing:
         problems.append(f"missing columns: {missing}")
 
     print(f"\n{len(df)} rows. Fill rate (real, non-redacted values):")
-    for col in config.USED_COLUMNS:
+    for col in needed:
         if col not in df.columns:
             continue
         s = df[col]
@@ -66,7 +68,7 @@ def main() -> None:
     problems = check(df)
     if not problems:
         print("\nRunning the real (non-dev) cleaning rules on this file:")
-        out = clean(df[config.USED_COLUMNS], dev=False)
+        out = clean(from_cargurus(df), dev=False)
         print(f"  {len(out)} of {len(df)} rows survive cleaning")
     print("\nRESULT:", "READY" if not problems else "NOT READY")
     for p in problems:

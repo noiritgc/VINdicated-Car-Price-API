@@ -26,8 +26,8 @@ ANSWER_FIELDS = ("fair_price", "breakdown", "tip", "tip_source", "tip_url")
 PUBLIC_SCAM_FIELDS = ("seller_notes",)
 
 CREDITS = [
-    "Car listing data: Rebrowser (CarGurus dataset), CC BY-NC 4.0",
-    "Title effects: ForCar open data, CC BY 4.0",
+    "Car values: CARFAX One Price estimates via Rebrowser's Carfax dataset, CC BY-NC 4.0",
+    "Price cross-check: Kelley Blue Book fair price ranges via Rebrowser's AutoTrader dataset, CC BY-NC 4.0",
     "Photos: Wikimedia Commons contributors (credited per photo)",
     "Safety tips: FTC, NHTSA, NICB, NMVTIS",
 ]

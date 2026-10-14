@@ -56,10 +56,23 @@ def _has_tabulate() -> bool:
         return False
 
 
-def build_report(test: pd.DataFrame, cov: dict[str, list[str]], dev: bool) -> str:
-    model_m = metrics(test["price"], test["pred"])
+SOURCE_NOTES = {
+    "carfax": "> Trained on real **CARFAX One Price** value estimates (Rebrowser Carfax sample).",
+    "cargurus": "> Trained on real CarGurus asking prices.",
+}
+
+
+def accuracy_table(test: pd.DataFrame, model_m: dict) -> list[str]:
     bench = test[test["expectedPrice"].notna()]
+    if bench.empty:
+        return ["| metric | our model |", "|---|---|", *[f"| {k} | {v} |" for k, v in model_m.items()]]
     bench_m = metrics(bench["price"], bench["expectedPrice"])
+    return ["| metric | our model | CarGurus expectedPrice |", "|---|---|---|",
+            *[f"| {k} | {model_m[k]} | {bench_m[k]} |" for k in model_m]]
+
+
+def build_report(test: pd.DataFrame, cov: dict[str, list[str]], dev: bool, source: str) -> str:
+    model_m = metrics(test["price"], test["pred"])
     met = model_m["median error (%)"] <= config.TARGET_MEDIAN_ERROR * 100
     worst = test.assign(err=(test["pred"] - test["price"]).abs()).nlargest(config.WORST_N, "pct_err")
     worst = worst[["year", "make", "model", "trim", "mileage", "sellerState", "price", "pred", "pct_err"]]
@@ -70,18 +83,16 @@ def build_report(test: pd.DataFrame, cov: dict[str, list[str]], dev: bool) -> st
         "",
         "> **DEV MODE:** prices are synthetic (free sample has prices redacted). "
         "These numbers only prove the pipeline works; rerun on paid data for real accuracy."
-        if dev else "> Trained on real CarGurus prices.",
+        if dev else SOURCE_NOTES.get(source, ""),
         "",
         "## Test-set accuracy",
         "",
-        "| metric | our model | CarGurus expectedPrice |",
-        "|---|---|---|",
-        *[f"| {k} | {model_m[k]} | {bench_m[k]} |" for k in model_m],
+        *accuracy_table(test, model_m),
         "",
         f"Target median error <= {config.TARGET_MEDIAN_ERROR:.0%}: **{'MET' if met else 'NOT MET'}**",
         "",
-        "Note: the target is the *asking* price. Some error is unavoidable because the same car is "
-        "listed as a great deal by one dealer and overpriced by another.",
+        "Note: some error is unavoidable. Options, condition and local demand aren't in the features, "
+        "so two cars that look identical here can be worth different amounts.",
         "",
         "## Error by make", "", table(grouped_errors(test, "make")), "",
         "## Error by age (years)", "", table(grouped_errors(test, "age_bucket")), "",
@@ -99,6 +110,7 @@ def build_report(test: pd.DataFrame, cov: dict[str, list[str]], dev: bool) -> st
 def main() -> None:
     df = pd.read_parquet(config.CLEAN_PATH).merge(pd.read_parquet(config.SPLIT_PATH), on="listingId")
     dev = bool(df["is_dev"].iloc[0])
+    source = str(df["source"].iloc[0]) if "source" in df.columns else "cargurus"
     model = CatBoostRegressor()
     model.load_model(str(config.MODEL_PATH))
 
@@ -109,7 +121,7 @@ def main() -> None:
 
     cov = coverage(df[df["split"] != "test"])
     config.COVERAGE_PATH.write_text(json.dumps(cov, indent=1))
-    config.REPORT_PATH.write_text(build_report(test, cov, dev))
+    config.REPORT_PATH.write_text(build_report(test, cov, dev, source))
     m = metrics(test["price"], test["pred"])
     log(STEP, f"test rows {m['rows']}, median error {m['median error (%)']}%, "
               f"within 10% {m['within 10% (%)']}%, covered models {len(cov['covered'])}")

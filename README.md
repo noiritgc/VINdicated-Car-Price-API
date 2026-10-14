@@ -13,9 +13,9 @@ Players see a real car (year, make, model, mileage, accidents, owners, title, st
 guess its price, then learn what pushed the price up or down. "Deal or Scam" rounds also teach
 people to spot used-car scams.
 
-> **Status:** fully working end to end on **dev data**. The free CarGurus sample has prices
-> redacted, so prices are currently synthetic (realistic rules). Once the paid dataset is in
-> `pipeline/data/raw/`, one command retrains on real prices. The API shape doesn't change.
+> **Status:** fully working end to end on **real data**. Fair prices come from a CatBoost model
+> trained on ~21,500 real **CARFAX One Price** value estimates (Rebrowser's free Carfax sample):
+> 4.5% median error, 80% of cars within 10%. See `pipeline/data/out/report.md`.
 
 ---
 
@@ -159,7 +159,8 @@ No machine learning runs live. The pipeline runs offline and produces a fixed po
   gift card payment, odometer rollback, flood title wash, curbstoning, hidden lien, VIN mismatch;
   5 honest: overpriced dealer → negotiate, fair dealer, great deal, honest private seller,
   pricey private seller → negotiate). Half of these rounds are honest.
-- Model accuracy is in `pipeline/data/out/report.md` (dev mode: 8.7% median error).
+- Model accuracy is in `pipeline/data/out/report.md`: **4.5% median error** vs Carfax values on held-out
+  cars, plus an independent check against **Kelley Blue Book** fair price ranges (median 4% above KBB's midpoint).
 
 ---
 
@@ -170,11 +171,13 @@ python3.12 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env
 
-# 1. Get the data: put CarGurus .parquet/.csv files in pipeline/data/raw/
-#    (free sample: huggingface.co/datasets/rebrowser/carguruscom-dataset, car-listings/data/)
+# 1. Get the data (free, non-commercial): put the daily .parquet files from
+#    github.com/rebrowser/carfax-dataset (car-listings/data/) in pipeline/data/raw/carfax/
+#    Optional KBB check: github.com/rebrowser/autotrader-dataset -> pipeline/data/raw/autotrader/
 
-# 2. Build rounds (dev = synthetic prices; drop --dev once real prices are present)
-python -m pipeline.run_all --dev
+# 2. Build rounds
+python -m pipeline.run_all
+python scripts/compare_kbb.py        # optional: compare with Kelley Blue Book ranges
 python -m pipeline.photos            # optional, slow first time (cached afterwards)
 
 # 3. Load rounds into the DB and start the API
@@ -185,15 +188,18 @@ uvicorn backend.main:app --reload    # http://localhost:8000/docs and /demo
 pytest
 ```
 
-### Switching to the paid data
+### Data sources
 
-```bash
-python scripts/check_sample.py path/to/purchased.csv    # must print READY
-mv path/to/purchased.csv pipeline/data/raw/             # remove the free sample files first
-python -m pipeline.run_all                              # no --dev
-python -m pipeline.photos
-python -m backend.load_rounds pipeline/data/out/rounds.json --reset
-```
+| Source | Folder | Price used | Notes |
+|---|---|---|---|
+| **Carfax** (default) | `raw/carfax/` | `onePrice`: CARFAX One Price value estimate | Free sample has it unredacted. Accidents = reported / not (with damage severity); owners counted from owner history. |
+| CarGurus | `raw/cargurus/` | `price` (asking price) | Price is a *premium* field (paid). `--source cargurus --dev` runs on the free sample with synthetic prices. |
+| AutoTrader | `raw/autotrader/` | KBB fair price range | Only used by `scripts/compare_kbb.py` as an outside check. |
+
+To use purchased CarGurus data instead: `python scripts/check_sample.py file.csv` (must print READY),
+put it in `raw/cargurus/`, then `python -m pipeline.run_all --source cargurus`.
+
+After any rebuild: `python -m backend.load_rounds pipeline/data/out/rounds.json --reset`.
 
 Optional extra data, used automatically when present in `pipeline/data/raw/`:
 - `forcar_title_effects.csv` (columns `make, model, title_type, pct_change`) → real salvage/rebuilt discounts
@@ -210,8 +216,8 @@ URL (`postgresql+psycopg://…`), run `load_rounds.py` once against it, then dep
 
 ## Data, credits and license
 
-- Car listings: **Rebrowser** CarGurus dataset, **CC BY-NC 4.0** (non-commercial). No monetization
-  without a commercial license.
+- Car values: **CARFAX One Price** estimates via **Rebrowser**'s Carfax dataset; KBB ranges via Rebrowser's
+  AutoTrader dataset. Both **CC BY-NC 4.0** (non-commercial). No monetization without a commercial license.
 - Title effects: **ForCar** open data (CC BY 4.0), when added.
 - Photos: Wikimedia Commons contributors, credited per photo.
 - Safety tips: FTC, NHTSA, NICB, NMVTIS (linked on every tip).

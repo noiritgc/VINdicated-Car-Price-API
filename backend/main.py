@@ -88,6 +88,7 @@ def about(db: DB) -> About:
         name="VINdicated",
         description="Learn what used cars are really worth: guess the price, then see what moved it.",
         dev_mode=value.get("dev_mode"),
+        data_source=value.get("source"),
         round_counts=value.get("counts", {}),
         credits=settings.CREDITS,
     )

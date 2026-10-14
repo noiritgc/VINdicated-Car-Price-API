@@ -40,9 +40,12 @@ def eligible_rows(df: pd.DataFrame, model: CatBoostRegressor) -> pd.DataFrame:
     out = out[(out["make"] + "|" + out["model"]).isin(covered)]
     log(STEP, f"{len(out)} rows in well-covered make/models")
     out["pred"] = predict_price(model, out)
-    gap = (out["pred"] - out["expectedPrice"]).abs() / out["expectedPrice"]
+    # Cross-check against an independent valuation: CarGurus expectedPrice, or for Carfax the
+    # car's own One Price value. Keeps every revealed answer close to a real valuation.
+    reference = out["expectedPrice"].fillna(out["price"])
+    gap = (out["pred"] - reference).abs() / reference
     bad = gap > config.MAX_EXPECTED_PRICE_GAP
-    log(STEP, f"dropping {int(bad.sum())} rows where model and expectedPrice differ by > "
+    log(STEP, f"dropping {int(bad.sum())} rows where the model and the reference valuation differ by > "
               f"{config.MAX_EXPECTED_PRICE_GAP:.0%}")
     return out[~bad.fillna(False)]
 
@@ -202,7 +205,8 @@ def build_round(row: pd.Series, phi: pd.Series, expected: float, kind: str, tpl_
         "asking_price": asking,
         "base_value": {"amount": bd.base,
                        "label": f"Typical value of a {car_name(row)} with average miles, history and location"},
-        "price_hint_range": price_hint(ctx["hints"][(row["make"], row["model"])], bd.total, asking),
+        "price_hint_range": price_hint(
+            ctx["hints"][(row["make"], row["model"], row["year"] // config.PRICE_HINT_YEAR_BUCKET)], bd.total, asking),
         "fair_price": bd.total,
         "breakdown": bd.lines,
         "tip": tip,
@@ -245,6 +249,7 @@ def main() -> None:
     rng = np.random.default_rng(config.SEED)
     df = pd.read_parquet(config.CLEAN_PATH)
     dev = bool(df["is_dev"].iloc[0])
+    source = str(df["source"].iloc[0]) if "source" in df.columns else "cargurus"
     model = CatBoostRegressor()
     model.load_model(str(config.MODEL_PATH))
 
@@ -256,7 +261,8 @@ def main() -> None:
         "model": model,
         "templates": yaml.safe_load(config.SCAM_TEMPLATES_PATH.read_text()),
         "photos": load_cache(),
-        "hints": pool.groupby(["make", "model"])["pred"].median().to_dict(),
+        "hints": pool.assign(yb=pool["year"] // config.PRICE_HINT_YEAR_BUCKET)
+                     .groupby(["make", "model", "yb"])["pred"].median().to_dict(),
         "model_counts": df.groupby(["make", "model"]).size().to_dict(),
         "trim_counts": df.groupby(["make", "model", "trim"]).size().to_dict(),
     }
@@ -276,7 +282,7 @@ def main() -> None:
         "pools": {k: len(v) for k, v in pools.items()},
     }
     meta = {"generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-            "dev_mode": dev, "counts": counts}
+            "dev_mode": dev, "source": source, "counts": counts}
     config.ROUNDS_PATH.write_text(json.dumps({"meta": meta, "pools": pools, "rounds": rounds}, indent=1))
     log(STEP, f"wrote {len(rounds)} rounds to {config.ROUNDS_PATH.name}: {counts}")
 

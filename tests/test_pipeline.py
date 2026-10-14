@@ -155,3 +155,45 @@ def test_deal_or_scam_is_about_half_honest(rounds_payload):
     honest_share = np.mean([not s["is_scam"] for s in scams])
     assert abs(honest_share - config.HONEST_SHARE_OF_DEAL_OR_SCAM) <= 0.05
     assert all(s["true_value"] > 0 for s in scams)
+
+
+# ---------------------------------------------------------------- carfax adapter
+def carfax_raw() -> pd.DataFrame:
+    return pd.DataFrame({
+        "_primaryKey": ["a", "b", "c"], "_firstSeenAt": ["2026-09-01T00:00:00Z"] * 3,
+        "year": [2020, 2018, 2015], "make": ["Toyota", "Ford", "Honda"], "model": ["Camry", "F-150", "Civic"],
+        "trim": ["LE", "Unspecified", "EX"], "subTrim": [None, None, "Sport"],
+        "bodyStyle": ["Sedan", "Pickup", "Sedan"], "drivetrain": ["FWD", "4WD", "FWD"],
+        "fuelType": ["Gasoline"] * 3, "engine": ["4 Cyl", "8 Cyl", "4 Cyl"], "mileage": [40_000.0, 90_000.0, 120_000.0],
+        "onePrice": [21_000.0, None, 9_500.0], "vehicleCondition": ["Used"] * 3,
+        "noAccidents": [True, None, None],
+        "snapshotDamageSeverity": [None, None, "Accident Reported: Minor to Moderate Damage"],
+        "ownerHistory": [['{"ownerNumber":1}'], [], ['{"ownerNumber":1}', '{"ownerNumber":2}', '{"ownerNumber":3}']],
+        "sellerState": ["CA", "TX", "OH"],
+    })
+
+
+def test_carfax_adapter_maps_fields():
+    from pipeline.sources import from_carfax
+    out = from_carfax(carfax_raw())
+    assert list(out.columns) == config.USED_COLUMNS
+    assert out["listingId"].tolist() == ["a", "b", "c"]
+    assert out["price"].tolist()[0] == 21_000 and pd.isna(out["price"].iloc[1])
+    assert out["trim"].iloc[0] == "LE" and pd.isna(out["trim"].iloc[1]) and out["trim"].iloc[2] == "EX Sport"
+    assert out["bodyStyle"].tolist() == ["sedan", "pickup_truck", "sedan"]
+    # accidents: 0 = clean, NaN = unknown, 1 = reported (with a readable label)
+    assert out["accidentCount"].iloc[0] == 0 and pd.isna(out["accidentCount"].iloc[1]) and out["accidentCount"].iloc[2] == 1
+    assert out["accidentDetail"].iloc[2] == "Accident reported (minor to moderate damage)"
+    assert out["ownerCount"].iloc[0] == 1 and pd.isna(out["ownerCount"].iloc[1]) and out["ownerCount"].iloc[2] == 3
+
+
+def test_carfax_rows_clean_without_dev():
+    from pipeline.sources import from_carfax
+    out = clean(from_carfax(carfax_raw()), dev=False)
+    assert out["listingId"].tolist() == ["a", "c"]   # 'b' has no One Price
+
+
+def test_accident_label_uses_carfax_detail():
+    row = car(accidentCount=1.0, accidentDetail="Accident reported (airbag deployed)")
+    bd = model_breakdown(row, fake_phi(accidentCount=-0.1), math.log(20_000))
+    assert "Accident reported (airbag deployed)" in [line["label"] for line in bd.lines]

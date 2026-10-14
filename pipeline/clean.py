@@ -1,8 +1,9 @@
-"""Step 1: load raw CarGurus listings, clean them, write clean.parquet.
+"""Step 1: load raw listings (Carfax or CarGurus), clean them, write clean.parquet.
 
 Usage:
-    python -m pipeline.clean          # real prices required
-    python -m pipeline.clean --dev    # fill synthetic prices (free sample)
+    python -m pipeline.clean                        # Carfax (default): real CARFAX One Price values
+    python -m pipeline.clean --source cargurus      # CarGurus: real prices required (paid)
+    python -m pipeline.clean --source cargurus --dev  # CarGurus free sample with synthetic prices
 """
 from __future__ import annotations
 
@@ -12,7 +13,8 @@ import numpy as np
 import pandas as pd
 
 from pipeline import config
-from pipeline.common import load_raw_listings, log
+from pipeline.common import log
+from pipeline.sources import load_listings
 from pipeline.synthetic import fill_synthetic_prices
 
 STEP = "clean"
@@ -67,7 +69,7 @@ def clean(raw: pd.DataFrame, dev: bool) -> pd.DataFrame:
         log(STEP, f"--dev: filling synthetic prices ({real_prices} rows had real prices; all replaced)")
         df = fill_synthetic_prices(df)
     elif real_prices == 0:
-        raise SystemExit("All prices are redacted. Use --dev or add the paid data to pipeline/data/raw.")
+        raise SystemExit("All prices are redacted. Use --dev, or a source with real prices (e.g. --source carfax).")
 
     df = count(df[df["price"].notna()], "price present")
     df = count(df[df["price"].between(config.MIN_PRICE, config.MAX_PRICE)],
@@ -77,10 +79,13 @@ def clean(raw: pd.DataFrame, dev: bool) -> pd.DataFrame:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--source", choices=config.SOURCES, default=config.DEFAULT_SOURCE)
     parser.add_argument("--dev", action="store_true", help="fill synthetic prices")
     args = parser.parse_args()
-    df = clean(load_raw_listings(), dev=args.dev)
+    log(STEP, f"source={args.source}")
+    df = clean(load_listings(args.source), dev=args.dev)
     df["is_dev"] = args.dev
+    df["source"] = args.source
     config.OUT_DIR.mkdir(parents=True, exist_ok=True)
     df.to_parquet(config.CLEAN_PATH, index=False)
     log(STEP, f"wrote {len(df)} rows to {config.CLEAN_PATH.name} (dev={args.dev})")

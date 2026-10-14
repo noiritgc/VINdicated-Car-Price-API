@@ -51,7 +51,16 @@ CarGurus columns we use:
 
 Free sample note: `price`, `expectedPrice`, `vin`, `images`, `listingUrl`, `dealScore` contain the string `[PREMIUM]` (100% of rows). Treat as missing. `--dev` mode fills synthetic prices so everything runs end-to-end before paid data arrives.
 
-Data facts learned (2026-10-13, free sample = 25,103 rows, Sept 2026, Hugging Face `rebrowser/carguruscom-dataset`):
+**Current data source (decided 2026-10-14): Rebrowser's free Carfax sample** (`github.com/rebrowser/carfax-dataset`,
+26,497 used cars, Sept 2026) in `pipeline/data/raw/carfax/`. Its `onePrice` (CARFAX One Price value estimate) is
+NOT redacted and is the training target. Why: buying CarGurus prices failed: a purchased 50-row export still had
+`price`/`expectedPrice` empty (premium fields need a plan the user won't pay for), and rebrowser.net timed out (524) for
+logged-in pages. Carfax facts: `listingId`/`vin` are premium, so `_primaryKey` is the ID; accidents = `noAccidents`
+True (0) / `snapshotDamageSeverity` set (1, label from severity) / else unknown; owners = len(`ownerHistory`).
+AutoTrader free sample (`raw/autotrader/`) has real KBB fair price ranges → `scripts/compare_kbb.py`.
+CarGurus code path is kept (`--source cargurus`) in case paid data appears later.
+
+CarGurus data facts (2026-10-13, free sample = 25,103 rows, Sept 2026, Hugging Face `rebrowser/carguruscom-dataset`):
 - `priceDifferential` = expectedPrice − price (positive = good deal), despite the dataset's schema.json saying the opposite. Verified against `dealRatingKey`.
 - All sample rows are `sellerType == DEALER`; private-seller rounds come from the scenario discount.
 

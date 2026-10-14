@@ -61,7 +61,7 @@ def _first_year(title: str) -> int | None:
 def _usable(title: str, model: str, longer_models: list[str]) -> bool:
     """Whole-car photo of this model (not a close-up, not e.g. 'Corolla Cross' for 'Corolla')."""
     t = title.lower().replace("_", " ")
-    if not t.endswith((".jpg", ".jpeg", ".png")) or model.lower() not in t:
+    if not t.endswith((".jpg", ".jpeg")) or model.lower() not in t:
         return False
     if any(word in t for word in config.PHOTO_REJECT_WORDS):
         return False

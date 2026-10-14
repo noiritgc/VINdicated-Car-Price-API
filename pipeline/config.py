@@ -21,6 +21,11 @@ LOG_PATH = OUT_DIR / "pipeline.log"
 SCHEMA_PATH = SHARED_DIR / "round.schema.json"
 SCAM_TEMPLATES_PATH = PIPELINE_DIR / "scam_templates.yaml"
 
+# Raw listings live in RAW_DIR/<source>/ (see pipeline/sources.py)
+SOURCES = ("carfax", "cargurus")
+DEFAULT_SOURCE = "carfax"        # free sample with real values; cargurus needs paid premium fields
+KBB_DIR = RAW_DIR / "autotrader"  # AutoTrader sample: real KBB fair price ranges (sanity check only)
+
 # Optional extra sources (used only if present in RAW_DIR)
 CRAIGSLIST_PATH = RAW_DIR / "craigslist_vehicles.csv"
 FORCAR_TITLE_PATH = RAW_DIR / "forcar_title_effects.csv"
@@ -40,7 +45,7 @@ USED_COLUMNS = [
     "listingId", "price", "expectedPrice", "priceDifferential", "dealRatingKey",
     "mileage", "vehicleCondition", "year", "make", "model", "trim", "bodyStyle",
     "drivetrain", "fuelType", "engine", "accidentCount", "ownerCount",
-    "sellerState", "_firstSeenAt",
+    "sellerState", "_firstSeenAt", "accidentDetail",
 ]
 # Columns the paid file must have real values in (checked by scripts/check_sample.py)
 REQUIRED_REAL_COLUMNS = ["price", "expectedPrice"]
@@ -104,7 +109,7 @@ TEST_SHARE = 0.2
 VALID_SHARE_OF_TRAIN = 0.1
 CATBOOST_PARAMS = {
     "loss_function": "RMSE",
-    "iterations": 3000,
+    "iterations": 8000,
     "learning_rate": 0.05,
     "depth": 8,
     "early_stopping_rounds": 150,
@@ -161,6 +166,7 @@ HARD_MIN_ADJ_SHARE = 0.45
 PRICE_HINT_LOW = 0.4
 PRICE_HINT_HIGH = 1.8
 PRICE_HINT_ROUND = 1_000
+PRICE_HINT_YEAR_BUCKET = 3       # hint = typical price of the same model within a few model years
 PRICE_HINT_DEFAULT = (1_000, 80_000)
 
 # ---------------------------------------------------------------- photos.py
@@ -172,5 +178,6 @@ PHOTO_ALLOWED_LICENSE_PREFIXES = ("CC BY", "CC0", "Public domain", "PD")
 PHOTO_REQUEST_PAUSE_S = 1.0
 PHOTO_MAX_RETRIES = 4
 PHOTO_REJECT_WORDS = ("engine", "interior", "dashboard", "badge", "logo", "emblem", "wheel", "seat",
-                      "trunk", "cockpit", "steering", "headlight", "taillight", "detail", "crash", "wreck")
+                      "trunk", "cockpit", "steering", "headlight", "taillight", "detail", "crash", "wreck",
+                      "wordmark", "fielder", "concept", "prototype", "model kit")
 PHOTO_BACKOFF_S = 10.0
