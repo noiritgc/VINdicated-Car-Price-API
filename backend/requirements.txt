@@ -1,0 +1,9 @@
+fastapi>=0.115
+uvicorn[standard]>=0.30
+pydantic>=2.7
+lightgbm>=4.3
+pandas>=2.2
+numpy>=1.26
+# dev / tests
+pytest>=8
+httpx>=0.27

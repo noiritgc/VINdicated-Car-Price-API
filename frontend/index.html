@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Price Check | VINdicated</title>
+<meta name="description" content="VINdicated Price Check: see what a used car is actually worth before you buy.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%239533A5'/%3E%3Cpath d='M9 10l7 13 7-13' fill='none' stroke='white' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #2A0F31;
+    --purple: #9533A5;
+    --purple-dark: #5E1A6B;
+    --lilac: #E5CFE9;
+    --lilac-soft: #FAF4FB;
+    --muted: #6B5570;
+    --white: #FFFFFF;
+    --good: #2F7D4F;
+    --warn: #B4531A;
+    --bad: #B42318;
+    --head: "Plus Jakarta Sans", system-ui, sans-serif;
+    --body: "Figtree", system-ui, sans-serif;
+    --r: 3px;
+    --line: 0.625px solid var(--lilac);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 76px; }
+  body { margin: 0; background: var(--white); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding-left: 24px; padding-right: 24px; }
+  .hidden { display: none !important; }
+  h1, h2, h3 { font-family: var(--head); margin: 0; letter-spacing: -0.01em; }
+
+  /* ---------- Header ---------- */
+  header { border-bottom: var(--line); background: rgba(255,255,255,.96); backdrop-filter: blur(6px); position: sticky; top: 0; z-index: 20; }
+  header .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; gap: 16px; }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; min-width: 0; }
+  .brand svg { flex: none; }
+  .wordmark { font-family: var(--head); font-weight: 700; font-size: 20px; letter-spacing: -0.01em; }
+  .wordmark b { color: var(--purple); font-weight: 800; }
+  .tool-tag { font-size: 13px; font-weight: 600; color: var(--purple); border-left: var(--line); padding-left: 10px; margin-left: 2px; white-space: nowrap; }
+  nav { display: flex; align-items: center; gap: 28px; font-size: 15px; font-weight: 500; }
+  nav a { text-decoration: none; padding: 4px 0; border-bottom: 2px solid transparent; }
+  nav a.link:hover, nav a.link.on { color: var(--purple); border-bottom-color: var(--purple); }
+  .btn { display: inline-flex; align-items: center; gap: 8px; background: var(--purple); color: #fff; border: 0; border-radius: var(--r); padding: 11px 22px; font-family: var(--head); font-weight: 700; font-size: 15px; cursor: pointer; text-decoration: none; transition: background .15s; white-space: nowrap; }
+  .btn:hover { background: var(--purple-dark); }
+  .btn:disabled { opacity: .6; cursor: progress; }
+  .btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--lilac); }
+  .btn.ghost:hover { border-color: var(--purple); color: var(--purple); }
+  nav .btn { padding: 10px 18px; border-bottom: 0; }
+
+  /* ---------- Hero ---------- */
+  .hero { padding-top: 76px; padding-bottom: 44px; }
+  .eyebrow { display: inline-block; font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--purple); margin-bottom: 16px; }
+  h1 { font-weight: 700; font-size: clamp(38px, 6vw, 64px); line-height: 1.05; letter-spacing: -0.025em; max-width: 780px; margin-bottom: 18px; }
+  .lede { font-size: 18px; line-height: 1.6; max-width: 560px; margin: 0; }
+  .facts { display: flex; flex-wrap: wrap; gap: 8px 28px; margin-top: 26px; font-size: 14px; color: var(--muted); }
+  .facts b { color: var(--ink); font-weight: 700; }
+
+  /* ---------- Tool card ---------- */
+  .tool { border: var(--line); border-radius: var(--r); margin-bottom: 96px; }
+  .tool-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: var(--line); padding: 0 28px; }
+  .tabs { display: flex; gap: 4px; overflow-x: auto; }
+  .tab { background: none; border: 0; font-family: var(--body); font-weight: 700; font-size: 15px; color: var(--ink); padding: 16px 12px 14px; cursor: pointer; border-bottom: 2.5px solid transparent; margin-bottom: -1px; white-space: nowrap; }
+  .tab:first-child { padding-left: 0; }
+  .tab.on { color: var(--purple); border-bottom-color: var(--purple); }
+  .status { font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 7px; white-space: nowrap; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: #C8B8CB; }
+  .dot.ok { background: var(--good); box-shadow: 0 0 0 3px rgba(47,125,79,.15); }
+  .dot.err { background: var(--bad); }
+  .cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr); }
+  .panel { padding: 28px; min-width: 0; }
+  .panel + .panel { border-left: var(--line); background: var(--lilac-soft); }
+
+  /* ---------- Form ---------- */
+  .step { display: flex; align-items: baseline; gap: 10px; margin: 0 0 14px; }
+  .step .n { font-family: var(--head); font-weight: 800; font-size: 13px; color: var(--purple); }
+  .step h2 { font-size: 17px; }
+  .step .opt { font-size: 13px; color: var(--muted); font-weight: 500; }
+  .block + .block { border-top: var(--line); padding-top: 22px; margin-top: 8px; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; min-width: 0; }
+  label { font-size: 13px; font-weight: 700; }
+  label .opt { font-weight: 400; color: var(--muted); }
+  input, select, textarea { font-family: var(--body); font-size: 15px; color: var(--ink); background: #fff; border: 1px solid var(--lilac); border-radius: var(--r); padding: 10px 12px; width: 100%; outline: none; transition: border-color .15s, box-shadow .15s; }
+  select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%239533A5' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 34px; }
+  input:focus, select:focus, textarea:focus { border-color: var(--purple); box-shadow: 0 0 0 3px rgba(149,51,165,.14); }
+  input::placeholder { color: #A893AC; }
+  details.specs { margin: 2px 0 6px; }
+  details.specs summary { cursor: pointer; font-weight: 700; font-size: 14px; color: var(--purple); list-style: none; display: inline-flex; align-items: center; gap: 6px; margin-bottom: 14px; }
+  details.specs summary::-webkit-details-marker { display: none; }
+  details.specs summary::before { content: "+"; font-weight: 800; width: 12px; }
+  details.specs[open] summary::before { content: "−"; }
+  .examples { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 22px; }
+  .examples span { font-size: 13px; color: var(--muted); margin-right: 2px; }
+  .chip { font-family: var(--body); font-size: 13px; font-weight: 600; border: 1px solid var(--lilac); background: #fff; color: var(--ink); padding: 6px 10px; border-radius: var(--r); cursor: pointer; }
+  .chip:hover, .chip.on { border-color: var(--purple); color: var(--purple); }
+  .actions { display: flex; gap: 10px; align-items: center; margin-top: 6px; }
+
+  /* ---------- Results ---------- */
+  .empty h3 { font-size: 19px; margin-bottom: 18px; }
+  .empty ol { list-style: none; padding: 0; margin: 0; counter-reset: s; }
+  .empty li { counter-increment: s; display: grid; grid-template-columns: 32px 1fr; gap: 12px; padding: 14px 0; border-top: var(--line); color: var(--muted); }
+  .empty li::before { content: counter(s); font-family: var(--head); font-weight: 800; color: var(--purple); width: 28px; height: 28px; border: 1px solid var(--lilac); border-radius: var(--r); display: grid; place-items: center; font-size: 13px; background: #fff; }
+  .empty li b { color: var(--ink); display: block; }
+  .car-title { font-size: 21px; }
+  .car-sub { color: var(--purple); font-weight: 600; font-size: 14px; margin: 2px 0 22px; }
+  .label-sm { font-size: 13px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+  .price { font-family: var(--head); font-weight: 800; font-size: clamp(46px, 6vw, 62px); letter-spacing: -0.03em; line-height: 1; margin: 8px 0 10px; }
+  .range-txt { font-size: 15px; color: var(--muted); }
+  .range-txt b { color: var(--ink); }
+  .rangebar { position: relative; height: 8px; background: #EFE2F1; border-radius: 4px; margin: 26px 0 10px; }
+  .rangebar .band { position: absolute; top: 0; bottom: 0; background: #D6B3DC; border-radius: 4px; }
+  .rangebar .mk { position: absolute; top: -6px; width: 3px; height: 20px; border-radius: 2px; transform: translateX(-1.5px); }
+  .mk.est { background: var(--purple); } .mk.ask { background: var(--ink); }
+  .legend { display: flex; justify-content: space-between; gap: 10px; font-size: 12px; color: var(--muted); }
+  .legend i { display: inline-block; width: 3px; height: 10px; border-radius: 1px; margin: 0 5px -1px 0; }
+  .deal { margin-top: 22px; background: #fff; border: 1px solid var(--lilac); border-left: 4px solid var(--purple); border-radius: var(--r); padding: 14px 16px; }
+  .deal .v { font-family: var(--head); font-weight: 800; font-size: 17px; text-transform: capitalize; }
+  .deal.good { border-left-color: var(--good); } .deal.good .v { color: var(--good); }
+  .deal.meh { border-left-color: var(--warn); } .deal.meh .v { color: var(--warn); }
+  .deal.bad { border-left-color: var(--bad); } .deal.bad .v { color: var(--bad); }
+  .deal.fair .v { color: var(--purple); }
+  .warn { background: #FFF6ED; border: 1px solid #F5D3B5; color: #7A3A0F; padding: 10px 12px; border-radius: var(--r); font-size: 14px; margin-top: 14px; }
+  .sec-h { font-size: 16px; margin: 32px 0 14px; }
+  .drivers { display: flex; flex-direction: column; gap: 9px; }
+  .drv { display: grid; grid-template-columns: 128px minmax(0,1fr) 76px; align-items: center; gap: 12px; font-size: 14px; }
+  .drv .track { position: relative; height: 10px; }
+  .drv .track::before { content: ""; position: absolute; left: 50%; top: -4px; bottom: -4px; width: 1px; background: #D9C3DD; }
+  .drv .bar { position: absolute; top: 0; height: 10px; border-radius: 2px; }
+  .bar.up { background: var(--purple); left: 50%; }
+  .bar.down { background: #CDA6D4; right: 50%; }
+  .drv .val { text-align: right; font-variant-numeric: tabular-nums; font-weight: 700; }
+  .note { font-size: 12.5px; color: var(--muted); margin-top: 10px; }
+  .chart { background: #fff; border: var(--line); border-radius: var(--r); padding: 12px 10px 4px; }
+  svg text { font-family: var(--body); }
+  details.raw { margin-top: 26px; border-top: var(--line); padding-top: 14px; }
+  details.raw summary { cursor: pointer; font-size: 14px; font-weight: 700; color: var(--purple); }
+  pre { background: var(--ink); color: #F3E6F5; padding: 16px; border-radius: var(--r); overflow: auto; font-size: 12.5px; line-height: 1.55; max-height: 420px; margin: 12px 0 0; }
+  .loading { opacity: .45; transition: opacity .2s; pointer-events: none; }
+
+  /* ---------- Sections ---------- */
+  .section { padding-bottom: 96px; }
+  .section-head { max-width: 680px; margin-bottom: 30px; }
+  .section-head h2 { font-size: clamp(28px, 4vw, 38px); margin-bottom: 10px; }
+  .section-head p { margin: 0; line-height: 1.65; color: var(--ink); }
+  .acc { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 28px; align-items: start; }
+  .stats { display: grid; grid-template-columns: 1fr 1fr; border: var(--line); border-radius: var(--r); }
+  .stat { padding: 22px; }
+  .stat:nth-child(even) { border-left: var(--line); }
+  .stat:nth-child(n+3) { border-top: var(--line); }
+  .stat .n { font-family: var(--head); font-weight: 800; font-size: 34px; color: var(--purple); letter-spacing: -0.02em; }
+  .stat .l { font-size: 14px; margin-top: 2px; }
+  .imp-card { border: var(--line); border-radius: var(--r); padding: 22px; }
+  .imp-card h3 { font-size: 16px; margin-bottom: 14px; }
+  .imp { display: flex; flex-direction: column; gap: 9px; }
+  .imp div { display: grid; grid-template-columns: 130px minmax(0,1fr) 40px; gap: 12px; align-items: center; font-size: 14px; }
+  .imp .b { height: 8px; background: var(--purple); border-radius: 2px; }
+  .imp .p { text-align: right; font-variant-numeric: tabular-nums; color: var(--muted); }
+  .eps { border: var(--line); border-radius: var(--r); }
+  .ep { display: grid; grid-template-columns: 64px minmax(0, 260px) 1fr; gap: 12px; padding: 14px 18px; font-size: 14.5px; align-items: center; }
+  .ep + .ep { border-top: var(--line); }
+  .ep .m { font-family: var(--head); font-weight: 800; font-size: 13px; color: var(--purple); }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13.5px; }
+  .ep code { background: var(--lilac-soft); padding: 3px 7px; border-radius: var(--r); overflow-wrap: anywhere; }
+  .api-foot { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-top: 18px; flex-wrap: wrap; }
+  a.tl { color: var(--purple); font-weight: 700; }
+
+  /* ---------- Footer ---------- */
+  footer { background: var(--ink); color: #fff; padding: 56px 0 32px; }
+  .foot { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 32px; }
+  .foot p { font-size: 15px; line-height: 1.65; opacity: .88; margin: 14px 0 0; max-width: 340px; }
+  .foot h4 { font-family: var(--head); font-size: 15px; margin: 4px 0 14px; }
+  .foot ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; font-size: 15px; }
+  .foot a { text-decoration: none; opacity: .88; } .foot a:hover { opacity: 1; text-decoration: underline; }
+  footer .wordmark b { color: #E3B8EA; }
+  .foot-base { border-top: 1px solid rgba(255,255,255,.18); margin-top: 44px; padding-top: 22px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: 14px; opacity: .85; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 900px) {
+    nav .link { display: none; }
+    .cols, .acc { grid-template-columns: 1fr; }
+    .panel + .panel { border-left: 0; border-top: var(--line); }
+    .foot { grid-template-columns: 1fr 1fr; }
+    .foot > div:first-child { grid-column: 1 / -1; }
+    .ep { grid-template-columns: 52px 1fr; }
+    .ep span:last-child { grid-column: 2; color: var(--muted); }
+  }
+  @media (max-width: 520px) {
+    .wrap { padding-left: 16px; padding-right: 16px; }
+    .tool-tag, nav .btn span { display: none; }
+    .hero { padding-top: 44px; padding-bottom: 28px; }
+    .lede { font-size: 16.5px; }
+    .panel { padding: 22px 16px; }
+    .tool-top { padding: 0 16px; }
+    .status span { display: none; }
+    .row { grid-template-columns: 1fr; gap: 0; }
+    .drv { grid-template-columns: 100px minmax(0,1fr) 66px; font-size: 13px; gap: 8px; }
+    .imp div { grid-template-columns: 110px minmax(0,1fr) 36px; }
+    .stat { padding: 18px 16px; } .stat .n { font-size: 28px; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="VINdicated Price Check home">
+      <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="6" fill="#9533A5"/><path d="M9 10l7 13 7-13" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="wordmark"><b>VIN</b>dicated</span>
+      <span class="tool-tag">Price Check</span>
+    </a>
+    <nav>
+      <a class="link on" href="#estimator">Estimator</a>
+      <a class="link" href="#accuracy">Accuracy</a>
+      <a class="link" href="#api">API</a>
+      <a class="btn" href="https://getvindicated.org/en" target="_blank" rel="noopener"><span>Visit&nbsp;</span>VINdicated ↗</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero wrap">
+    <span class="eyebrow">VINdicated Price Check</span>
+    <h1>Know what the car is actually worth.</h1>
+    <p class="lede">Enter a used car's details to get a fair market price. Add the dealer's asking price and we'll tell you whether it's a deal.</p>
+    <div class="facts">
+      <span>Trained on <b id="nRows">21,532</b> real listings</span>
+      <span><b id="w10">84%</b> of estimates within 10%</span>
+      <span><b>Free</b>, no sign-up</span>
+    </div>
+  </section>
+
+  <section class="wrap" id="estimator">
+    <div class="tool">
+      <div class="tool-top">
+        <div class="tabs" role="tablist">
+          <button class="tab on" data-tab="single" role="tab">Single car</button>
+          <button class="tab" data-tab="batch" role="tab">Batch (JSON)</button>
+        </div>
+        <div class="status" title="Backend status"><i class="dot" id="dot"></i><span id="statusTxt">Connecting…</span></div>
+      </div>
+
+      <!-- Single car -->
+      <div class="cols" id="tab-single">
+        <form class="panel" id="form" autocomplete="off" novalidate>
+          <div class="examples" id="examples"><span>Try an example:</span></div>
+
+          <div class="block">
+            <div class="step"><span class="n">01</span><h2>The car</h2></div>
+            <div class="row">
+              <div class="field"><label for="make">Make</label><select id="make" required></select></div>
+              <div class="field"><label for="model">Model</label><select id="model" required></select></div>
+            </div>
+            <div class="row">
+              <div class="field"><label for="year">Year</label><input id="year" type="number" inputmode="numeric" required></div>
+              <div class="field"><label for="mileage">Mileage</label><input id="mileage" type="number" inputmode="numeric" min="0" step="100" required placeholder="e.g. 42,000"></div>
+            </div>
+            <div class="row">
+              <div class="field"><label for="trim">Trim <span class="opt">optional</span></label><select id="trim"></select></div>
+              <div class="field"><label for="sellerState">Seller state <span class="opt">optional</span></label><select id="sellerState"></select></div>
+            </div>
+            <details class="specs">
+              <summary>Spec details (auto-filled)</summary>
+              <div class="row">
+                <div class="field"><label for="bodyStyle">Body style</label><select id="bodyStyle"></select></div>
+                <div class="field"><label for="drivetrain">Drivetrain</label><select id="drivetrain"></select></div>
+              </div>
+              <div class="row">
+                <div class="field"><label for="fuelType">Fuel</label><select id="fuelType"></select></div>
+                <div class="field"><label for="engine">Engine</label><select id="engine"></select></div>
+              </div>
+            </details>
+          </div>
+
+          <div class="block">
+            <div class="step"><span class="n">02</span><h2>History</h2></div>
+            <div class="row">
+              <div class="field"><label for="accidentCount">Accidents</label>
+                <select id="accidentCount"><option value="">Unknown</option><option value="0" selected>None reported</option><option value="1">Accident or damage reported</option></select></div>
+              <div class="field"><label for="ownerCount">Previous owners</label>
+                <select id="ownerCount"><option value="">Unknown</option><option value="1" selected>1</option><option>2</option><option>3</option><option>4</option><option value="5">5 or more</option></select></div>
+            </div>
+            <div class="field hidden" id="sevWrap"><label for="accidentSeverity">How bad was it?</label>
+              <select id="accidentSeverity"><option value="">Not stated</option><option value="minor">Minor</option><option value="moderate">Moderate</option><option value="severe">Severe</option><option value="airbag">Airbag deployed</option></select></div>
+          </div>
+
+          <div class="block">
+            <div class="step"><span class="n">03</span><h2>Check a listing</h2><span class="opt">optional</span></div>
+            <div class="field"><label for="askingPrice">Asking price ($)</label><input id="askingPrice" type="number" inputmode="numeric" min="0" step="50" placeholder="What the seller wants"></div>
+            <div class="actions">
+              <button class="btn" type="submit" id="go">Get fair price</button>
+              <button class="btn ghost" type="button" id="reset">Reset</button>
+            </div>
+          </div>
+        </form>
+
+        <div class="panel" id="result" aria-live="polite">
+          <div class="empty" id="empty">
+            <h3>Your estimate will show up here</h3>
+            <ol>
+              <li><span><b>Pick the car</b>Make, model, year and mileage are all we need.</span></li>
+              <li><span><b>Add what you know</b>Trim, accidents and owners make the estimate sharper.</span></li>
+              <li><span><b>Paste the asking price</b>We'll tell you if it's a great deal, fair, or overpriced.</span></li>
+            </ol>
+          </div>
+          <div id="out" class="hidden"></div>
+        </div>
+      </div>
+
+      <!-- Batch -->
+      <div class="cols hidden" id="tab-batch">
+        <div class="panel">
+          <div class="step"><span class="n">POST</span><h2>/api/predict/batch</h2></div>
+          <p class="note" style="margin:0 0 14px">Send up to 500 cars at once. Edit the JSON and run it.</p>
+          <textarea id="batchIn" spellcheck="false" style="min-height:360px;font-family:ui-monospace,Menlo,monospace;font-size:13px"></textarea>
+          <div class="actions" style="margin-top:14px"><button class="btn" id="batchGo" type="button">Run batch</button></div>
+        </div>
+        <div class="panel"><div class="step"><span class="n">200</span><h2>Response</h2></div><pre id="batchOut">Run the batch to see the response.</pre></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap section" id="accuracy">
+    <div class="section-head">
+      <h2>How accurate is it?</h2>
+      <p>We test the model only on cars it never saw while training (5-fold cross-validation). Prices are dealer asking prices from CARFAX listings.</p>
+    </div>
+    <div class="acc">
+      <div class="stats" id="stats"></div>
+      <div class="imp-card"><h3>What matters most to the price</h3><div class="imp" id="imp"></div></div>
+    </div>
+  </section>
+
+  <section class="wrap section" id="api">
+    <div class="section-head">
+      <h2>Use the API</h2>
+      <p>The model behind this page is also a JSON API that other tools can call.</p>
+    </div>
+    <div class="eps">
+      <div class="ep"><span class="m">GET</span><code>/api/health</code><span>Status and model version</span></div>
+      <div class="ep"><span class="m">GET</span><code>/api/metadata</code><span>Valid makes, models and trims, plus accuracy stats</span></div>
+      <div class="ep"><span class="m">POST</span><code>/api/predict</code><span>One car: price, range, price drivers, mileage curve, deal verdict</span></div>
+      <div class="ep"><span class="m">POST</span><code>/api/predict/batch</code><span>Up to 500 cars in one call</span></div>
+    </div>
+    <pre id="curl"></pre>
+    <div class="api-foot"><span class="note" style="margin:0">Only make, model, year and mileage are required.</span><a class="tl" href="/docs">Interactive API docs →</a></div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <span class="wordmark"><b>VIN</b>dicated</span>
+        <p>Price Check is a free VINdicated tool that helps you see what a used car is worth before you buy. Estimates are guidance, not an appraisal.</p>
+      </div>
+      <div>
+        <h4>Price Check</h4>
+        <ul><li><a href="#estimator">Estimator</a></li><li><a href="#accuracy">Accuracy</a></li><li><a href="#api">API</a></li><li><a href="/docs">API docs</a></li></ul>
+      </div>
+      <div>
+        <h4>VINdicated</h4>
+        <ul><li><a href="https://getvindicated.org/en" target="_blank" rel="noopener">Home</a></li><li><a href="https://getvindicated.org/en/team" target="_blank" rel="noopener">Team</a></li></ul>
+      </div>
+    </div>
+    <div class="foot-base"><span>© 2026 VINdicated.</span><span id="trained">Model info loading…</span></div>
+  </div>
+</footer>
+
+<script>
+const API = (location.protocol === "file:" ? "http://localhost:8000" : "");
+const $ = id => document.getElementById(id);
+const fmt = n => "$" + Math.round(n).toLocaleString("en-US");
+let META = null;
+
+const EXAMPLES = [
+  { label: "2021 Camry SE", make: "Toyota", model: "Camry", year: 2021, mileage: 42000, trim: "SE", sellerState: "CA", askingPrice: 22900 },
+  { label: "2019 F-150 XLT", make: "Ford", model: "F-150", year: 2019, mileage: 78000, trim: "XLT", sellerState: "TX", askingPrice: 33500 },
+  { label: "2023 Model 3", make: "Tesla", model: "Model 3", year: 2023, mileage: 18000, sellerState: "CA" },
+  { label: "2016 Civic, accident", make: "Honda", model: "Civic", year: 2016, mileage: 112000, accidentCount: "1", accidentSeverity: "moderate", ownerCount: "3" },
+];
+
+// Feature -> friendly group (mirrors the API's driver groups)
+const GROUPS = { year: "Model year", age: "Model year", mileage: "Mileage", log_mileage: "Mileage", miles_per_year: "Mileage",
+  make: "Make & model", model: "Make & model", make_model: "Make & model", trim: "Trim", engine: "Engine",
+  bodyStyle: "Body style", drivetrain: "Drivetrain", fuelType: "Fuel type", sellerState: "Seller location",
+  ownerCount: "Owners", accidentCount: "Accident history", accident_severity: "Accident history" };
+
+function opts(sel, values, { blank, selected } = {}) {
+  sel.innerHTML = (blank ? `<option value="">${blank}</option>` : "") +
+    values.map(v => `<option${v === selected ? " selected" : ""}>${v}</option>`).join("");
+}
+function onMake() { opts($("model"), Object.keys(META.catalog[$("make").value] || {}).sort()); onModel(); }
+function onModel() {
+  const c = META.catalog[$("make").value]?.[$("model").value];
+  if (!c) return;
+  opts($("trim"), c.trims, { blank: "Any / not sure" });
+  opts($("bodyStyle"), META.bodyStyles, { selected: c.bodyStyles[0] });
+  opts($("drivetrain"), META.drivetrains, { selected: c.drivetrains[0] });
+  opts($("fuelType"), META.fuelTypes, { selected: c.fuelTypes[0] });
+  opts($("engine"), META.engines, { selected: c.engines[0] });
+  $("year").min = 1980; $("year").max = META.ranges.year[1] + 1;
+  $("year").placeholder = `${c.years[0]}–${c.years[1]}`;
+  if (!$("year").value) $("year").value = c.years[1] - 2;
+}
+function toggleSev() { $("sevWrap").classList.toggle("hidden", $("accidentCount").value !== "1"); }
+
+function applyExample(i) {
+  const p = EXAMPLES[i];
+  document.querySelectorAll(".chip").forEach((c, j) => c.classList.toggle("on", j === i));
+  $("make").value = p.make; onMake();
+  $("model").value = p.model; onModel();
+  $("year").value = p.year; $("mileage").value = p.mileage;
+  $("trim").value = p.trim || ""; $("sellerState").value = p.sellerState || "";
+  $("accidentCount").value = p.accidentCount ?? "0"; $("accidentSeverity").value = p.accidentSeverity || "";
+  $("ownerCount").value = p.ownerCount ?? "1"; $("askingPrice").value = p.askingPrice || "";
+  toggleSev(); submit();
+}
+
+function payload() {
+  const v = id => $(id).value;
+  const p = { make: v("make"), model: v("model"), year: +v("year"), mileage: +v("mileage") };
+  ["trim", "bodyStyle", "drivetrain", "fuelType", "engine", "sellerState", "accidentSeverity"].forEach(k => { if (v(k)) p[k] = v(k); });
+  if (v("accidentCount") !== "") p.accidentCount = +v("accidentCount");
+  if (v("ownerCount") !== "") p.ownerCount = +v("ownerCount");
+  if (v("askingPrice")) p.askingPrice = +v("askingPrice");
+  return p;
+}
+
+async function submit(e) {
+  e && e.preventDefault();
+  if (!META) return;
+  if (!$("form").reportValidity()) return;
+  const body = payload();
+  $("go").disabled = true; $("go").textContent = "Pricing…"; $("out").classList.add("loading");
+  try {
+    const r = await fetch(API + "/api/predict", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+    const j = await r.json();
+    if (!r.ok) throw new Error(Array.isArray(j.detail) ? j.detail.map(d => `${d.loc.at(-1)}: ${d.msg}`).join("; ") : (j.detail || r.statusText));
+    render(j, body);
+  } catch (err) {
+    showOut(`<div class="warn"><b>Couldn't get a price.</b> ${esc(err.message)}</div>`);
+  } finally { $("go").disabled = false; $("go").textContent = "Get fair price"; $("out").classList.remove("loading"); }
+}
+
+function showOut(html) {
+  $("empty").classList.add("hidden"); $("out").classList.remove("hidden"); $("out").innerHTML = html;
+  if (window.innerWidth < 900) $("result").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function render(j, req) {
+  const lo = j.price_range.low, hi = j.price_range.high, p = j.predicted_price, ask = j.deal?.askingPrice;
+  const min = Math.min(lo, ask ?? lo) * 0.92, max = Math.max(hi, ask ?? hi) * 1.08;
+  const pos = x => ((x - min) / (max - min) * 100).toFixed(2) + "%";
+  const cls = { "great deal": "good", "good deal": "good", "fair price": "fair", "above market": "meh", "overpriced": "bad" };
+  const title = `${req.year} ${req.make} ${req.model}${req.trim ? " " + req.trim : ""}`;
+  const sub = [Number(req.mileage).toLocaleString() + " miles", req.sellerState,
+    req.accidentCount === 1 ? "accident reported" : req.accidentCount === 0 ? "no accidents" : null,
+    req.ownerCount ? `${req.ownerCount}${req.ownerCount >= 5 ? "+" : ""} owner${req.ownerCount > 1 ? "s" : ""}` : null].filter(Boolean).join(" · ");
+
+  let h = `<h3 class="car-title">${esc(title)}</h3><p class="car-sub">${esc(sub)}</p>
+    <div class="label-sm">Fair market price</div>
+    <div class="price">${fmt(p)}</div>
+    <div class="range-txt">Likely range <b>${fmt(lo)} – ${fmt(hi)}</b></div>
+    <div class="rangebar" aria-hidden="true">
+      <div class="band" style="left:${pos(lo)};width:calc(${pos(hi)} - ${pos(lo)})"></div>
+      <div class="mk est" style="left:${pos(p)}"></div>
+      ${ask ? `<div class="mk ask" style="left:${pos(ask)}"></div>` : ""}
+    </div>
+    <div class="legend"><span><i style="background:#D6B3DC;width:10px"></i>80% of similar cars</span>
+      <span><i style="background:var(--purple)"></i>estimate${ask ? `&nbsp;&nbsp;<i style="background:var(--ink)"></i>asking` : ""}</span></div>`;
+
+  if (j.deal) {
+    const d = j.deal;
+    h += `<div class="deal ${cls[d.verdict]}"><div class="v">${d.verdict}</div>
+      Asking ${fmt(d.askingPrice)} is <b>${fmt(Math.abs(d.difference_usd))} (${Math.abs(d.difference_pct)}%) ${d.difference_usd < 0 ? "below" : "above"}</b> our estimate.</div>`;
+  }
+  j.warnings.forEach(w => h += `<div class="warn">${esc(w)}</div>`);
+
+  if (j.drivers.length) {
+    const m = Math.max(...j.drivers.map(d => Math.abs(d.effect_pct)), 1);
+    h += `<h3 class="sec-h">What's moving the price</h3><div class="drivers">` + j.drivers.map(d => {
+      const w = (Math.abs(d.effect_pct) / m * 50).toFixed(1), up = d.effect_usd >= 0;
+      return `<div class="drv"><span>${d.factor}</span><div class="track"><div class="bar ${up ? "up" : "down"}" style="width:${w}%"></div></div>
+        <span class="val" style="color:${up ? "var(--purple)" : "var(--muted)"}">${up ? "+" : "−"}${fmt(Math.abs(d.effect_usd))}</span></div>`;
+    }).join("") + `</div><p class="note">Compared with an average car in the data. Bars to the right raise the price; bars to the left lower it.</p>`;
+  }
+  if (j.mileage_curve.length) h += `<h3 class="sec-h">Same car at different mileage</h3><div class="chart">${chart(j.mileage_curve, req.mileage, p)}</div>`;
+  h += `<details class="raw"><summary>View raw API request &amp; response</summary>
+    <pre>POST /api/predict\n${esc(JSON.stringify(req, null, 2))}\n\n→ 200 OK\n${esc(JSON.stringify(j, null, 2))}</pre></details>`;
+  showOut(h);
+}
+
+function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]); }
+
+function chart(pts, curMiles, curPrice) {
+  const W = 480, H = 210, L = 46, R = 22, T = 16, B = 28;
+  const xs = pts.map(p => p.mileage), ys = pts.map(p => p.price);
+  const xMax = Math.max(...xs), yMin = Math.min(...ys) * 0.9, yMax = Math.max(...ys) * 1.06;
+  const x = v => L + v / xMax * (W - L - R), y = v => T + (1 - (v - yMin) / (yMax - yMin)) * (H - T - B);
+  const path = pts.map((p, i) => (i ? "L" : "M") + x(p.mileage).toFixed(1) + "," + y(p.price).toFixed(1)).join("");
+  const ticksY = [0, 0.5, 1].map(t => yMin + t * (yMax - yMin));
+  const ticksX = [0, 50000, 100000, 150000, 200000].filter(t => t <= xMax);
+  const lx = x(curMiles) > W * 0.6 ? x(curMiles) - 10 : x(curMiles) + 10, anchor = x(curMiles) > W * 0.6 ? "end" : "start";
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Estimated price versus mileage">
+    <defs><linearGradient id="g" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#9533A5" stop-opacity=".16"/><stop offset="1" stop-color="#9533A5" stop-opacity="0"/></linearGradient></defs>
+    ${ticksY.map(v => `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" stroke="#EEDDF0"/><text x="${L - 8}" y="${y(v) + 4}" text-anchor="end" font-size="11" fill="#6B5570">$${Math.round(v / 1000)}k</text>`).join("")}
+    ${ticksX.map(v => `<text x="${x(v)}" y="${H - 8}" text-anchor="middle" font-size="11" fill="#6B5570">${v ? v / 1000 + "k" : "0"} mi</text>`).join("")}
+    <path d="${path}L${x(xMax)},${H - B}L${x(0)},${H - B}Z" fill="url(#g)"/>
+    <path d="${path}" fill="none" stroke="#9533A5" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+    <line x1="${x(curMiles)}" x2="${x(curMiles)}" y1="${y(curPrice)}" y2="${H - B}" stroke="#2A0F31" stroke-dasharray="3 3" stroke-opacity=".4"/>
+    <circle cx="${x(curMiles)}" cy="${y(curPrice)}" r="5.5" fill="#fff" stroke="#2A0F31" stroke-width="2.5"/>
+    <text x="${lx}" y="${y(curPrice) - 10}" text-anchor="${anchor}" font-size="12" font-weight="700" fill="#2A0F31">This car · ${fmt(curPrice)}</text>
+  </svg>`;
+}
+
+function renderAccuracy(m) {
+  $("stats").innerHTML = [
+    [(m.median_ape * 100).toFixed(1) + "%", "typical error (median)"],
+    [(m.within_10pct * 100).toFixed(0) + "%", "of cars priced within 10%"],
+    [fmt(m.mae), "average miss in dollars"],
+    [m.r2.toFixed(2), "R², price variation explained"],
+  ].map(([n, l]) => `<div class="stat"><div class="n">${n}</div><div class="l">${l}</div></div>`).join("");
+  const g = {};
+  Object.entries(META.featureImportance).forEach(([k, v]) => { const n = GROUPS[k] || k; g[n] = (g[n] || 0) + v; });
+  const rows = Object.entries(g).sort((a, b) => b[1] - a[1]).slice(0, 7), top = rows[0][1];
+  $("imp").innerHTML = rows.map(([k, v]) => `<div><span>${k}</span><div class="b" style="width:${(v / top * 100).toFixed(0)}%"></div><span class="p">${Math.round(v * 100)}%</span></div>`).join("");
+}
+
+async function init() {
+  try {
+    const r = await fetch(API + "/api/metadata");
+    if (!r.ok) throw new Error(r.statusText);
+    META = await r.json();
+    $("dot").className = "dot ok"; $("statusTxt").textContent = "Model online";
+  } catch (e) {
+    $("dot").className = "dot err"; $("statusTxt").textContent = "Offline";
+    $("empty").innerHTML = `<h3>Can't reach the price model</h3><p class="note" style="font-size:15px">Start the backend from the project folder with <code>uvicorn backend.app:app --port 8000</code>, then refresh this page.</p>`;
+    return;
+  }
+  $("nRows").textContent = META.trainingRows.toLocaleString();
+  $("w10").textContent = Math.round(META.metrics.within_10pct * 100) + "%";
+  $("trained").textContent = `Model trained ${new Date(META.trainedAt).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" })} on ${META.trainingRows.toLocaleString()} listings`;
+  opts($("make"), Object.keys(META.catalog).sort(), { selected: "Toyota" });
+  opts($("sellerState"), META.states, { blank: "Any" });
+  onMake();
+  $("examples").insertAdjacentHTML("beforeend", EXAMPLES.map((p, i) => `<button type="button" class="chip" data-i="${i}">${p.label}</button>`).join(""));
+  $("examples").onclick = e => { const b = e.target.closest(".chip"); if (b) applyExample(+b.dataset.i); };
+  renderAccuracy(META.metrics);
+  $("batchIn").value = JSON.stringify({ cars: EXAMPLES.map(({ label, askingPrice, accidentCount, ownerCount, ...c }) =>
+    ({ ...c, accidentCount: accidentCount ? +accidentCount : 0, ...(ownerCount ? { ownerCount: +ownerCount } : {}) })) }, null, 2);
+  const origin = location.origin.startsWith("http") ? location.origin : "http://localhost:8000";
+  $("curl").textContent = `curl -X POST ${origin}/api/predict \\\n  -H "Content-Type: application/json" \\\n  -d '{"make":"Toyota","model":"Camry","year":2021,"mileage":42000,"trim":"SE","askingPrice":22900}'`;
+}
+
+$("make").onchange = onMake;
+$("model").onchange = () => { $("year").value = ""; onModel(); };
+$("accidentCount").onchange = toggleSev;
+$("form").onsubmit = submit;
+$("reset").onclick = () => {
+  $("form").reset(); onMake(); toggleSev();
+  document.querySelectorAll(".chip").forEach(c => c.classList.remove("on"));
+  $("out").classList.add("hidden"); $("empty").classList.remove("hidden");
+};
+document.querySelectorAll(".tab").forEach(t => t.onclick = () => {
+  document.querySelectorAll(".tab").forEach(x => x.classList.toggle("on", x === t));
+  $("tab-single").classList.toggle("hidden", t.dataset.tab !== "single");
+  $("tab-batch").classList.toggle("hidden", t.dataset.tab !== "batch");
+});
+$("batchGo").onclick = async () => {
+  $("batchOut").textContent = "Running…";
+  try {
+    const r = await fetch(API + "/api/predict/batch", { method: "POST", headers: { "Content-Type": "application/json" }, body: $("batchIn").value });
+    $("batchOut").textContent = JSON.stringify(await r.json(), null, 2);
+  } catch (e) { $("batchOut").textContent = "Error: " + e.message; }
+};
+// Highlight the nav link for the section in view
+const links = [...document.querySelectorAll("nav .link")];
+const spy = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) links.forEach(l => l.classList.toggle("on", l.getAttribute("href") === "#" + e.target.id));
+}), { rootMargin: "-40% 0px -55% 0px" });
+["estimator", "accuracy", "api"].forEach(id => spy.observe($(id)));
+init();
+</script>
+</body>
+</html>

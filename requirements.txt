@@ -1,0 +1,4 @@
+# Backend API dependencies
+-r backend/requirements.txt
+# Training only
+scikit-learn>=1.4
