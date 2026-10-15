@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+catboost_info/
+
+# Secrets
+.env
+
+# Data (licensed, never commit)
+pipeline/data/raw/
+pipeline/data/out/*.parquet
+pipeline/data/out/*.cbm
+pipeline/data/out/pipeline.log
+
+# Local DB
+*.db
+
+.DS_Store
+
+# CSV exports of licensed data (never commit)
+exports/
