@@ -1,0 +1,92 @@
+{
+  "estimated_price": 22664.55,
+  "currency": "USD",
+  "prediction_interval": {
+    "lower": 19209.41,
+    "upper": 26741.16,
+    "nominal_coverage": 0.9,
+    "method": "split conformal (log-price)"
+  },
+  "support": {
+    "same_make_model_training_rows": 75,
+    "level": "moderate"
+  },
+  "influences": [
+    {
+      "feature": "year",
+      "value": 2025,
+      "log_price_contribution": 0.1698,
+      "direction": "up"
+    },
+    {
+      "feature": "engine",
+      "value": "4 Cyl",
+      "log_price_contribution": -0.1358,
+      "direction": "down"
+    },
+    {
+      "feature": "mileage",
+      "value": 43537.0,
+      "log_price_contribution": 0.0929,
+      "direction": "up"
+    },
+    {
+      "feature": "make",
+      "value": "Hyundai",
+      "log_price_contribution": -0.0897,
+      "direction": "down"
+    },
+    {
+      "feature": "drivetrain",
+      "value": "Front-Wheel Drive",
+      "log_price_contribution": -0.0859,
+      "direction": "down"
+    }
+  ],
+  "explanation_note": "SHAP contributions are relative to the model baseline in log-price space; they are not causal price effects.",
+  "comparables": [
+    {
+      "year": 2025,
+      "make": "Hyundai",
+      "model": "Tucson",
+      "trim": "SEL",
+      "mileage": 40148,
+      "reference_price": 25010.0,
+      "sellerState": "CA"
+    },
+    {
+      "year": 2025,
+      "make": "Hyundai",
+      "model": "Tucson",
+      "trim": "SEL",
+      "mileage": 39930,
+      "reference_price": 24050.0,
+      "sellerState": "NV"
+    },
+    {
+      "year": 2025,
+      "make": "Hyundai",
+      "model": "Tucson",
+      "trim": "SEL",
+      "mileage": 48499,
+      "reference_price": 23640.0,
+      "sellerState": "IN"
+    },
+    {
+      "year": 2025,
+      "make": "Hyundai",
+      "model": "Tucson",
+      "trim": "SEL",
+      "mileage": 50562,
+      "reference_price": 22510.0,
+      "sellerState": "NY"
+    }
+  ],
+  "warnings": [
+    "Unspecified features are treated as unknown: accidentDetail"
+  ],
+  "model_version": "1.0.0",
+  "target": "CARFAX reference price; not a sale-price appraisal",
+  "reference_year": 2026,
+  "batch_processing_ms": 233.8
+}

@@ -1,0 +1,760 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "AutoLens Vehicle Valuation API",
+    "description": "Predict the supplied CARFAX reference-price target. Includes calibrated ranges, training comparables, batch inference, and held-out demo cases.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/v1/health": {
+      "get": {
+        "summary": "Health",
+        "operationId": "health_api_v1_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/metrics": {
+      "get": {
+        "summary": "Metrics",
+        "operationId": "metrics_api_v1_metrics_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/catalog": {
+      "get": {
+        "summary": "Catalog",
+        "operationId": "catalog_api_v1_catalog_get",
+        "parameters": [
+          {
+            "name": "make",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Make"
+            }
+          },
+          {
+            "name": "model",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Model"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/cases": {
+      "get": {
+        "summary": "Cases",
+        "operationId": "cases_api_v1_cases_get",
+        "parameters": [
+          {
+            "name": "count",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 20,
+              "minimum": 1,
+              "default": 1,
+              "title": "Count"
+            }
+          },
+          {
+            "name": "seed",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "maximum": 4294967295,
+                  "minimum": 0
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Seed"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/predict": {
+      "post": {
+        "summary": "Predict",
+        "operationId": "predict_api_v1_predict_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Vehicle"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Valuation"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/predict/batch": {
+      "post": {
+        "summary": "Batch Predict",
+        "operationId": "batch_predict_api_v1_predict_batch_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Batch"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BatchValuation"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AskingComparison": {
+        "properties": {
+          "asking_price": {
+            "type": "number",
+            "title": "Asking Price"
+          },
+          "difference_usd": {
+            "type": "number",
+            "title": "Difference Usd"
+          },
+          "difference_percent": {
+            "type": "number",
+            "title": "Difference Percent"
+          },
+          "position": {
+            "type": "string",
+            "title": "Position"
+          }
+        },
+        "type": "object",
+        "required": [
+          "asking_price",
+          "difference_usd",
+          "difference_percent",
+          "position"
+        ],
+        "title": "AskingComparison"
+      },
+      "Batch": {
+        "properties": {
+          "vehicles": {
+            "items": {
+              "$ref": "#/components/schemas/Vehicle"
+            },
+            "type": "array",
+            "maxItems": 100,
+            "minItems": 1,
+            "title": "Vehicles"
+          }
+        },
+        "type": "object",
+        "required": [
+          "vehicles"
+        ],
+        "title": "Batch"
+      },
+      "BatchValuation": {
+        "properties": {
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          },
+          "predictions": {
+            "items": {
+              "$ref": "#/components/schemas/Valuation"
+            },
+            "type": "array",
+            "title": "Predictions"
+          }
+        },
+        "type": "object",
+        "required": [
+          "count",
+          "predictions"
+        ],
+        "title": "BatchValuation"
+      },
+      "Comparable": {
+        "properties": {
+          "year": {
+            "type": "integer",
+            "title": "Year"
+          },
+          "make": {
+            "type": "string",
+            "title": "Make"
+          },
+          "model": {
+            "type": "string",
+            "title": "Model"
+          },
+          "trim": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trim"
+          },
+          "mileage": {
+            "type": "integer",
+            "title": "Mileage"
+          },
+          "reference_price": {
+            "type": "number",
+            "title": "Reference Price"
+          },
+          "sellerState": {
+            "type": "string",
+            "title": "Sellerstate"
+          }
+        },
+        "type": "object",
+        "required": [
+          "year",
+          "make",
+          "model",
+          "trim",
+          "mileage",
+          "reference_price",
+          "sellerState"
+        ],
+        "title": "Comparable"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "Influence": {
+        "properties": {
+          "feature": {
+            "type": "string",
+            "title": "Feature"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value"
+          },
+          "log_price_contribution": {
+            "type": "number",
+            "title": "Log Price Contribution"
+          },
+          "direction": {
+            "type": "string",
+            "title": "Direction"
+          }
+        },
+        "type": "object",
+        "required": [
+          "feature",
+          "value",
+          "log_price_contribution",
+          "direction"
+        ],
+        "title": "Influence"
+      },
+      "PriceInterval": {
+        "properties": {
+          "lower": {
+            "type": "number",
+            "title": "Lower"
+          },
+          "upper": {
+            "type": "number",
+            "title": "Upper"
+          },
+          "nominal_coverage": {
+            "type": "number",
+            "title": "Nominal Coverage"
+          },
+          "method": {
+            "type": "string",
+            "title": "Method"
+          }
+        },
+        "type": "object",
+        "required": [
+          "lower",
+          "upper",
+          "nominal_coverage",
+          "method"
+        ],
+        "title": "PriceInterval"
+      },
+      "TrainingSupport": {
+        "properties": {
+          "same_make_model_training_rows": {
+            "type": "integer",
+            "title": "Same Make Model Training Rows"
+          },
+          "level": {
+            "type": "string",
+            "title": "Level"
+          }
+        },
+        "type": "object",
+        "required": [
+          "same_make_model_training_rows",
+          "level"
+        ],
+        "title": "TrainingSupport"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "Valuation": {
+        "properties": {
+          "estimated_price": {
+            "type": "number",
+            "title": "Estimated Price"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency"
+          },
+          "prediction_interval": {
+            "$ref": "#/components/schemas/PriceInterval"
+          },
+          "support": {
+            "$ref": "#/components/schemas/TrainingSupport"
+          },
+          "influences": {
+            "items": {
+              "$ref": "#/components/schemas/Influence"
+            },
+            "type": "array",
+            "title": "Influences"
+          },
+          "explanation_note": {
+            "type": "string",
+            "title": "Explanation Note"
+          },
+          "comparables": {
+            "items": {
+              "$ref": "#/components/schemas/Comparable"
+            },
+            "type": "array",
+            "title": "Comparables"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings"
+          },
+          "model_version": {
+            "type": "string",
+            "title": "Model Version"
+          },
+          "target": {
+            "type": "string",
+            "title": "Target"
+          },
+          "reference_year": {
+            "type": "integer",
+            "title": "Reference Year"
+          },
+          "asking_price_comparison": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AskingComparison"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "batch_processing_ms": {
+            "type": "number",
+            "title": "Batch Processing Ms"
+          }
+        },
+        "type": "object",
+        "required": [
+          "estimated_price",
+          "currency",
+          "prediction_interval",
+          "support",
+          "influences",
+          "explanation_note",
+          "comparables",
+          "warnings",
+          "model_version",
+          "target",
+          "reference_year",
+          "batch_processing_ms"
+        ],
+        "title": "Valuation"
+      },
+      "Vehicle": {
+        "properties": {
+          "year": {
+            "type": "integer",
+            "maximum": 2027.0,
+            "minimum": 1980.0,
+            "title": "Year"
+          },
+          "make": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Make"
+          },
+          "model": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Model"
+          },
+          "mileage": {
+            "type": "number",
+            "maximum": 1000000.0,
+            "minimum": 0.0,
+            "title": "Mileage"
+          },
+          "trim": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trim"
+          },
+          "bodyStyle": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Bodystyle"
+          },
+          "drivetrain": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Drivetrain"
+          },
+          "fuelType": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fueltype"
+          },
+          "engine": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Engine"
+          },
+          "sellerState": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z]{2}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sellerstate"
+          },
+          "accidentCount": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 50.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Accidentcount"
+          },
+          "accidentDetail": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Accidentdetail"
+          },
+          "ownerCount": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 50.0,
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ownercount"
+          },
+          "askingPrice": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 10000000.0,
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Askingprice"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "year",
+          "make",
+          "model",
+          "mileage"
+        ],
+        "title": "Vehicle",
+        "examples": [
+          {
+            "accidentCount": 0,
+            "make": "Toyota",
+            "mileage": 42000,
+            "model": "Camry",
+            "ownerCount": 1,
+            "sellerState": "CA",
+            "trim": "SE",
+            "year": 2022
+          }
+        ]
+      }
+    }
+  }
+}

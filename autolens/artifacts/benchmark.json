@@ -1,0 +1,6 @@
+{
+  "requests": 20,
+  "median_ms": 55.44,
+  "p95_ms": 106.92,
+  "environment": "In-process FastAPI TestClient, sequential, warm model; includes SHAP and comparable retrieval. Not a network or load benchmark."
+}

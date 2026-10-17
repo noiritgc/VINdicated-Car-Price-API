@@ -1,0 +1,130 @@
+{
+  "model": "CatBoost log-price regressor",
+  "model_version": "1.0.0",
+  "target": "carfax_one_price (supplied CARFAX reference price, not completed sale price)",
+  "input_rows": 21532,
+  "eligible_rows": 21519,
+  "duplicate_or_invalid_rows_removed": 13,
+  "train_rows": 15063,
+  "calibration_rows": 3228,
+  "test_rows": 3228,
+  "split": "70/15/15 random, deduplicated on first 17 key characters; seeds 42/43",
+  "reference_year": 2026,
+  "features": [
+    "year",
+    "mileage",
+    "accidentCount",
+    "ownerCount",
+    "make",
+    "model",
+    "trim",
+    "bodyStyle",
+    "drivetrain",
+    "fuelType",
+    "engine",
+    "sellerState",
+    "accidentDetail"
+  ],
+  "test": {
+    "mae_usd": 2421.37,
+    "rmse_usd": 5304.99,
+    "r2": 0.9209,
+    "median_absolute_percentage_error": 5.21
+  },
+  "median_baseline_test": {
+    "mae_usd": 12498.13,
+    "rmse_usd": 19377.55,
+    "r2": -0.0551,
+    "median_absolute_percentage_error": 31.8
+  },
+  "make_model_baseline_test": {
+    "mae_usd": 8801.71,
+    "rmse_usd": 13260.47,
+    "r2": 0.5059,
+    "median_absolute_percentage_error": 21.28
+  },
+  "interval": {
+    "nominal_coverage": 0.9,
+    "test_coverage": 0.908,
+    "log_radius": 0.1654018672586286,
+    "method": "Split conformal absolute log residual, calibration set only"
+  },
+  "training_sha256": "85680ce9dd7b0a6d76b247d6be112a62553b000b0b86bc338450517616e5f3ef",
+  "runtime": {
+    "python": "3.12.14",
+    "catboost": "1.2.10"
+  },
+  "feature_importance": {
+    "year": 26.116088369947782,
+    "mileage": 19.3643276759784,
+    "engine": 14.716606863338914,
+    "make": 12.056639005112604,
+    "drivetrain": 7.758224680288022,
+    "model": 6.649843204258694,
+    "bodyStyle": 4.496754406305378,
+    "trim": 3.9127385413654348,
+    "fuelType": 3.510154270018491,
+    "accidentDetail": 0.6320486960961691,
+    "sellerState": 0.5045535158102734,
+    "ownerCount": 0.18640615680839256,
+    "accidentCount": 0.09561461467157958
+  },
+  "segments": {
+    "convertible": {
+      "rows": 91,
+      "mae_usd": 4683.22,
+      "rmse_usd": 8917.93,
+      "r2": 0.9396,
+      "median_absolute_percentage_error": 7.23
+    },
+    "coupe": {
+      "rows": 275,
+      "mae_usd": 4658.47,
+      "rmse_usd": 12079.2,
+      "r2": 0.8037,
+      "median_absolute_percentage_error": 5.87
+    },
+    "minivan": {
+      "rows": 134,
+      "mae_usd": 1426.51,
+      "rmse_usd": 1895.79,
+      "r2": 0.9778,
+      "median_absolute_percentage_error": 5.77
+    },
+    "pickup_truck": {
+      "rows": 579,
+      "mae_usd": 2057.61,
+      "rmse_usd": 3192.88,
+      "r2": 0.9624,
+      "median_absolute_percentage_error": 4.94
+    },
+    "sedan": {
+      "rows": 769,
+      "mae_usd": 2142.09,
+      "rmse_usd": 4510.69,
+      "r2": 0.9393,
+      "median_absolute_percentage_error": 4.91
+    },
+    "suv": {
+      "rows": 1155,
+      "mae_usd": 2255.78,
+      "rmse_usd": 4093.3,
+      "r2": 0.9335,
+      "median_absolute_percentage_error": 5.02
+    },
+    "van": {
+      "rows": 170,
+      "mae_usd": 2142.08,
+      "rmse_usd": 3010.45,
+      "r2": 0.9238,
+      "median_absolute_percentage_error": 6.37
+    },
+    "wagon": {
+      "rows": 46,
+      "mae_usd": 1876.38,
+      "rmse_usd": 3251.5,
+      "r2": 0.9847,
+      "median_absolute_percentage_error": 6.91
+    }
+  }
+}

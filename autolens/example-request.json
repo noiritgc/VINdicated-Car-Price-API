@@ -1,0 +1,14 @@
+{
+  "year": 2025,
+  "mileage": 43537.0,
+  "accidentCount": 0.0,
+  "ownerCount": 1.0,
+  "make": "Hyundai",
+  "model": "Tucson",
+  "trim": "SEL",
+  "bodyStyle": "suv",
+  "drivetrain": "Front-Wheel Drive",
+  "fuelType": "Gasoline",
+  "engine": "4 Cyl",
+  "sellerState": "CA"
+}
